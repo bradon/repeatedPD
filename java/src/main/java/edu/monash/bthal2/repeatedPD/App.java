@@ -7,14 +7,14 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
 import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOnePayoffSimulation;
-import edu.monash.bthal2.repeatedPD.simulation.PDAPayoffSimulation;
+import edu.monash.bthal2.repeatedPD.simulation.PDASimulation;
 
 public class App {
 	@Parameter(names = { "-file", "-f" }, description = "Name of the json file")
 	private String file;
 
 	enum SimulationType {
-		PAYOFF, PDAPAYOFF, FSAPAYOFF
+		PAYOFFLOOKUP, PDAPAYOFF, FSAPAYOFF
 	}
 
 	@Parameter(names = { "-type", "-t" }, description = "Type of simulation PAYOFF", required = true)
@@ -34,13 +34,14 @@ public class App {
 		}
 
 		switch (app.type) {
-		case PAYOFF:
+		case PAYOFFLOOKUP:
 			LookupPlayerLengthOnePayoffSimulation.runOnce(app.file);
 			break;
 		case PDAPAYOFF:
-			PDAPayoffSimulation.runOnce(app.file);
+			PDASimulation.runOncePayoff(app.file);
 			break;
 		case FSAPAYOFF:
+			System.out.println("Simulation not implemented");
 			break;
 		default:
 			System.out.println("Simulation not implemented");
