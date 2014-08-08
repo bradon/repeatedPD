@@ -1,3 +1,5 @@
+
+
 Download JFLAP 7.0 (jflap site or magsilva on github)
 Install JFLAP into maven repository
 	-Option 1: JFLAP from JFLAP site
@@ -5,3 +7,5 @@ Install JFLAP into maven repository
 	-Option 2: Marco Aurélio (magsilva) has a git repo that should work, standard mvn install:install in this case
 
 Also requires Julian Garcia's (juliangarcia on github) publically available code, see pom for details
+
+use mvn eclipse:eclipse to generate project and then import it
