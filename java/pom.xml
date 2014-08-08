@@ -21,5 +21,10 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.jflap</groupId>
+    	<artifactId>jflap</artifactId>
+    	<version>7.0</version>
+    </dependency>
   </dependencies>
 </project>

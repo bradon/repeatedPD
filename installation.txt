@@ -1,0 +1,5 @@
+Download JFLAP 7.0 (jflap site or magsilva on github)
+Install JFLAP into maven repository
+	-Option 1: JFLAP from JFLAP site
+	
+	-Option 2: Marco Aurélio (magsilva) has a git repo that should work (and will install with the pom)
