@@ -45,3 +45,6 @@ hs_err_pid*
 .DS_Store
 *.fdb_latexmk
 java/target/
+java/.classpath
+java/.project
+java/.settings/
