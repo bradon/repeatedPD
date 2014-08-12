@@ -1,5 +1,6 @@
 package edu.monash.bthal2.repeatedPD.simulation;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.evolutionandgames.agentbased.AgentBasedPayoffCalculator;
@@ -12,6 +13,9 @@ import com.evolutionandgames.jevodyn.utils.PayoffToFitnessMapping;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGame;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGamePayoffCalculator;
 import com.evolutionandgames.repeatedgames.utils.RepeatedStrategyPopulationFactory;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
 
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAFactory;
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAMutatorImplementation;
@@ -69,8 +73,13 @@ public class PDATimeSeriesSimulation {
 		this.simulation = new AgentBasedSimulation(this.process);
 	}
 
-	private static PDATimeSeriesSimulation loadFromFile(String filename) {
-		return null;
+	private static PDATimeSeriesSimulation loadFromFile(String filename) throws IOException {
+		File file = new File(filename);
+		Gson gson = new Gson();
+		String json = Files.toString(file, Charsets.UTF_8);
+		PDATimeSeriesSimulation sim = gson.fromJson(json, PDATimeSeriesSimulation.class);
+		sim.init();
+		return sim;
 	}
 
 	public static void runApp(String filename) throws IOException {
