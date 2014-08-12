@@ -18,7 +18,7 @@ import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAFactory;
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAMutatorImplementation;
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
 
-public class PDASimulation extends PayoffSimulation {
+public class PDAPayoffSimulation extends PayoffSimulation {
 	protected double mutationProbability;
 	protected double addStateProbability;
 	protected double addTransitionProbability;
@@ -30,7 +30,7 @@ public class PDASimulation extends PayoffSimulation {
 	protected double deleteStateProbability;
 
 	public double numericalRunOnce(String filename) throws IOException {
-		PDASimulation app = PDASimulation.loadFromFile(filename);
+		PDAPayoffSimulation app = PDAPayoffSimulation.loadFromFile(filename);
 		double totalPayoff = app.simulation.estimateTotalPayoff(
 				app.burningTimePerEstimate, app.timeStepsPerEstimate,
 				app.numberOfEstimates, app.reportEveryTimeSteps, app.seed,
@@ -47,7 +47,7 @@ public class PDASimulation extends PayoffSimulation {
 	
 	// RunOnce?
 	public static void runOncePayoff(String filename) throws IOException {
-		PDASimulation app = PDASimulation.loadFromFile(filename);
+		PDAPayoffSimulation app = PDAPayoffSimulation.loadFromFile(filename);
 		double totalPayoff = app.simulation.estimateTotalPayoff(
 				app.burningTimePerEstimate, app.timeStepsPerEstimate,
 				app.numberOfEstimates, app.reportEveryTimeSteps, app.seed,
@@ -62,13 +62,13 @@ public class PDASimulation extends PayoffSimulation {
 				Charsets.UTF_8);
 	}
 
-	public static PDASimulation loadFromFile(String string)
+	public static PDAPayoffSimulation loadFromFile(String string)
 			throws IOException {
 		File file = new File(string);
 		Gson gson = new Gson();
 		String json = Files.toString(file, Charsets.UTF_8);
-		PDASimulation sim = gson
-				.fromJson(json, PDASimulation.class);
+		PDAPayoffSimulation sim = gson
+				.fromJson(json, PDAPayoffSimulation.class);
 		sim.init();
 		return sim;
 
@@ -76,7 +76,7 @@ public class PDASimulation extends PayoffSimulation {
 	
 	
 	public static void generatesTimeSeries(String filename) throws IOException {
-		PDASimulation app = PDASimulation.loadFromFile(filename);
+		PDAPayoffSimulation app = PDAPayoffSimulation.loadFromFile(filename);
 		double totalPayoff = app.simulation.estimateTotalPayoff(
 				app.burningTimePerEstimate, app.timeStepsPerEstimate,
 				app.numberOfEstimates, app.reportEveryTimeSteps, app.seed,
