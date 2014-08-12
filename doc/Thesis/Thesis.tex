@@ -24,7 +24,10 @@
 \usepackage{natbib} % Use the natbib bibliography and citation package
 \bibpunct{(}{)}{;}{a}{,}{,} % use more standard Harvard punctuation
 \renewcommand{\cite}{\citep} % often a useful short-cut
-
+\usepackage{tikz} %Finite state automata
+\usepackage{subfig}
+\usepackage{amsmath}
+\usetikzlibrary{arrows,automata}
 % Definitions needed by the cssethesis class. See the documentation for
 % others
 \thesisauthor{Bradon Thomas Hall}
@@ -63,26 +66,7 @@
 \listoffigures					% Generate a list of figures (optional).
 
 \begin{thesisabstract}			% generate the abstract page.
-This thesis introduces \ldots
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy
-eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan
-et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
-adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-magna aliquam erat volutpat.
+This is an abstract
 \end{thesisabstract}                 
 
 \thesisdeclarationpage			% generate the declaration page (optional).
@@ -100,187 +84,13 @@ you\ldots
 \mainmatter						% start the thesis body.
 
 \chapter{Introduction}
-Here I introduce the research area and my contributions to it.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy
-eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-sea takimata sanctus est Lorem ipsum dolor sit amet.
+\chapter{Background}
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan
-et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
-adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-magna aliquam erat volutpat.
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
-lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
-dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
-facilisi.
-
-Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming
-id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
-nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-commodo consequat.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis.
-
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr,  At accusam aliquyam diam diam dolore
-dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore
-Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut
-vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore
-et dolore magna aliquyam erat. 
-%\chapter{Literature Review}
-% often it is handy to keep the text of separate chapters in separate
-% files, and then to read them into the master document, as here
-\include{litrev} % this causes a page-break, so put the \chapter command in
-				 % the file to be included - I don't know why this happens :(
-
-\chapter{Figures and Tables}
-Here we will test that references to figures and tables work correctly.
-
-\section{Figures}
-
-
-\section{Tables}
-\begin{table}
-\begin{center}
-\begin{tabular}{lcr}
-23121 & 1212 & 232 \\ \hline  
-cat & frog & dog
-\end{tabular}
-\end{center}
-\caption{An example of a table}
-\label{tab:example}
-\end{table}
-See Table~\ref{tab:example}.
-
-\subsection{Referencing test}
-See Table~\ref{tab:example} and Figure~\ref{fig:example}.
-
-% another chapter
-\chapter{Method}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy
-eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
-ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan
-et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
-adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-magna aliquam erat volutpat.
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
-lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
-dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
-facilisi.
-
-Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming
-id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
-nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-commodo consequat.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis.
-
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr,  At accusam aliquyam diam diam dolore
-dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore
-Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut
-vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore
-et dolore magna aliquyam erat. 
-
-Consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore
-et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore
-magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-dolor sit amet.
-
- Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming
-id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
-nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
-commodo consequat.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis.
-
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
-eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr,  At accusam aliquyam diam diam dolore
-dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore
-Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut
-vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore
-et dolore magna aliquyam erat. 
-
-Consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore
-et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore
-magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-dolor sit amet.
+\chapter{Mutations}
 
 \appendix % all \chapter{..} commands after this will generate appendices
+
 
 \chapter{This appendix should get a letter}
 \label{app:example}
@@ -312,8 +122,7 @@ A Research Area}. Springfield, USA.
 \end{thesisauthorvita}
 
 \bibliographystyle{dcu} % A good style to use with the Harvard package
-\bibliography{examplebib}
-
+\bibliography{../bibliography}
 \chapter{Last Thing} % Appendices after the \backmatter command do not
 						% get a letter
 This sort of appendix has no letter. 
