@@ -86,7 +86,7 @@ public class PDATimeSeriesSimulation {
 		PDATimeSeriesSimulation app = PDATimeSeriesSimulation
 				.loadFromFile(filename);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
-				app.reportEveryTimeSteps, app.seed, filename);
+				app.reportEveryTimeSteps, app.seed, app.outputFile);
 	}
 
 }
