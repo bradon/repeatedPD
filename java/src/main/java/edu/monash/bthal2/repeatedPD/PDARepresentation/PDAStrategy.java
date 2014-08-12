@@ -13,14 +13,27 @@ import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
 import edu.monash.bthal2.repeatedPD.PDASimulator;
 
-
 public class PDAStrategy implements Agent, RepeatedStrategy {
-
+	private int statesCount = 1;
 	private static final String D = "D";
 	private PDASimulator simulator;
 	private PushdownAutomaton strategy;
 	private String nextMove = "";
 
+	public void incrementStates() {
+		statesCount = statesCount + 1;
+	}
+
+	public int getStatesCount() {
+		return statesCount;
+	}
+
+	public PDAStrategy(PushdownAutomaton newStrategy, int newStatesCount) {
+		statesCount=newStatesCount;
+		strategy = newStrategy;
+		simulator = new PDASimulator(strategy);
+	}
+	
 	public PDAStrategy(PushdownAutomaton newStrategy) {
 		strategy = newStrategy;
 		simulator = new PDASimulator(strategy);
@@ -81,7 +94,10 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 		for (int i = 0; i < transitions.length; i++) {
 			PDATransition transition = (PDATransition) transitions[i];
 			System.out.println(transition.getFromState().getLabel() + "->"
-					+ transition.getToState().getLabel() + " by "+transition.getInputToRead() +","+transition.getStringToPop()+"->"+transition.getStringToPush());
+					+ transition.getToState().getLabel() + " by "
+					+ transition.getInputToRead() + ","
+					+ transition.getStringToPop() + "->"
+					+ transition.getStringToPush());
 		}
 
 	}

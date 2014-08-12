@@ -74,8 +74,10 @@ public class PDATimeSeriesSimulation {
 	}
 
 	public static void runApp(String filename) throws IOException {
-	PDATimeSeriesSimulation app= PDATimeSeriesSimulation.loadFromFile(filename);
-	app.simulation.simulateTimeSeries(app.numberOfTimeSteps, app.reportEveryTimeSteps, app.seed, filename);
+		PDATimeSeriesSimulation app = PDATimeSeriesSimulation
+				.loadFromFile(filename);
+		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
+				app.reportEveryTimeSteps, app.seed, filename);
 	}
 
 }

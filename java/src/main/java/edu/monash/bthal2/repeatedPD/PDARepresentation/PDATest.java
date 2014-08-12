@@ -10,14 +10,14 @@ public class PDATest {
 		Random.seed(System.nanoTime());
 
 		//PushdownAutomata testpda=
-		for (int i = 0; i < 0; i++) {
+		for (int i = 0; i < 1; i++) {
 			PDAStrategy pda = PDAFactory.ExampleStrategies.allD();
-			PDAMutatorImplementation mutator = new PDAMutatorImplementation(0.001);
+			PDAMutatorImplementation mutator = new PDAMutatorImplementation(0.01);
 			PDAStrategy newpda = (PDAStrategy) mutator.mutate(pda);
-			for (int j=0; j<500; j++) {
+			for (int j=0; j<50000; j++) {
 				newpda = (PDAStrategy) mutator.mutate(newpda);
 			}
-			//newpda.next(null, Action.COOPERATE);
+			newpda.next(null, Action.COOPERATE);
 			//newpda.next(null, Action.COOPERATE);
 			if (newpda.currentAction()==Action.COOPERATE) {
 				newpda.printStrategy();

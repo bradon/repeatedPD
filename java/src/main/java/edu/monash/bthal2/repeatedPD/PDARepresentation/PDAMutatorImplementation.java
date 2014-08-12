@@ -37,9 +37,9 @@ public class PDAMutatorImplementation implements AgentMutator {
 		this.mutationProbability = mutationProbability;
 	}
 
-	private void addState(PushdownAutomaton pda) {
+	private void addState(PushdownAutomaton pda, int statesCount) {
 		State newState = pda.createState(new Point(0, 0));
-		newState.setLabel("q" + pda.getStates().length);
+		newState.setLabel("q" + statesCount);
 	}
 
 	private void addTransition(PushdownAutomaton pda) {
@@ -138,7 +138,7 @@ public class PDAMutatorImplementation implements AgentMutator {
 			newTransition.setToState(states[Random.nextInt(states.length)]);
 			pda.addTransition(newTransition);
 		}
-		//May remove states we just added
+		// May remove states we just added
 		pda.removeState(stateToDelete);
 	}
 
@@ -146,7 +146,7 @@ public class PDAMutatorImplementation implements AgentMutator {
 	public Agent mutate(Agent agent) {
 		if (Random.nextDouble() > mutationProbability) {
 			return new PDAStrategy((PushdownAutomaton) ((PDAStrategy) agent)
-					.getPDA().clone());
+					.getPDA().clone(),((PDAStrategy) agent).getStatesCount());
 		} else {
 			// mutate
 			PushdownAutomaton pda = (PushdownAutomaton) ((PDAStrategy) agent)
@@ -157,19 +157,20 @@ public class PDAMutatorImplementation implements AgentMutator {
 				// Add state
 				// Initially has no actual impact
 				// System.out.println("Adding state");
-				addState(pda);
-				return new PDAStrategy(pda);
+				addState(pda, ((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount()+1);
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability) {
 				// System.out.println("Adding transition");
 				addTransition(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability) {
 				// System.out.println("Changing destination");
 				changeDestination(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 				// Change transition
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
@@ -178,7 +179,7 @@ public class PDAMutatorImplementation implements AgentMutator {
 				// System.out.println("Changing pop");
 				// Change Pop
 				changeTransition(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability
@@ -187,7 +188,7 @@ public class PDAMutatorImplementation implements AgentMutator {
 				// System.out.println("Changing push");
 				// Change push
 				changePush(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability
@@ -197,20 +198,21 @@ public class PDAMutatorImplementation implements AgentMutator {
 				// System.out.println("Changing source");
 				// Change source
 				changeSource(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability
 					+ changeTransitionPopProbability
 					+ changeTransitionPushProbability
-					+ changeTransitionSourceProbability +changeFinalStateProbability) {
+					+ changeTransitionSourceProbability
+					+ changeFinalStateProbability) {
 				// System.out.println("Changing final");
 				// Change final states
 				changeFinal(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 			} else {
 				deleteState(pda);
-				return new PDAStrategy(pda);
+				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
 				// Delete state
 			}
 			// return null;
