@@ -1,3 +1,6 @@
+# ignore data files
+*.csv
+
 #
 # ignore latex trash
 #
