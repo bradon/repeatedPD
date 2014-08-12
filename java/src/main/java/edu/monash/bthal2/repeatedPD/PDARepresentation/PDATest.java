@@ -27,6 +27,7 @@ public class PDATest {
 				//newpda.printStrategy();
 				//System.out.print("N");
 			}
+			System.out.println(newpda.toString());
 		}
 	}
 }

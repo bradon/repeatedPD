@@ -29,11 +29,11 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 	}
 
 	public PDAStrategy(PushdownAutomaton newStrategy, int newStatesCount) {
-		statesCount=newStatesCount;
+		statesCount = newStatesCount;
 		strategy = newStrategy;
 		simulator = new PDASimulator(strategy);
 	}
-	
+
 	public PDAStrategy(PushdownAutomaton newStrategy) {
 		strategy = newStrategy;
 		simulator = new PDASimulator(strategy);
@@ -42,17 +42,18 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 	public PDAStrategy() {
 		// Default PDA
 		// Move this over to factory soon
-		strategy = new PushdownAutomaton();
-		State initialState = strategy.createState(new Point(0, 0));
-		initialState.setLabel("q0");
-		strategy.setInitialState(initialState);
-		PDATransition initialCTransition = new PDATransition(initialState,
-				initialState, "C", "", "");
-		PDATransition initialDTransition = new PDATransition(initialState,
-				initialState, D, "", "");
+		strategy = PDAFactory.ExampleStrategies.allD().getPDA();
+		// strategy = new PushdownAutomaton();
+		// State initialState = strategy.createState(new Point(0, 0));
+		// initialState.setLabel("q0");
+		// strategy.setInitialState(initialState);
+		// PDATransition initialCTransition = new PDATransition(initialState,
+		// initialState, "C", "", "");
+		// PDATransition initialDTransition = new PDATransition(initialState,
+		// initialState, D, "", "");
 		// strategy.addFinalState(initialState);
-		strategy.addTransition(initialDTransition);
-		strategy.addTransition(initialCTransition);
+		// strategy.addTransition(initialDTransition);
+		// strategy.addTransition(initialCTransition);
 		simulator = new PDASimulator(strategy);
 	}
 
@@ -74,6 +75,46 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 		} else {
 			return Action.DEFECT;
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("S:");
+		State[] states = strategy.getStates();
+		State[] finalStates = strategy.getFinalStates();
+		Transition[] transitions = strategy.getTransitions();
+		for (int i = 0; i < states.length; i++) {
+			if (i > 0) {
+				builder.append(",");
+			}
+			builder.append(states[i].getLabel());
+		}
+		builder.append("F:");
+		for (int i = 0; i < finalStates.length; i++) {
+			if (i > 0) {
+				builder.append(",");
+			}
+			builder.append(finalStates[i].getLabel());
+		}
+		builder.append("T:");
+		for (int i = 0; i < transitions.length; i++) {
+			PDATransition transition = (PDATransition) transitions[i];
+			if (i > 0) {
+				builder.append("&");
+			}
+			builder.append(transition.getFromState().getLabel());
+			builder.append("->");
+			builder.append(transition.getToState().getLabel());
+			builder.append(":");
+			builder.append(transition.getInputToRead());
+			builder.append(",");
+			builder.append(transition.getStringToPop());
+			builder.append("->");
+			builder.append(transition.getStringToPush());
+		}
+		return builder.toString();
+
 	}
 
 	public void printStrategy() {
