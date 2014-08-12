@@ -14,10 +14,6 @@
  *
  */
 
-
-
-
-
 package edu.monash.bthal2.repeatedPD.JFLAPoverride;
 
 import java.util.ArrayList;
@@ -41,9 +37,13 @@ import automata.pda.PDATransition;
  * accepts the input or not.
  * 
  * @author Ryan Cavalcante
+ * @modified Bradon Hall- removed UI calls, default to accept by final and
+ *           assume non-acceptance of input when configuration gets large
  */
 
 public class PDAStepByStateSimulator extends AutomatonSimulator {
+	//Point at which to assume non-acceptance
+	private int configurationLimit=1000;
 	/**
 	 * Creates a PDA simulator for the given automaton.
 	 * 
@@ -53,22 +53,22 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 	public PDAStepByStateSimulator(Automaton automaton) {
 		super(automaton);
 		/** default acceptance is by final state. */
-		
-		Object[] possibleValues = {"Final State", "Empty Stack"};
-		//Object selectedValue = JOptionPane.showInputDialog(null,
-		//            "Accept by", "Input",
-		  //          JOptionPane.INFORMATION_MESSAGE, null,
-		  //          possibleValues, possibleValues[0]);
-		Object selectedValue=possibleValues[0];
-		if(selectedValue.equals(possibleValues[0])){
+
+		Object[] possibleValues = { "Final State", "Empty Stack" };
+		// Object selectedValue = JOptionPane.showInputDialog(null,
+		// "Accept by", "Input",
+		// JOptionPane.INFORMATION_MESSAGE, null,
+		// possibleValues, possibleValues[0]);
+		Object selectedValue = possibleValues[0];
+		if (selectedValue.equals(possibleValues[0])) {
 			myAcceptance = FINAL_STATE;
-			//EDebug.print("fstate");
-		}else if(selectedValue.equals(possibleValues[1])){
+			// EDebug.print("fstate");
+		} else if (selectedValue.equals(possibleValues[1])) {
 			myAcceptance = EMPTY_STACK;
-			//EDebug.print("estack");
+			// EDebug.print("estack");
 		}
-		//myAcceptance = FINAL_STATE;
-		//myAcceptance=selectedValue;
+		// myAcceptance = FINAL_STATE;
+		// myAcceptance=selectedValue;
 	}
 
 	/**
@@ -123,7 +123,8 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 				State toState = transition.getToState();
 				stack.push(transition.getStringToPush());
 				PDAConfiguration configurationToAdd = new PDAConfiguration(
-						toState, configuration, totalInput, input, stack, myAcceptance);
+						toState, configuration, totalInput, input, stack,
+						myAcceptance);
 				list.add(configurationToAdd);
 			}
 		}
@@ -200,17 +201,18 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 				ArrayList configsToAdd = stepConfiguration(configuration);
 				configurationsToAdd.addAll(configsToAdd);
 				it.remove();
-                count++;
-                if(count > 10000){
-                    //int result = JOptionPane.showConfirmDialog(null, "JFLAP has generated 10000 configurations. Continue?");
-                   // switch (result) {
-                   // case JOptionPane.CANCEL_OPTION:
-                   //     continue;
-                   // case JOptionPane.NO_OPTION:
-                        return false;
-                  //  default:
-                  //  }
-                }
+				count++;
+				if (count > configurationLimit) {
+					// int result = JOptionPane.showConfirmDialog(null,
+					// "JFLAP has generated 10000 configurations. Continue?");
+					// switch (result) {
+					// case JOptionPane.CANCEL_OPTION:
+					// continue;
+					// case JOptionPane.NO_OPTION:
+					return false;
+					// default:
+					// }
+				}
 			}
 			myConfigurations.addAll(configurationsToAdd);
 		}
