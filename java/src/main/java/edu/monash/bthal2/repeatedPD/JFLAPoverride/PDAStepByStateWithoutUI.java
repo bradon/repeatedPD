@@ -1,6 +1,7 @@
 package edu.monash.bthal2.repeatedPD.JFLAPoverride;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import automata.Automaton;
@@ -17,6 +18,7 @@ import automata.pda.PDAStepByStateSimulator;
 public class PDAStepByStateWithoutUI extends PDAStepByStateSimulator {
 
 	public PDAStepByStateWithoutUI(Automaton automaton) {
+
 		super(automaton);
 	}
 
