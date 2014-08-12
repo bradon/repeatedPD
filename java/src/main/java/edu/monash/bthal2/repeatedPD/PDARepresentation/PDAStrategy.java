@@ -86,14 +86,14 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 		Transition[] transitions = strategy.getTransitions();
 		for (int i = 0; i < states.length; i++) {
 			if (i > 0) {
-				builder.append(",");
+				builder.append("&");
 			}
 			builder.append(states[i].getLabel());
 		}
 		builder.append("F:");
 		for (int i = 0; i < finalStates.length; i++) {
 			if (i > 0) {
-				builder.append(",");
+				builder.append("&");
 			}
 			builder.append(finalStates[i].getLabel());
 		}
