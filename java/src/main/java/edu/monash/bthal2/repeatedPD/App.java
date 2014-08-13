@@ -21,6 +21,9 @@ public class App {
 	@Parameter(names = { "-type", "-t" }, description = "Type of simulation PAYOFF", required = true)
 	private SimulationType type;
 
+	@Parameter(names = { "-json", "-j" }, description = "Show example JSON file", required = false)
+	private static boolean showJson = false;
+
 	public static void main(String[] args) throws IOException {
 
 		App app = new App();
@@ -36,10 +39,18 @@ public class App {
 
 		switch (app.type) {
 		case PAYOFFLOOKUP:
-			LookupPlayerLengthOnePayoffSimulation.runOnce(app.file);
+			if (showJson) {
+				System.out.println("unimplemented");
+			} else {
+				LookupPlayerLengthOnePayoffSimulation.runOnce(app.file);
+			}
 			break;
 		case PDAPAYOFF:
-			PDAPayoffSimulation.runOncePayoff(app.file);
+			if (showJson) {
+				System.out.println("unimplemented");
+			} else {
+				PDAPayoffSimulation.runOncePayoff(app.file);
+			}
 			break;
 		case FSAPAYOFF:
 			System.out.println("Simulation not implemented");

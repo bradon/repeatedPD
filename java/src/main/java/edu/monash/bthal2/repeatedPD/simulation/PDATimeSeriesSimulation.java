@@ -22,13 +22,12 @@ import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAMutatorImplementation;
 
 public class PDATimeSeriesSimulation {
 	// Set up with JSON
-	protected int samplesPerEstimate;
 	protected int reportEveryTimeSteps;
 	protected Long seed;
-	protected int burningTimePerEstimate;
-	protected int numberOfEstimates;
+
 	protected int numberOfTimeSteps;
 
+	protected double mutationProbability;
 	protected double r;
 	protected double intensityOfSelection;
 	protected PayoffToFitnessMapping mapping;
@@ -50,7 +49,7 @@ public class PDATimeSeriesSimulation {
 	protected transient AgentBasedSimulation simulation;
 	protected transient ExtensivePopulation population;
 
-	protected double mutationProbability;
+	
 
 	public void init() {
 		// Refactor- some of this code can be generalized
