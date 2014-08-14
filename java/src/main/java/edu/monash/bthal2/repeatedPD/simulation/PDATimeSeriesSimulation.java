@@ -18,7 +18,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAFactory;
-import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAMutatorImplementation;
+import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAMutator;
 
 public class PDATimeSeriesSimulation {
 	// Set up with JSON
@@ -57,7 +57,7 @@ public class PDATimeSeriesSimulation {
 				PDAFactory.ExampleStrategies.allD());
 
 		// Will need mutation parameters
-		this.mutator = new PDAMutatorImplementation(mutationProbability);
+		this.mutator = new PDAMutator(mutationProbability);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,

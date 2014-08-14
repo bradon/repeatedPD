@@ -11,8 +11,6 @@ import com.evolutionandgames.agentbased.AgentBasedPopulation;
 import com.evolutionandgames.agentbased.AgentBasedPopulationFactory;
 import com.evolutionandgames.agentbased.extensive.ExtensivePopulationImpl;
 
-//import edu.monash.bthal2.repeatedGames.PrisonersDilemma.FSA.FSA;
-
 public class PDAFactory implements AgentBasedPopulationFactory {
 	int popSize = 100;
 

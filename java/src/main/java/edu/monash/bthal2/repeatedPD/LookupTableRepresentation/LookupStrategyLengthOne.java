@@ -4,17 +4,28 @@ import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
+/**
+ * Agents that can play the prisoners dilemma, which base move only on last
+ * opponents move.
+ * 
+ * @author Bradon Hall
+ * 
+ */
 public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 
 	private Action opponentsLastMove;
+	// strategy=[initial, respond to c, respond to d]
 	private Action[] strategy = new Action[3];
 
 	@Override
 	public void reset() {
-		// Reset State
+		// Reset so the PD can be played from start again
 		opponentsLastMove = null;
 	}
 
+	/**
+	 * Default constructor- default to no cooperation
+	 */
 	public LookupStrategyLengthOne() {
 		// Default ALLD
 		strategy[0] = Action.DEFECT;
@@ -22,12 +33,18 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 		strategy[2] = Action.DEFECT;
 	}
 
+	/**
+	 * Constructor for general strategies
+	 * 
+	 * @param newStrategy
+	 */
 	public LookupStrategyLengthOne(Action[] newStrategy) {
 		strategy = newStrategy.clone();
 	}
 
 	/**
-	 * Unique ID for each type of strategy; 000-> ALLC, 000 to decimal is 0,
+	 * Create Unique ID for each type of strategy<br>
+	 * 000-> ALLC, 000 to decimal is 0<br>
 	 * 101-> STFT, 101 to decimal is 5
 	 * 
 	 * @return id
@@ -40,9 +57,15 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 			}
 		}
 		return id;
-
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 * 
+	 * Returns name of strategy
+	 */
 	@Override
 	public String toString() {
 		switch (strategyIdentifier()) {
@@ -68,11 +91,23 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 * 
+	 * Unique ID for each strategy
+	 */
 	@Override
 	public int hashCode() {
 		return strategyIdentifier();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -93,6 +128,15 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 		return strategy.clone();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy#currentAction
+	 * ()
+	 * 
+	 * Action to perform based on moves supplied so far
+	 */
 	@Override
 	public Action currentAction() {
 		// [Initial, OnC, OnD]
@@ -109,6 +153,16 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy#next(com
+	 * .evolutionandgames.repeatedgames.evolution.Action,
+	 * com.evolutionandgames.repeatedgames.evolution.Action)
+	 * 
+	 * Specify set of moves performed immediately previously
+	 */
 	@Override
 	public void next(Action focal, Action opponent) {
 		opponentsLastMove = opponent;

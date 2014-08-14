@@ -12,7 +12,7 @@ public class PDATest {
 		//PushdownAutomata testpda=
 		for (int i = 0; i < 1; i++) {
 			PDAStrategy pda = PDAFactory.ExampleStrategies.allD();
-			PDAMutatorImplementation mutator = new PDAMutatorImplementation(0.01);
+			PDAMutator mutator = new PDAMutator(0.01);
 			PDAStrategy newpda = (PDAStrategy) mutator.mutate(pda);
 			for (int j=0; j<50000; j++) {
 				newpda = (PDAStrategy) mutator.mutate(newpda);

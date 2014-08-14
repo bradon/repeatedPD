@@ -5,6 +5,12 @@ import com.evolutionandgames.agentbased.AgentMutator;
 import com.evolutionandgames.jevodyn.utils.Random;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
+/**
+ * Mutate the half memory length 1 agent type
+ * 
+ * @author Bradon Hall
+ * 
+ */
 public class LookupStrategyMutator implements AgentMutator {
 
 	@Override
