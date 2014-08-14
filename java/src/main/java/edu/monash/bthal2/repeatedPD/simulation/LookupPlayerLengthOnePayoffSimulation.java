@@ -131,7 +131,7 @@ public class LookupPlayerLengthOnePayoffSimulation extends PayoffSimulation {
 		app.sucker = 1.0;
 		app.temptation = 4.0;
 		app.punishment = 2.0;
-		app.outputFile = "salida_test.csv";
+		app.outputFile = "lookupExamplePayoffSim.csv";
 		app.populationSize = 100;
 		app.timeStepsPerEstimate = 1000;
 		String json = new GsonBuilder().setPrettyPrinting().create()
