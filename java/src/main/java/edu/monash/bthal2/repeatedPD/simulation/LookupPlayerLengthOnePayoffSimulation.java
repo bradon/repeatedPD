@@ -19,7 +19,9 @@ import edu.monash.bthal2.repeatedPD.LookupTableRepresentation.LookupStrategyLeng
 import edu.monash.bthal2.repeatedPD.LookupTableRepresentation.LookupStrategyMutator;
 
 /**
- * @author bradon
+ * Run LookupStrategy payoff simulation
+ * 
+ * @author Bradon Hall
  * 
  *         Modified from com.evolutionandgames.repeatedgames.fsa
  * 
@@ -47,11 +49,6 @@ public class LookupPlayerLengthOnePayoffSimulation extends PayoffSimulation {
 		this.payoffCalculator = new RepeatedGamePayoffCalculator(
 				this.repeatedGame, this.mistakeProbability, false);
 
-		// ExtensivePopulation population,
-		// AgentBasedPayoffCalculator payoffCalculator,
-		// PayoffToFitnessMapping mapping, double intensityOfSelection,
-		// AgentMutator mutator, double r
-
 		this.process = new AgentBasedWrightFisherProcessWithAssortment(
 				population, payoffCalculator, mapping, intensityOfSelection,
 				mutator, r);
@@ -69,6 +66,12 @@ public class LookupPlayerLengthOnePayoffSimulation extends PayoffSimulation {
 		return sim;
 	}
 
+	/**
+	 * Runs payoff simulation, outputting to fule
+	 * 
+	 * @param filename
+	 * @throws IOException
+	 */
 	public static void runApp(String filename) throws IOException {
 		LookupPlayerLengthOnePayoffSimulation app = LookupPlayerLengthOnePayoffSimulation
 				.loadFromFile(filename);
@@ -88,12 +91,12 @@ public class LookupPlayerLengthOnePayoffSimulation extends PayoffSimulation {
 	}
 
 	/**
-	 * Run once and append result to file
+	 * Run once and append result to file (csv of delta,r,payoff)
 	 * 
 	 * @param filename
 	 * @throws IOException
 	 */
-	public static void runOnce(String filename) throws IOException {
+	public static void runWithSimpleOutput(String filename) throws IOException {
 		LookupPlayerLengthOnePayoffSimulation app = LookupPlayerLengthOnePayoffSimulation
 				.loadFromFile(filename);
 		double totalPayoff = app.simulation.estimateTotalPayoff(

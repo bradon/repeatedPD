@@ -42,7 +42,8 @@ public class App {
 			if (showJson) {
 				System.out.println("unimplemented");
 			} else {
-				LookupPlayerLengthOnePayoffSimulation.runOnce(app.file);
+				LookupPlayerLengthOnePayoffSimulation
+						.runWithSimpleOutput(app.file);
 			}
 			break;
 		case PDAPAYOFF:
