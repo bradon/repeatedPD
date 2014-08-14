@@ -53,10 +53,18 @@ public class App {
 			}
 			break;
 		case FSAPAYOFF:
-			System.out.println("Simulation not implemented");
+			if (showJson) {
+				System.out.println("unimplemented");
+			} else {
+				System.out.println("Simulation not implemented");
+			}
 			break;
 		case PDATIMESERIES:
-			PDATimeSeriesSimulation.runApp(app.file);
+			if (showJson) {
+				System.out.println("unimplemented");
+			} else {
+				PDATimeSeriesSimulation.runApp(app.file);
+			}
 			break;
 		default:
 			System.out.println("Simulation not implemented");

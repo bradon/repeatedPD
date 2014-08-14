@@ -152,4 +152,23 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 			nextMove = D;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		//System.out.println(obj.toString());
+		//System.out.println(this.toString());
+		if (obj.toString().equals(this.toString())) {
+			if (this.statesCount==((PDAStrategy)obj).getStatesCount()) {
+				return false;
+				//should be return true
+			}
+			return false;
+		}
+		return false;
+	}
 }
