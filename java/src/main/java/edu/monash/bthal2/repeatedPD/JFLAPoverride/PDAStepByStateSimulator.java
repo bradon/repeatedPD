@@ -19,9 +19,6 @@ package edu.monash.bthal2.repeatedPD.JFLAPoverride;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JOptionPane;
-
-import debug.EDebug;
 import automata.Automaton;
 import automata.AutomatonSimulator;
 import automata.Configuration;
@@ -96,6 +93,7 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 	 * @param config
 	 *            the configuration to simulate the one step on
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ArrayList stepConfiguration(Configuration config) {
 		ArrayList list = new ArrayList();
 		PDAConfiguration configuration = (PDAConfiguration) config;
@@ -155,6 +153,7 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 	 *         the machine in a final state.
 	 */
 	public boolean isAccepted() {
+		@SuppressWarnings("rawtypes")
 		Iterator it = myConfigurations.iterator();
 		while (it.hasNext()) {
 			PDAConfiguration configuration = (PDAConfiguration) it.next();
@@ -182,6 +181,7 @@ public class PDAStepByStateSimulator extends AutomatonSimulator {
 	 *            the input string to be run on the automaton
 	 * @return true if the automaton accepts the input
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public boolean simulateInput(String input) {
 		/** clear the configurations to begin new simulation. */
 		myConfigurations.clear();

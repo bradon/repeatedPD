@@ -7,6 +7,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
 import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOnePayoffSimulation;
+import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOneTimeSeries;
 import edu.monash.bthal2.repeatedPD.simulation.PDAPayoffSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.PDATimeSeriesSimulation;
 
@@ -15,7 +16,7 @@ public class App {
 	private String file;
 
 	enum SimulationType {
-		PAYOFFLOOKUP, PDAPAYOFF, FSAPAYOFF, PDATIMESERIES
+		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, PDAPAYOFF, TIMESERIES, PDATIMESERIES
 	}
 
 	@Parameter(names = { "-type", "-t" }, description = "Type of simulation PAYOFF", required = true)
@@ -38,14 +39,24 @@ public class App {
 		}
 
 		switch (app.type) {
-		case PAYOFFLOOKUP:
+		case LOOKUPPAYOFF:
 			if (showJson) {
-				System.out.println("unimplemented");
+				System.out.println(LookupPlayerLengthOnePayoffSimulation
+						.exampleJson());
 			} else {
 				LookupPlayerLengthOnePayoffSimulation
 						.runWithSimpleOutput(app.file);
 			}
 			break;
+		case LOOKUPTIMESERIES:
+			if (showJson) {
+				System.out.println(LookupPlayerLengthOneTimeSeries
+						.exampleJson());
+			} else {
+				LookupPlayerLengthOneTimeSeries.runApp(app.file);
+			}
+			break;
+		case PAYOFF:
 		case PDAPAYOFF:
 			if (showJson) {
 				System.out.println("unimplemented");
@@ -53,13 +64,7 @@ public class App {
 				PDAPayoffSimulation.runOncePayoff(app.file);
 			}
 			break;
-		case FSAPAYOFF:
-			if (showJson) {
-				System.out.println("unimplemented");
-			} else {
-				System.out.println("Simulation not implemented");
-			}
-			break;
+		case TIMESERIES:
 		case PDATIMESERIES:
 			if (showJson) {
 				System.out.println("unimplemented");

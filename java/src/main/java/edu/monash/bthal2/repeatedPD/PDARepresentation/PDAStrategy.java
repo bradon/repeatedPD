@@ -1,7 +1,5 @@
 package edu.monash.bthal2.repeatedPD.PDARepresentation;
 
-import java.awt.Point;
-
 import automata.State;
 import automata.Transition;
 import automata.pda.PDATransition;

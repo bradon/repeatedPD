@@ -76,14 +76,14 @@ public class LookupPlayerLengthOneTimeSeries {
 		return sim;
 	}
 
-	public void runApp(String filename) throws IOException {
+	public static void runApp(String filename) throws IOException {
 		LookupPlayerLengthOneTimeSeries app = LookupPlayerLengthOneTimeSeries
 				.loadFromFile(filename);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile);
 	}
 
-	public String exampleJson() {
+	public static String exampleJson() {
 		LookupPlayerLengthOneTimeSeries app = new LookupPlayerLengthOneTimeSeries();
 		app.continuationProbability = 0.1;
 		app.intensityOfSelection = 1.0;
