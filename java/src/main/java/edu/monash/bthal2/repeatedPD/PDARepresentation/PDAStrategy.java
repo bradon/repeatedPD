@@ -164,11 +164,17 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 		// System.out.println(this.toString());
 		if (obj.toString().equals(this.toString())) {
 			if (this.statesCount == ((PDAStrategy) obj).getStatesCount()) {
-				return false;
+				return true;
 				// should be return true, disabled for testing
 			}
 			return false;
 		}
 		return false;
+	}
+
+	// I am not a smart man.
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode();
 	}
 }
