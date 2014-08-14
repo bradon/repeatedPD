@@ -154,18 +154,20 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 
 	@Override
 	public boolean equals(Object obj) {
+
+		// TODO: Problem possibly here-> comparison, duplicate strategies
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		//System.out.println(obj.toString());
-		//System.out.println(this.toString());
+		// System.out.println(obj.toString());
+		// System.out.println(this.toString());
 		if (obj.toString().equals(this.toString())) {
-			if (this.statesCount==((PDAStrategy)obj).getStatesCount()) {
+			if (this.statesCount == ((PDAStrategy) obj).getStatesCount()) {
 				return false;
-				//should be return true
+				// should be return true, disabled for testing
 			}
 			return false;
 		}
