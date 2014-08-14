@@ -19,7 +19,7 @@ public class App {
 		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, PDAPAYOFF, TIMESERIES, PDATIMESERIES
 	}
 
-	@Parameter(names = { "-type", "-t" }, description = "Type of simulation PAYOFF", required = true)
+	@Parameter(names = { "-type", "-t" }, description = "Type of simulation", required = true)
 	private SimulationType type;
 
 	@Parameter(names = { "-json", "-j" }, description = "Show example JSON file", required = false)
