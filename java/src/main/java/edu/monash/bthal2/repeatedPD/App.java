@@ -59,7 +59,7 @@ public class App {
 		case PAYOFF:
 		case PDAPAYOFF:
 			if (showJson) {
-				System.out.println("unimplemented");
+				System.out.println(PDAPayoffSimulation.exampleJson());
 			} else {
 				PDAPayoffSimulation.runOncePayoff(app.file);
 			}
@@ -67,6 +67,7 @@ public class App {
 		case TIMESERIES:
 		case PDATIMESERIES:
 			if (showJson) {
+				System.out.println(PDATimeSeriesSimulation.exampleJson());
 				System.out.println("unimplemented");
 			} else {
 				PDATimeSeriesSimulation.runApp(app.file);

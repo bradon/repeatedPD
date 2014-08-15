@@ -117,24 +117,8 @@ public class PDAPayoffSimulation extends PayoffSimulation {
 
 	public static String exampleJson() {
 		PDAPayoffSimulation app = new PDAPayoffSimulation();
-		app.samplesPerEstimate = 1000;
-		app.reportEveryTimeSteps = 1000;
-		app.seed = System.currentTimeMillis();
-		app.burningTimePerEstimate = 1000;
-		app.numberOfEstimates = 10;
+		prepareJson(app);
 		app.mutationProbability = 0.00001;
-		app.r = 0.0;
-		app.intensityOfSelection = 0.0;
-		app.mapping = PayoffToFitnessMapping.LINEAR;
-		app.continuationProbability = 2;
-		app.mistakeProbability = 0.001;
-		app.reward = 3.0;
-		app.sucker = 1.0;
-		app.temptation = 4.0;
-		app.punishment = 2.0;
-		app.outputFile = "lookupExamplePayoffSim.csv";
-		app.populationSize = 100;
-		app.timeStepsPerEstimate = 1000;
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);
 		return json;

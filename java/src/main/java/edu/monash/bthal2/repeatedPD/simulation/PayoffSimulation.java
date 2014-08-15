@@ -117,4 +117,23 @@ public abstract class PayoffSimulation {
 		}
 		return buffer.toString();
 	}
+	protected static void prepareJson(PayoffSimulation app) {
+		app.samplesPerEstimate = 1000;
+		app.reportEveryTimeSteps = 1000;
+		app.seed = System.currentTimeMillis();
+		app.burningTimePerEstimate = 1000;
+		app.numberOfEstimates = 10;
+		app.r = 0.0;
+		app.intensityOfSelection = 0.0;
+		app.mapping = PayoffToFitnessMapping.LINEAR;
+		app.continuationProbability = 2;
+		app.mistakeProbability = 0.001;
+		app.reward = 3.0;
+		app.sucker = 1.0;
+		app.temptation = 4.0;
+		app.punishment = 2.0;
+		app.outputFile = "lookupExamplePayoffSim.csv";
+		app.populationSize = 100;
+		app.timeStepsPerEstimate = 1000;
+	}
 }
