@@ -16,6 +16,7 @@ import com.evolutionandgames.repeatedgames.utils.RepeatedStrategyPopulationFacto
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAFactory;
 import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAMutator;
@@ -86,6 +87,28 @@ public class PDATimeSeriesSimulation {
 				.loadFromFile(filename);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile);
+	}
+	
+	public static String exampleJson() {
+		PDATimeSeriesSimulation app = new PDATimeSeriesSimulation();
+		app.continuationProbability = 0.1;
+		app.intensityOfSelection = 1.0;
+		app.mapping = PayoffToFitnessMapping.LINEAR;
+		app.mistakeProbability = 0.0;
+		app.mutationProbability = 0.001;
+		app.numberOfTimeSteps = 1000;
+		app.outputFile = "exampleLookupTimeSeries.out";
+		app.populationSize = 1000;
+		app.reward = 3.0;
+		app.sucker = 1.0;
+		app.temptation = 4.0;
+		app.punishment = 2.0;
+		app.r = 0.5;
+		app.reportEveryTimeSteps = 10;
+		app.seed = (long) 123456;
+		String json = new GsonBuilder().setPrettyPrinting().create()
+				.toJson(app);
+		return json;
 	}
 
 }
