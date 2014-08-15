@@ -171,11 +171,12 @@ public class PDAStrategy implements Agent, RepeatedStrategy {
 		}
 		return false;
 	}
+	
+	
 
 	// I am not a smart man.
 	@Override
 	public int hashCode() {
-		
 		return this.toString().hashCode();
 	}
 }
