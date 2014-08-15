@@ -1,6 +1,6 @@
 {
   "populationSize": 500,
-  "mutationProbability": 0.05,
+  "mutationProbability": 0.005,
   "reward": 3.0,
   "mistakeProbability": 0.0,
   "mapping": "LINEAR",
@@ -12,6 +12,6 @@
   "r": R_VALUE,
   "outputFile": "OUTPUT_FILE_NAME",
   "reportEveryTimeSteps": 100,
-  "numberOfTimeSteps": 500000,
+  "numberOfTimeSteps": 5000,
   "seed": SEED
 }

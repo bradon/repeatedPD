@@ -1,11 +1,15 @@
 #!/bin/bash
-#PBS -S /bin/bash
-#PBS -m bea
-#PBS -l walltime=48:00:00
-#PBS -l mem=1000mb
-source /usr/share/modules/init/bash
-module load java-1.6
+#$ -S /bin/bash
+#$ -m bea
+#$ -l h_rt=0:30:00
+#$ -l h_vmem=1G
+#$ -M bthal@student.monash.edu.au
+#$ -m abe
+#$ -o output.fil
+#$ -e error.fil
+#source /usr/share/modules/init/bash
+#module load java-1.6
 echo "Current working directory is `pwd`"
 echo "Starting run "$0" at: `date`"
-java -Xms256m -Xmx800m -jar $PBS_O_WORKDIR/repeatedPD.jar -t PDATIMESERIES -f $PBS_O_WORKDIR/JSON_FILENAME
+java -Xms256m -Xmx800m -jar $sge_o_workdir/repeatedPD.jar -t PDATIMESERIES -f $sge_o_workdir/JSON_FILENAME
 echo "Program "$0" finished with exit code $? at: `date`"
