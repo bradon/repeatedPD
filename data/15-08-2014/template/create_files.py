@@ -24,9 +24,9 @@ TEMPLATE_NAME = 'TEMPLATE.json'
 TEMPLATE_PBS = 'TEMPLATE.pbs'
 
 
-assortment_vector = ['0.0', '0.1']
-delta_vector = ['0.0', '0.1']
-number_of_sets = 3
+assortment_vector = ['0.0']
+delta_vector = ['0.0']
+number_of_sets = 1
 
 def create_filenames():
     ans = []
