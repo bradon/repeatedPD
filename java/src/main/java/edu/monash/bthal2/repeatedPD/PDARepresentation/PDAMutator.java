@@ -70,6 +70,11 @@ public class PDAMutator implements AgentMutator {
 
 	public void changeTransition(PushdownAutomaton pda) {
 		Transition[] transitions = pda.getTransitions();
+		if (transitions.length < 1) {
+			return; // No transitions to change!
+			// This is an unusual case. Occurs when transitions go to a state
+			// which is then deleted
+		}
 		PDATransition toChange = (PDATransition) transitions[Random
 				.nextInt(transitions.length)];
 		String newPop = stackAlphabet[Random.nextInt(stackAlphabet.length)];
@@ -146,7 +151,7 @@ public class PDAMutator implements AgentMutator {
 	public Agent mutate(Agent agent) {
 		if (Random.nextDouble() > mutationProbability) {
 			return new PDAStrategy((PushdownAutomaton) ((PDAStrategy) agent)
-					.getPDA().clone(),((PDAStrategy) agent).getStatesCount());
+					.getPDA().clone(), ((PDAStrategy) agent).getStatesCount());
 		} else {
 			// mutate
 			PushdownAutomaton pda = (PushdownAutomaton) ((PDAStrategy) agent)
@@ -159,18 +164,20 @@ public class PDAMutator implements AgentMutator {
 				// System.out.println("Adding state");
 				addState(pda, ((PDAStrategy) agent).getStatesCount());
 				return new PDAStrategy(pda,
-						((PDAStrategy) agent).getStatesCount()+1);
+						((PDAStrategy) agent).getStatesCount() + 1);
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability) {
 				// System.out.println("Adding transition");
 				addTransition(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability) {
 				// System.out.println("Changing destination");
 				changeDestination(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 				// Change transition
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
@@ -179,7 +186,8 @@ public class PDAMutator implements AgentMutator {
 				// System.out.println("Changing pop");
 				// Change Pop
 				changeTransition(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability
@@ -188,7 +196,8 @@ public class PDAMutator implements AgentMutator {
 				// System.out.println("Changing push");
 				// Change push
 				changePush(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability
@@ -198,7 +207,8 @@ public class PDAMutator implements AgentMutator {
 				// System.out.println("Changing source");
 				// Change source
 				changeSource(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 			} else if (mutationSelector < addStateProbability
 					+ addTransitionProbability
 					+ changeTransitionDestinationProbability
@@ -209,10 +219,12 @@ public class PDAMutator implements AgentMutator {
 				// System.out.println("Changing final");
 				// Change final states
 				changeFinal(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 			} else {
 				deleteState(pda);
-				return new PDAStrategy(pda,((PDAStrategy) agent).getStatesCount());
+				return new PDAStrategy(pda,
+						((PDAStrategy) agent).getStatesCount());
 				// Delete state
 			}
 			// return null;
