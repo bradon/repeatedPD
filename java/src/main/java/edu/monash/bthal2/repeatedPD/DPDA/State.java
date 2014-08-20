@@ -11,11 +11,15 @@ public class State {
 
 	public boolean addTransition(Transition newTransition) {
 		if (newTransition.checkDeterminism() == -1) {
-			transitions.add(newTransition);
-			return true;
+			// empty,empty to self is not allowed
+			if (newTransition.destination != this) {
+				transitions.add(newTransition);
+				return true;
+			}
 		}
 		return false;
 	}
+
 
 	public class Transition {
 		State destination;
@@ -58,8 +62,9 @@ public class State {
 
 			// If there is an empty, empty -> x transition, there can be no
 			// other transitions
-
-			// empty,empty to self is not allowed
+			if (isDoNothingTransition(this)) {
+				// conflict with all (if any exist)
+			}
 
 			// if either read or pop is empty
 			// empty, X->x means A, X ->? cannot exist
@@ -69,6 +74,13 @@ public class State {
 			// At most once combination of A, B can exist
 
 			return 0;
+		}
+
+		private boolean isDoNothingTransition(Transition transition) {
+			if (transition.pop == emptyChar && transition.read == null) {
+				return true;
+			}
+			return false;
 		}
 	}
 }

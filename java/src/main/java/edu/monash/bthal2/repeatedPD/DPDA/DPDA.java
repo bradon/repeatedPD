@@ -1,5 +1,6 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
@@ -41,7 +42,18 @@ public class DPDA {
 		// Set current state
 		currentState = initialState;
 		stack = new Stack<Character>();
-		stack.add('$');
+		stack.add('$'); //Stack marker
+		prefixInLanguage = true;
+	}
+	
+	/**
+	 * Cycle detection
+	 * 
+	 * @param transitions in a DPDA
+	 * @return true if a cycle is found
+	 */
+	public static boolean containsCycle(ArrayList<State> states) {
+		return false;
 	}
 
 	public static void main(String[] args) {
