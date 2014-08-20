@@ -8,18 +8,108 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 public class State {
 	final static char emptyChar = 'l'; // move elsewhere?
 	ArrayList<Transition> transitions = new ArrayList<Transition>();
+	boolean isFinal = false;
+	final int loopTolerance = 10; // How many states can be visited on a single
+									// input before assuming it is in a cycle
 
+	/**
+	 * Possible transitions from the current state given an input and a stack.<br>
+	 * 0 or 1 should exist
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public ArrayList<Transition> possibleTransitions(Action input, char popped) {
+		ArrayList<Transition> possibleTransitions = new ArrayList<Transition>();
+		for (Transition transition : transitions) {
+			if (transition.pop == popped || transition.pop == emptyChar) {
+				// Stack state allows current transition
+				if (transition.read == input || transition.read == null) {
+					// Input read allows current transition
+					possibleTransitions.add(transition);
+				}
+			}
+		}
+		return possibleTransitions;
+
+	}
+
+	/**
+	 * Adds transition<br>
+	 * Returns true if added successfully
+	 * 
+	 * @param newTransition
+	 * @return
+	 */
 	public boolean addTransition(Transition newTransition) {
-		if (newTransition.checkDeterminism() == -1) {
+		if (newTransition.checkDeterminism().isEmpty()) {
 			// empty,empty to self is not allowed
-			if (newTransition.destination != this) {
-				transitions.add(newTransition);
-				return true;
+			if (newTransition.isDoNothingTransition()) {
+				if (newTransition.destination != this) {
+					transitions.add(newTransition);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Takes input and current stack, and follows transitions
+	 * 
+	 * @param stack
+	 * @param input
+	 * @return
+	 * @throws MultipleTransitionException
+	 * @throws NoTransitionException
+	 * @throws CycleException
+	 */
+	public State readInput(Stack<Character> stack, Action input)
+			throws MultipleTransitionException, NoTransitionException,
+			CycleException {
+		return readInput(stack, input, 0);
+	}
+
+	/**
+	 * Takes input and current stack, and follows transitions
+	 * 
+	 * @param stack
+	 * @param input
+	 * @return
+	 * @throws MultipleTransitionException
+	 * @throws NoTransitionException
+	 * @throws CycleException
+	 */
+	private State readInput(Stack<Character> stack, Action input,
+			int statesVisitedThisInput) throws MultipleTransitionException,
+			NoTransitionException, CycleException {
+		if (loopTolerance + 1 > statesVisitedThisInput) {
+			char topOfStack = stack.peek();
+
+			ArrayList<Transition> possibleTransitions = possibleTransitions(
+					input, topOfStack);
+			if (possibleTransitions.isEmpty()) {
+				// No transitions
+				throw new NoTransitionException();
+			}
+			if (possibleTransitions.size() > 1) {
+				throw new MultipleTransitionException();
+			}
+			Transition transition = possibleTransitions.get(0);
+			// Call transition to actually operate on stack
+			State newState = transition.follow(input, stack);
+			// if the transition didn't do anything with the input, continue
+			// until
+			// one does
+			if (transition.read == null) {
+				return newState.readInput(stack, input,
+						statesVisitedThisInput + 1);
+			}
+			return newState;
+		} else {
+			throw new CycleException();
+		}
+	}
 
 	public class Transition {
 		State destination;
@@ -40,11 +130,18 @@ public class State {
 
 		/**
 		 * Follow a transition
+		 * 
+		 * @param stack
+		 * @return State after move
+		 * @throws NoTransitionException
+		 * @throws MultipleTransitionException
 		 */
-		public State follow(Stack<Character> stack) {
+		public State follow(Action input, Stack<Character> stack)
+				throws NoTransitionException, MultipleTransitionException {
 			// Pop, Pull, return state
-			stack.pop();
-
+			if (pop != emptyChar) {
+				stack.pop();
+			}
 			if (push != emptyChar) {
 				stack.push(push);
 			}
@@ -52,32 +149,43 @@ public class State {
 		}
 
 		/**
+		 * Check determinism of newly created transition on the current state<br>
+		 * It is assumed State is currently deterministic
+		 * 
 		 * @return null array if deterministic <br>
 		 *         or int array of index of non-deterministic transitions<br>
 		 * 
 		 */
-		public int checkDeterminism() {
-			// It is assumed transitions already added are deterministic
-			// Compare existing to new, not existing to existing
+		public ArrayList<Integer> checkDeterminism() {
+			ArrayList<Integer> indexOfNonDeterministicPartners = new ArrayList<Integer>();
+			int index = 0;
+			for (Transition transition : transitions) {
+				// If there is an empty, empty -> x transition, there can be no
+				// other transitions
+				// debatable if empty, empty-> x should be allowed?
+				if (isDoNothingTransition()) {
+					indexOfNonDeterministicPartners.add(index);
+					// conflict with all (if any exist), don't bother checking
+					// other conditions
 
-			// If there is an empty, empty -> x transition, there can be no
-			// other transitions
-			if (isDoNothingTransition(this)) {
-				// conflict with all (if any exist)
+					// Check combinations with empty
+				} else if ((transition.pop == emptyChar && transition.read == this.read)
+						|| (transition.pop == transition.pop && transition.read == null)
+						|| (pop == emptyChar && transition.read == this.read)
+						|| (transition.pop == transition.pop && read == null)) {
+					indexOfNonDeterministicPartners.add(index);
+
+					// Check identical combinations
+				} else if (transition.pop == pop && transition.read == read) {
+					indexOfNonDeterministicPartners.add(index);
+				}
 			}
 
-			// if either read or pop is empty
-			// empty, X->x means A, X ->? cannot exist
-			// X, empty->x means X, A ->? cannot exist
-			// Ie empty cannot be in same position as non-empty
-
-			// At most once combination of A, B can exist
-
-			return 0;
+			return indexOfNonDeterministicPartners;
 		}
 
-		private boolean isDoNothingTransition(Transition transition) {
-			if (transition.pop == emptyChar && transition.read == null) {
+		public boolean isDoNothingTransition() {
+			if (pop == emptyChar && read == null) {
 				return true;
 			}
 			return false;

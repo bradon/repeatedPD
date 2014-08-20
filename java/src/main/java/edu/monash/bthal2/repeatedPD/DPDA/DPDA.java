@@ -3,6 +3,8 @@ package edu.monash.bthal2.repeatedPD.DPDA;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import com.evolutionandgames.repeatedgames.evolution.Action;
+
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 
 /**
@@ -20,6 +22,7 @@ public class DPDA {
 	Stack<Character> stack = new Stack<Character>();
 	State currentState;
 	State initialState;
+	Action defaultAction = Action.DEFECT;
 
 	// If a transition has failed, anything with the current prefix moves is not
 	// in the language
@@ -42,18 +45,46 @@ public class DPDA {
 		// Set current state
 		currentState = initialState;
 		stack = new Stack<Character>();
-		stack.add('$'); //Stack marker
+		stack.add('$'); // Stack marker
 		prefixInLanguage = true;
 	}
-	
+
 	/**
 	 * Cycle detection
 	 * 
-	 * @param transitions in a DPDA
+	 * @param transitions
+	 *            in a DPDA
 	 * @return true if a cycle is found
 	 */
 	public static boolean containsCycle(ArrayList<State> states) {
 		return false;
+	}
+
+	public Action readInput(Action input) throws MultipleTransitionException {
+		if (prefixInLanguage) {
+			try {
+				currentState = currentState.readInput(stack, input);
+				if (currentState.isFinal) {
+					return Action.COOPERATE;
+				} else {
+					return Action.DEFECT;
+				}
+			} catch (MultipleTransitionException e) {
+				// Handle here or throw?
+				System.out.println("A PDA was non-deterministic");
+				throw e;
+
+			} catch (NoTransitionException e) {
+				prefixInLanguage = false;
+				return defaultAction;
+			} catch (CycleException e) {
+				//Non-fatal
+				System.out.println("A PDA appeared to have a cycle");
+				prefixInLanguage = false;
+				return defaultAction;
+			}
+		}
+		return defaultAction;
 	}
 
 	public static void main(String[] args) {
