@@ -20,6 +20,10 @@ public class DPDA {
 	State currentState;
 	State initialState;
 
+	// If a transition has failed, anything with the current prefix moves is not
+	// in the language
+	boolean prefixInLanguage = true;
+
 	public DPDA() {
 		// Initialize to ALLD
 

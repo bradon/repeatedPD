@@ -6,7 +6,16 @@ import java.util.Stack;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class State {
+	final static char emptyChar = 'l'; // move elsewhere?
 	ArrayList<Transition> transitions = new ArrayList<Transition>();
+
+	public boolean addTransition(Transition newTransition) {
+		if (newTransition.checkDeterminism() == -1) {
+			transitions.add(newTransition);
+			return true;
+		}
+		return false;
+	}
 
 	public class Transition {
 		State destination;
@@ -15,7 +24,14 @@ public class State {
 		char push;
 
 		public Transition(State destination, Action read, char pop, char push) {
+			this.destination = destination;
+			this.pop = pop;
+			this.push = push;
+			this.read = read;
+		}
 
+		public void changeDestination(State destination) {
+			this.destination = destination;
 		}
 
 		/**
@@ -23,7 +39,12 @@ public class State {
 		 */
 		public State follow(Stack<Character> stack) {
 			// Pop, Pull, return state
-			return null;
+			stack.pop();
+
+			if (push != emptyChar) {
+				stack.push(push);
+			}
+			return destination;
 		}
 
 		/**
