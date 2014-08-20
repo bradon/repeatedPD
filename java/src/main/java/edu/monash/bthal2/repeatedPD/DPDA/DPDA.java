@@ -23,6 +23,7 @@ public class DPDA {
 	State currentState;
 	State initialState;
 	Action defaultAction = Action.DEFECT;
+	ArrayList<State> states = new ArrayList<State>();
 
 	// If a transition has failed, anything with the current prefix moves is not
 	// in the language
@@ -36,6 +37,23 @@ public class DPDA {
 
 		// Set up stack marker
 		stack.add('$');
+	}
+
+	public void addState(State state) {
+		states.add(state);
+	}
+
+	public void setInitialState(State state) {
+		initialState = state;
+		reset();
+	}
+
+	public Action currentAction() {
+		if (currentState.isFinal && prefixInLanguage) {
+			return Action.COOPERATE;
+		} else {
+			return Action.DEFECT;
+		}
 	}
 
 	/**
@@ -78,7 +96,7 @@ public class DPDA {
 				prefixInLanguage = false;
 				return defaultAction;
 			} catch (CycleException e) {
-				//Non-fatal
+				// Non-fatal
 				System.out.println("A PDA appeared to have a cycle");
 				prefixInLanguage = false;
 				return defaultAction;

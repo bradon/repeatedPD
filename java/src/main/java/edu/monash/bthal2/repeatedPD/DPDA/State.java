@@ -71,7 +71,8 @@ public class State {
 	}
 
 	/**
-	 * Takes input and current stack, and follows transitions
+	 * Takes input and current stack, and follows transitions<br>
+	 * DOES NOT FOLLOW EMPTY TRANSITIONS AFTER, SHOULD FOR COOPERATION CHECK
 	 * 
 	 * @param stack
 	 * @param input
