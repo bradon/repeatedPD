@@ -24,6 +24,36 @@ public class DPDAFactory {
 			singleState.addTransition(selfDTransition);
 			return allc;
 		}
+
+		public static DPDA allD() {
+			DPDA alld = allC();
+			alld.getStates().get(0).isFinal = false;
+			return alld;
+		}
+
+		public static DPDA tft() {
+			DPDA tft = new DPDA();
+			State acceptState = new State();
+			acceptState.isFinal = true;
+			tft.addState(acceptState);
+			tft.setInitialState(acceptState);
+			State rejectState = new State();
+			tft.addState(rejectState);
+			System.out.println(tft.getStates().size());
+			Transition selfCTransition = acceptState.new Transition(
+					acceptState, Action.COOPERATE, emptyChar, emptyChar);
+			Transition selfDTransition = rejectState.new Transition(
+					rejectState, Action.DEFECT, emptyChar, emptyChar);
+			Transition changeCTransition = rejectState.new Transition(
+					acceptState, Action.COOPERATE, emptyChar, emptyChar);
+			Transition changeDTransition = acceptState.new Transition(
+					rejectState, Action.DEFECT, emptyChar, emptyChar);
+			acceptState.addTransition(selfCTransition);
+			acceptState.addTransition(changeDTransition);
+			rejectState.addTransition(changeCTransition);
+			rejectState.addTransition(selfDTransition);
+			return tft;
+		}
 	}
 
 }

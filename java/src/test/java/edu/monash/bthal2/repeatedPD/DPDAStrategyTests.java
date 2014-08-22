@@ -67,4 +67,61 @@ public class DPDAStrategyTests {
 		}
 	}
 
+	@Test
+	public void alldCloneTest() throws MultipleTransitionException {
+		DPDA original = DPDAFactory.ExampleStrategies.allD();
+		DPDA clone = original.copy();
+		DPDA alld = clone;
+		// Initially C
+		assertTrue(alld.currentAction() == Action.DEFECT);
+		// Response to C
+		alld.readInput(Action.COOPERATE);
+		assertTrue(alld.currentAction() == Action.DEFECT);
+		// Response to D
+		alld.readInput(Action.DEFECT);
+		assertTrue(alld.currentAction() == Action.DEFECT);
+		alld.reset();
+		// Response to random sequence
+		Random.seed(System.nanoTime());
+		for (int i = 0; i < 100; i++) {
+			if (Random.nextBoolean()) {
+				alld.readInput(Action.COOPERATE);
+			} else {
+				alld.readInput(Action.DEFECT);
+			}
+			if ((i + 1) % 10 == 0) {
+				assertTrue(alld.currentAction() == Action.DEFECT);
+			}
+		}
+	}
+
+	@Test
+	public void tftCloneTest() throws MultipleTransitionException {
+		DPDA original = DPDAFactory.ExampleStrategies.tft();
+		DPDA clone = original.copy();
+		DPDA tft = clone;
+		// Initially C
+		assertTrue(tft.currentAction() == Action.COOPERATE);
+		// Response to C
+		tft.readInput(Action.COOPERATE);
+		assertTrue(tft.currentAction() == Action.COOPERATE);
+		// Response to D
+		tft.readInput(Action.DEFECT);
+		assertTrue(tft.currentAction() == Action.DEFECT);
+		tft.reset();
+		// Response to random sequence
+		Random.seed(System.nanoTime());
+		Action previousMove;
+		for (int i = 0; i < 100; i++) {
+			if (Random.nextBoolean()) {
+				previousMove=tft.readInput(Action.COOPERATE);
+			} else {
+				previousMove=tft.readInput(Action.DEFECT);
+			}
+			if ((i + 1) % 10 == 0) {
+				assertTrue(tft.currentAction() == previousMove);
+			}
+		}
+	}
+
 }
