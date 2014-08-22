@@ -123,5 +123,11 @@ public class DPDAStrategyTests {
 			}
 		}
 	}
+	
+	@Test
+	public void testToString() {
+		DPDA allc=DPDAFactory.ExampleStrategies.tft();
+		System.out.println(allc.toString());
+	}
 
 }

@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
+import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.repeatedgames.evolution.Action;
+import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.CycleException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.MultipleTransitionException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
+import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
 
 /**
  * @author Bradon Hall
  * 
  */
-public class DPDA {
+public class DPDA implements Agent, RepeatedStrategy {
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
 	// Notes: -Testing for determinism is easiest to do from perspective of
@@ -149,5 +152,85 @@ public class DPDA {
 
 	public ArrayList<State> getStates() {
 		return states;
+	}
+
+	@Override
+	public void next(Action focal, Action opponent) {
+		try {
+			readInput(opponent);
+		} catch (MultipleTransitionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		// TODO: Replace with more sesible method, esp for tostring comparison
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		// System.out.println(obj.toString());
+		// System.out.println(this.toString());
+		if (obj.toString().equals(this.toString())) {
+			if (this.states.size() == ((DPDA) obj).getStates().size()) {
+				return true;
+				// should be return true, disabled for testing
+			}
+			return false;
+		}
+		return false;
+	}
+
+	// I am not a smart man.
+	@Override
+	public int hashCode() {
+		// TODO: Replace with something more sensible
+		return this.toString().hashCode();
+	}
+
+	@Override
+	public String toString() {
+		// I am likely to add IDs to states
+		// Start by printing each state, indexed by position in states arraylist
+		// Postfix F if final
+		StringBuilder builder = new StringBuilder();
+		builder.append("S:");
+		for (int i = 0; i < states.size(); i++) {
+			if (i > 0) {
+				builder.append("&");
+			}
+			builder.append("q" + i);
+			if (states.get(i).isFinal) {
+				builder.append("F");
+			}
+		}
+		builder.append("T:");
+		// This is terrible, revisit asap
+		// No need to search for states each time
+		for (int i = 0; i < states.size(); i++) {
+			for (Transition transition : states.get(i).getTransitions()) {
+				builder.append("q" + i);
+				builder.append("-");
+				builder.append("q"
+						+ states.indexOf(transition.getDestination()));
+				builder.append(":");
+				if (transition.getRead() == null) {
+					builder.append(emptyChar);
+				} else if (transition.getRead() == Action.COOPERATE) {
+					builder.append("C");
+				} else {
+					builder.append("D");
+				}
+				builder.append("," + transition.getPop() + "->"
+						+ transition.getPush());
+				builder.append("&");
+			}
+		}
+		return builder.toString();
 	}
 }

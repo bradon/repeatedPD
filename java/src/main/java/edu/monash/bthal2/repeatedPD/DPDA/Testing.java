@@ -1,6 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
-import com.evolutionandgames.jevodyn.utils.Random;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.MultipleTransitionException;
