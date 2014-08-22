@@ -93,6 +93,7 @@ public class DPDA {
 				throw e;
 
 			} catch (NoTransitionException e) {
+				System.out.println("No transition found");
 				prefixInLanguage = false;
 				return defaultAction;
 			} catch (CycleException e) {

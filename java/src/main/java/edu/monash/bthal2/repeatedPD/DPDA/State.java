@@ -6,6 +6,8 @@ import java.util.Stack;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class State {
+
+	// TODO: Getters/setters for everything (Before implementing copyable)
 	final static char emptyChar = 'l'; // move elsewhere?
 	ArrayList<Transition> transitions = new ArrayList<Transition>();
 	boolean isFinal = false;
@@ -27,7 +29,13 @@ public class State {
 				if (transition.read == input || transition.read == null) {
 					// Input read allows current transition
 					possibleTransitions.add(transition);
+				} else {
+					//System.out.println("Fail: " + transition.read + " is not "
+					//		+ input + " or null");
 				}
+			} else {
+				//System.out.println("Fail: " + transition.pop + " is not "
+				//		+ popped + " or " + emptyChar);
 			}
 		}
 		return possibleTransitions;
@@ -43,13 +51,20 @@ public class State {
 	 */
 	public boolean addTransition(Transition newTransition) {
 		if (newTransition.checkDeterminism().isEmpty()) {
+			
 			// empty,empty to self is not allowed
 			if (newTransition.isDoNothingTransition()) {
 				if (newTransition.destination != this) {
 					transitions.add(newTransition);
 					return true;
 				}
+			} else {
+				transitions.add(newTransition);
+				return true;
+				//System.out.println("wasn't do nothing");
 			}
+		} else {
+			//System.out.println("wasn't determinisitic");
 		}
 		return false;
 	}
@@ -91,6 +106,8 @@ public class State {
 					input, topOfStack);
 			if (possibleTransitions.isEmpty()) {
 				// No transitions
+				System.out.println("There were " + transitions.size()
+						+ " transitions to choose from");
 				throw new NoTransitionException();
 			}
 			if (possibleTransitions.size() > 1) {
