@@ -129,4 +129,6 @@ public class StrategyTests extends TestCase {
 		noTransition.next(null, Action.COOPERATE);
 		assertTrue(noTransition.currentAction() == Action.DEFECT);
 	}
+	
+	
 }

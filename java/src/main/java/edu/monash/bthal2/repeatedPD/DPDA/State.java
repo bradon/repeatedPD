@@ -12,8 +12,7 @@ import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
 public class State {
 
 	// TODO: Getters/setters for everything (Before implementing copyable)
-	final static char emptyChar = 'l'; // move elsewhere?
-	ArrayList<Transition> transitions = new ArrayList<Transition>();
+	private ArrayList<Transition> transitions = new ArrayList<Transition>();
 	boolean isFinal = false;
 	final int loopTolerance = 10; // How many states can be visited on a single
 									// input before assuming it is in a cycle
@@ -28,18 +27,19 @@ public class State {
 	public ArrayList<Transition> possibleTransitions(Action input, char popped) {
 		ArrayList<Transition> possibleTransitions = new ArrayList<Transition>();
 		for (Transition transition : transitions) {
-			if (transition.pop == popped || transition.pop == emptyChar) {
+			if (transition.pop == popped || transition.pop == DPDA.emptyChar) {
 				// Stack state allows current transition
 				if (transition.read == input || transition.read == null) {
 					// Input read allows current transition
 					possibleTransitions.add(transition);
 				} else {
-					//System.out.println("Fail: " + transition.read + " is not "
-					//		+ input + " or null");
+					// System.out.println("Fail: " + transition.read +
+					// " is not "
+					// + input + " or null");
 				}
 			} else {
-				//System.out.println("Fail: " + transition.pop + " is not "
-				//		+ popped + " or " + emptyChar);
+				// System.out.println("Fail: " + transition.pop + " is not "
+				// + popped + " or " + emptyChar);
 			}
 		}
 		return possibleTransitions;
@@ -55,7 +55,7 @@ public class State {
 	 */
 	public boolean addTransition(Transition newTransition) {
 		if (newTransition.checkDeterminism().isEmpty()) {
-			
+
 			// empty,empty to self is not allowed
 			if (newTransition.isDoNothingTransition()) {
 				if (newTransition.destination != this) {
@@ -65,10 +65,10 @@ public class State {
 			} else {
 				transitions.add(newTransition);
 				return true;
-				//System.out.println("wasn't do nothing");
+				// System.out.println("wasn't do nothing");
 			}
 		} else {
-			//System.out.println("wasn't determinisitic");
+			// System.out.println("wasn't determinisitic");
 		}
 		return false;
 	}
@@ -110,8 +110,8 @@ public class State {
 					input, topOfStack);
 			if (possibleTransitions.isEmpty()) {
 				// No transitions
-				//System.out.println("There were " + transitions.size()
-				//		+ " transitions to choose from");
+				// System.out.println("There were " + transitions.size()
+				// + " transitions to choose from");
 				throw new NoTransitionException();
 			}
 			if (possibleTransitions.size() > 1) {
@@ -133,11 +133,15 @@ public class State {
 		}
 	}
 
+	public ArrayList<Transition> getTransitions() {
+		return transitions;
+	}
+
 	public class Transition {
-		State destination;
-		Action read;
-		char pop;
-		char push;
+		private State destination;
+		private Action read;
+		private char pop;
+		private char push;
 
 		public Transition(State destination, Action read, char pop, char push) {
 			this.destination = destination;
@@ -146,8 +150,32 @@ public class State {
 			this.read = read;
 		}
 
+		public void setRead(Action read) {
+			this.read = read;
+		}
+		public void setPop (char pop) {
+			this.pop=pop;
+		}
+		public char getPop() {
+			return pop;
+		}
+		public void setPush (char push) {
+			this.push=push;
+		}
+		public char getPush() {
+			return push;
+		}
+
+		public Action getRead() {
+			return read;
+		}
+
 		public void changeDestination(State destination) {
 			this.destination = destination;
+		}
+
+		public State getDestination() {
+			return destination;
 		}
 
 		/**
@@ -161,10 +189,10 @@ public class State {
 		public State follow(Action input, Stack<Character> stack)
 				throws NoTransitionException, MultipleTransitionException {
 			// Pop, Pull, return state
-			if (pop != emptyChar) {
+			if (pop != DPDA.emptyChar) {
 				stack.pop();
 			}
-			if (push != emptyChar) {
+			if (push != DPDA.emptyChar) {
 				stack.push(push);
 			}
 			return destination;
@@ -191,9 +219,9 @@ public class State {
 					// other conditions
 
 					// Check combinations with empty
-				} else if ((transition.pop == emptyChar && transition.read == this.read)
+				} else if ((transition.pop == DPDA.emptyChar && transition.read == this.read)
 						|| (transition.pop == transition.pop && transition.read == null)
-						|| (pop == emptyChar && transition.read == this.read)
+						|| (pop == DPDA.emptyChar && transition.read == this.read)
 						|| (transition.pop == transition.pop && read == null)) {
 					indexOfNonDeterministicPartners.add(index);
 
@@ -207,7 +235,7 @@ public class State {
 		}
 
 		public boolean isDoNothingTransition() {
-			if (pop == emptyChar && read == null) {
+			if (pop == DPDA.emptyChar && read == null) {
 				return true;
 			}
 			return false;

@@ -1,20 +1,23 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
+import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.CycleException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.MultipleTransitionException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
-import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 
 /**
  * @author Bradon Hall
  * 
  */
 public class DPDA {
+	public static final char emptyChar = 'l';
+	public static final char stackMarker = '$';
 	// Notes: -Testing for determinism is easiest to do from perspective of
 	// transitions from a state
 	// Treating Transitions as link between states, which belongs in the state
@@ -22,15 +25,15 @@ public class DPDA {
 	// -This changes the mutations that will likely be used (no changeFrom at
 	// first)
 	// -This allows for me to use some methods similar to JG's FSA package
-	Stack<Character> stack = new Stack<Character>();
-	State currentState;
-	State initialState;
+	private Stack<Character> stack = new Stack<Character>();
+	private State currentState;
+	private State initialState;
 	Action defaultAction = Action.DEFECT;
-	ArrayList<State> states = new ArrayList<State>();
+	private ArrayList<State> states = new ArrayList<State>();
 
 	// If a transition has failed, anything with the current prefix moves is not
 	// in the language
-	boolean prefixInLanguage = true;
+	protected boolean prefixInLanguage = true;
 
 	public DPDA() {
 		// Initialize to ALLD
@@ -42,6 +45,37 @@ public class DPDA {
 		stack.add('$');
 	}
 
+	public DPDA copy() {
+		// Copy can ignore the stack
+		// Must create new states. Transitions need a way to know what the new
+		// state is based on the old state
+		HashMap<State, State> map = new HashMap<State, State>();
+		// fill map first
+		for (State state : states) {
+			map.put(state, new State());
+		}
+		DPDA newDPDA = new DPDA();
+		newDPDA.setInitialState(map.get(this.initialState));
+		// newDPDA.setInitialState(map.get(this.initialState));
+		for (State state : states) {
+			newDPDA.addState(map.get(state));
+			map.get(state).isFinal = state.isFinal;
+			State newState = map.get(state);
+			// Set state id?
+			for (Transition transition : state.getTransitions()) {
+				// map old transition to new
+				State newDestination = map.get(transition.getDestination());
+				Transition newTransition = newState.new Transition(
+						newDestination, transition.getRead(),
+						transition.getPop(), transition.getPush());
+				map.get(state).addTransition(newTransition);
+			}
+		}
+
+		return newDPDA;
+
+	}
+
 	public void addState(State state) {
 		states.add(state);
 	}
@@ -49,6 +83,10 @@ public class DPDA {
 	public void setInitialState(State state) {
 		initialState = state;
 		reset();
+	}
+
+	public State getInitialState() {
+		return initialState;
 	}
 
 	public Action currentAction() {
@@ -109,7 +147,7 @@ public class DPDA {
 		return defaultAction;
 	}
 
-	public static void main(String[] args) {
-
+	public ArrayList<State> getStates() {
+		return states;
 	}
 }

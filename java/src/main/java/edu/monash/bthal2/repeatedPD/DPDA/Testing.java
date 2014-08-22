@@ -29,22 +29,7 @@ public class Testing {
 		dpda.readInput(Action.DEFECT);
 		dpda.readInput(Action.DEFECT);
 		System.out.println(dpda.currentAction());
-		System.out.println("Allc test");
-		randomAllcTest();
+
 	}
 
-	public static void randomAllcTest() throws MultipleTransitionException {
-		DPDA allc = DPDAFactory.ExampleStrategies.allC();
-		Random.seed(System.nanoTime());
-		for (int i = 0; i < 100; i++) {
-			if (Random.nextBoolean()) {
-				allc.readInput(Action.COOPERATE);
-			} else {
-				allc.readInput(Action.DEFECT);
-			}
-			if ((i + 1) % 10 == 0) {
-				System.out.println(allc.currentAction());
-			}
-		}
-	}
 }
