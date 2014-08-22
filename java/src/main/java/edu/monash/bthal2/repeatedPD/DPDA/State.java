@@ -5,6 +5,10 @@ import java.util.Stack;
 
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
+import edu.monash.bthal2.repeatedPD.DPDA.Exception.CycleException;
+import edu.monash.bthal2.repeatedPD.DPDA.Exception.MultipleTransitionException;
+import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
+
 public class State {
 
 	// TODO: Getters/setters for everything (Before implementing copyable)
@@ -106,8 +110,8 @@ public class State {
 					input, topOfStack);
 			if (possibleTransitions.isEmpty()) {
 				// No transitions
-				System.out.println("There were " + transitions.size()
-						+ " transitions to choose from");
+				//System.out.println("There were " + transitions.size()
+				//		+ " transitions to choose from");
 				throw new NoTransitionException();
 			}
 			if (possibleTransitions.size() > 1) {

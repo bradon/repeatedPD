@@ -1,4 +1,4 @@
-package edu.monash.bthal2.repeatedPD.DPDA;
+package edu.monash.bthal2.repeatedPD.DPDA.Exception;
 
 public class NoTransitionException extends Exception {
 
