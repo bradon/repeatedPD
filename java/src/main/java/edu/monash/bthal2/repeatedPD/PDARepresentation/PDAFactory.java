@@ -11,6 +11,7 @@ import com.evolutionandgames.agentbased.AgentBasedPopulation;
 import com.evolutionandgames.agentbased.AgentBasedPopulationFactory;
 import com.evolutionandgames.agentbased.extensive.ExtensivePopulationImpl;
 
+
 public class PDAFactory implements AgentBasedPopulationFactory {
 	int popSize = 100;
 

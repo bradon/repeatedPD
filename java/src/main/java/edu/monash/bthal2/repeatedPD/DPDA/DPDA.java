@@ -110,7 +110,6 @@ public class DPDA {
 	}
 
 	public static void main(String[] args) {
-		State state = new State();
-		Transition trans = state.new Transition(null, null, 'l', 'l');
+
 	}
 }
