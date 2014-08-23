@@ -1,13 +1,34 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
+import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.agentbased.AgentBasedPopulation;
+import com.evolutionandgames.agentbased.AgentBasedPopulationFactory;
+import com.evolutionandgames.agentbased.extensive.ExtensivePopulationImpl;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 import edu.monash.bthal2.repeatedPD.DPDA.State;
+import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
 
-public class DPDAFactory {
-	static char emptyChar = 'l';
+public class DPDAFactory implements AgentBasedPopulationFactory {
+	private int popSize = 100;
+
+	@Override
+	public AgentBasedPopulation createPopulation() {
+		Agent[] agents = new DPDA[popSize];
+		for (int i = 0; i < popSize; i++) {
+			agents[i] = new DPDA();
+		}
+		return new ExtensivePopulationImpl(agents);
+	}
+
+	public DPDAFactory() {
+
+	}
+
+	public DPDAFactory(int popSize) {
+		this.popSize = popSize;
+	}
 
 	public static class ExampleStrategies {
 		public static DPDA allC() {
@@ -17,9 +38,10 @@ public class DPDAFactory {
 			allc.setInitialState(singleState);
 			singleState.isFinal = true;
 			Transition selfCTransition = singleState.new Transition(
-					singleState, Action.COOPERATE, emptyChar, emptyChar);
+					singleState, Action.COOPERATE, DPDA.emptyChar,
+					DPDA.emptyChar);
 			Transition selfDTransition = singleState.new Transition(
-					singleState, Action.DEFECT, emptyChar, emptyChar);
+					singleState, Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar);
 			singleState.addTransition(selfCTransition);
 			singleState.addTransition(selfDTransition);
 			return allc;
@@ -41,13 +63,15 @@ public class DPDAFactory {
 			tft.addState(rejectState);
 			System.out.println(tft.getStates().size());
 			Transition selfCTransition = acceptState.new Transition(
-					acceptState, Action.COOPERATE, emptyChar, emptyChar);
+					acceptState, Action.COOPERATE, DPDA.emptyChar,
+					DPDA.emptyChar);
 			Transition selfDTransition = rejectState.new Transition(
-					rejectState, Action.DEFECT, emptyChar, emptyChar);
+					rejectState, Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar);
 			Transition changeCTransition = rejectState.new Transition(
-					acceptState, Action.COOPERATE, emptyChar, emptyChar);
+					acceptState, Action.COOPERATE, DPDA.emptyChar,
+					DPDA.emptyChar);
 			Transition changeDTransition = acceptState.new Transition(
-					rejectState, Action.DEFECT, emptyChar, emptyChar);
+					rejectState, Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar);
 			acceptState.addTransition(selfCTransition);
 			acceptState.addTransition(changeDTransition);
 			rejectState.addTransition(changeCTransition);
