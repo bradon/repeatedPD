@@ -115,12 +115,22 @@ public class DPDAMutator implements AgentMutator {
 				ArrayList<Transition> transitions = cdeminatingState
 						.getTransitions();
 				if (transitions.size() > 0) {
+					//TODO: aa
 					Transition transition = transitions.get(Random
 							.nextInt(transitions.size()));
+					// Remove Transition, then Add after change.
+					// This way determinism check is run.
+					Transition cdnewTransition=cdeminatingState.copyTransition(transition);
+					cdeminatingState.removeTransition(transition);
 					// Change: Base probability of destination partly on
 					// 'distance' from current state?
-					transition.changeDestination(cdstates.get(Random
+					cdnewTransition.changeDestination(cdstates.get(Random
 							.nextInt(cdstates.size())));
+					if (!cdeminatingState.addTransition(cdnewTransition)) {
+						// if addition fails
+						// revert to original! (with transition moved-> problem?)
+						cdeminatingState.addTransition(transition);
+					}
 				} else {
 					// Switch to add transition?
 				}
@@ -138,10 +148,20 @@ public class DPDAMutator implements AgentMutator {
 				if (transitions.size() > 0) {
 					Transition transition = transitions.get(Random
 							.nextInt(transitions.size()));
+					// Remove Transition, then Add after change.
+					// This way determinism check is run.
+					Transition cpnewTransition=cdeminatingState.copyTransition(transition);
+					cdeminatingState.removeTransition(transition);
+
 					// Change: Base probability of destination partly on
 					// 'distance' from current state?
-					transition.setPop((DPDA.stackAlphabet[Random
+					cpnewTransition.setPop((DPDA.stackAlphabet[Random
 							.nextInt(DPDA.stackAlphabet.length)]));
+					if (!cdeminatingState.addTransition(cpnewTransition)) {
+						// if addition fails
+						// revert to original! (with transition moved-> problem?)
+						cdeminatingState.addTransition(transition);
+					}
 				} else {
 					// Switch to add transition?
 				}
@@ -159,10 +179,19 @@ public class DPDAMutator implements AgentMutator {
 				if (transitions.size() > 0) {
 					Transition transition = transitions.get(Random
 							.nextInt(transitions.size()));
+					// Remove Transition, then Add after change.
+					// This way determinism check is run.
+					Transition cpunewTransition=cdeminatingState.copyTransition(transition);
+					cdeminatingState.removeTransition(transition);
 					// Change: Base probability of destination partly on
 					// 'distance' from current state?
-					transition.setPush((DPDA.stackAlphabet[Random
+					cpunewTransition.setPush((DPDA.stackAlphabet[Random
 							.nextInt(DPDA.stackAlphabet.length)]));
+					if (!cdeminatingState.addTransition(cpunewTransition)) {
+						// if addition fails
+						// revert to original! (with transition moved-> problem?)
+						cdeminatingState.addTransition(transition);
+					}
 				} else {
 					// Switch to add transition?
 				}
@@ -180,10 +209,19 @@ public class DPDAMutator implements AgentMutator {
 				if (transitions.size() > 0) {
 					Transition transition = transitions.get(Random
 							.nextInt(transitions.size()));
+					// Remove Transition, then Add after change.
+					// This way determinism check is run.
+					Transition crnewTransition=cdeminatingState.copyTransition(transition);
+					cdeminatingState.removeTransition(transition);
 					// Change: Base probability of destination partly on
 					// 'distance' from current state?
-					transition.setRead((DPDA.inputAlphabet[Random
+					crnewTransition.setRead((DPDA.inputAlphabet[Random
 							.nextInt(DPDA.inputAlphabet.length)]));
+					if (!cdeminatingState.addTransition(crnewTransition)) {
+						// if addition fails
+						// revert to original! (with transition moved-> problem?)
+						cdeminatingState.addTransition(transition);
+					}
 				} else {
 					// Switch to add transition?
 				}

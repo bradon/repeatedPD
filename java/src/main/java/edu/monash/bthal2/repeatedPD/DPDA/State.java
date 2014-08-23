@@ -59,12 +59,14 @@ public class State {
 	 */
 	public boolean addTransition(Transition newTransition) {
 		if (newTransition.checkDeterminism().isEmpty()) {
-
 			// empty,empty to self is not allowed
 			if (newTransition.isDoNothingTransition()) {
 				if (newTransition.destination != this) {
 					transitions.add(newTransition);
 					return true;
+				} else {
+					// Was a do nothing transition, disallow
+					return false;
 				}
 			} else {
 				transitions.add(newTransition);
@@ -258,5 +260,12 @@ public class State {
 
 	public void flip() {
 		isFinal = !isFinal;
+	}
+
+	public Transition copyTransition(Transition transition) {
+		Transition newTransition = this.new Transition(
+				transition.getDestination(), transition.getRead(),
+				transition.getPop(), transition.getPush());
+		return newTransition;
 	}
 }
