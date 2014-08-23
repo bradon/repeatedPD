@@ -1,5 +1,6 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -138,6 +139,13 @@ public class DPDA implements Agent, RepeatedStrategy {
 			} catch (MultipleTransitionException e) {
 				// Handle here or throw?
 				System.out.println("A PDA was non-deterministic");
+				printStrategy();
+				try {
+					System.in.read();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				throw e;
 
 			} catch (NoTransitionException e) {
@@ -147,6 +155,13 @@ public class DPDA implements Agent, RepeatedStrategy {
 			} catch (CycleException e) {
 				// Non-fatal
 				System.out.println("A PDA appeared to have a cycle");
+				printStrategy();
+				try {
+					System.in.read();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				prefixInLanguage = false;
 				return defaultAction;
 			}
