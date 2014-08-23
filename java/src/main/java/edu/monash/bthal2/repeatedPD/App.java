@@ -6,6 +6,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
+import edu.monash.bthal2.repeatedPD.simulation.DPDAPayoffSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOnePayoffSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOneTimeSeries;
 import edu.monash.bthal2.repeatedPD.simulation.PDAPayoffSimulation;
@@ -16,7 +17,7 @@ public class App {
 	private String file;
 
 	enum SimulationType {
-		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, PDAPAYOFF, TIMESERIES, PDATIMESERIES
+		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, PDAPAYOFF, TIMESERIES, PDATIMESERIES, DPDAPAYOFF
 	}
 
 	@Parameter(names = { "-type", "-t" }, description = "Type of simulation", required = true)
@@ -71,6 +72,13 @@ public class App {
 				System.out.println("unimplemented");
 			} else {
 				PDATimeSeriesSimulation.runApp(app.file);
+			}
+			break;
+		case DPDAPAYOFF:
+			if (showJson) {
+				System.out.println(DPDAPayoffSimulation.exampleJson());
+			} else {
+				DPDAPayoffSimulation.runOncePayoff(app.file);
 			}
 			break;
 		default:

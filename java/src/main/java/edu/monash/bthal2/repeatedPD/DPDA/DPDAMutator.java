@@ -39,6 +39,11 @@ public class DPDAMutator implements AgentMutator {
 		mutationProbabilityPerState = 0.1; // Should be called only in testing
 	}
 
+	public DPDAMutator(double mutationProbabilityPerState) {
+		super();
+		this.mutationProbabilityPerState = mutationProbabilityPerState;
+	}
+
 	private double[] distributionOfEvents = { addingStatesProbability,
 			removingStatesProbability, addTransitionProbability,
 			removeTransitionProbability, changingReadProbability,
@@ -70,8 +75,13 @@ public class DPDAMutator implements AgentMutator {
 	 * @return
 	 */
 	private DPDA applyMutation(DPDA automaton, MutationEvent mutationEvent) {
+		// TODO: most of these are complicated enough to justify seperating to
+		// new functions
+		// Some change transition events share code too
 		switch (mutationEvent) {
 		case ADDSTATE:
+
+			// Add mutations?
 			State newState = new State();
 			automaton.addState(newState);
 			break;
@@ -191,7 +201,8 @@ public class DPDAMutator implements AgentMutator {
 
 			if (rsstates.size() > 1) {
 				State rmState;
-				rmState = rsstates.get(Random.nextInt(rsstates.size()));
+				//+1 to prevent 0 (initial state) being selected
+				rmState = rsstates.get(1+Random.nextInt(rsstates.size()-1));
 				automaton.removeState(rmState);
 				// Iterate through remaining states
 				rsstates = automaton.getStates();

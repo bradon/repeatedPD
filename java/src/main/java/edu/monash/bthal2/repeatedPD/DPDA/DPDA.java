@@ -12,7 +12,6 @@ import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.CycleException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.MultipleTransitionException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
-import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
 
 /**
  * @author Bradon Hall
@@ -142,7 +141,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				throw e;
 
 			} catch (NoTransitionException e) {
-				System.out.println("No transition found");
+				//System.out.println("No transition found");
 				prefixInLanguage = false;
 				return defaultAction;
 			} catch (CycleException e) {
@@ -242,5 +241,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 			}
 		}
 		return builder.toString();
+	}
+
+	public void printStrategy() {
+		System.out.println(this.toString());
 	}
 }

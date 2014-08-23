@@ -10,6 +10,7 @@ public class DPDAMutatorTest {
 
 	@Test
 	public void testAddState() {
+		//Should always have an extra state after
 		DPDA tft = DPDAFactory.ExampleStrategies.tft();
 
 	}
