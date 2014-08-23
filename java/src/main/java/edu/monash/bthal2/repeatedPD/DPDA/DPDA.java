@@ -21,6 +21,9 @@ import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
 public class DPDA implements Agent, RepeatedStrategy {
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
+	public static final char[] stackAlphabet = { 'l', '$', 'a', 'b' };
+	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
+			Action.DEFECT };
 	// Notes: -Testing for determinism is easiest to do from perspective of
 	// transitions from a state
 	// Treating Transitions as link between states, which belongs in the state
