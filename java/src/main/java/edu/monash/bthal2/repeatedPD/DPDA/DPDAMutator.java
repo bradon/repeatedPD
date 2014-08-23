@@ -10,13 +10,18 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 
 public class DPDAMutator implements AgentMutator {
-
-	private double mutationProbabilityPerState;
+	// in json set this to 1/n
+	private double mutationProbabilityPerState; // For testing its high
 
 	// Uniform initially 'assumption free' <- arguable
 	// Seems sensible though- high probability of a transition change
 	// Low probability of a states change
-	int mutationOptions = 8;
+
+	// TODO: Address bloat
+	// Currently, addState can never fail, removeState can.
+	// This means despit Pr(add)=Pr(remove), num states will increase
+	// Maybe Pr(remove) proportional to states?
+	int mutationOptions = 9;
 	private double addingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double removingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double addTransitionProbability = 1.0 * 1 / mutationOptions;
@@ -25,15 +30,23 @@ public class DPDAMutator implements AgentMutator {
 	private double changingPopProbability = 1.0 * 1 / mutationOptions;
 	private double changingPushProbability = 1.0 * 1 / mutationOptions;
 	private double changingDestinationProbability = 1.0 * 1 / mutationOptions;
+	private double flipState = 1.0 * 1 / mutationOptions;
+
+	// TODO: Consider putting changes to transitions as a sub operation of
+	// change
+	public DPDAMutator() {
+		super();
+		mutationProbabilityPerState = 0.1; // Should be called only in testing
+	}
 
 	private double[] distributionOfEvents = { addingStatesProbability,
 			removingStatesProbability, addTransitionProbability,
 			removeTransitionProbability, changingReadProbability,
 			changingPopProbability, changingPushProbability,
-			changingDestinationProbability };
+			changingDestinationProbability, flipState };
 
 	private enum MutationEvent {
-		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION
+		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION, FLIPSTATE
 	}
 
 	@Override
@@ -205,6 +218,10 @@ public class DPDAMutator implements AgentMutator {
 				rtState.removeTransition(rttransition);
 			}
 			break;
+		case FLIPSTATE:
+			ArrayList<State> fsstates = automaton.getStates();
+			fsstates.get(Random.nextInt(fsstates.size())).flip();
+			break;
 		}
 
 		return automaton;
@@ -250,6 +267,9 @@ public class DPDAMutator implements AgentMutator {
 					break;
 				case 7:
 					mutationEvents.add(MutationEvent.CHANGEDESTINATION);
+					break;
+				case 8:
+					mutationEvents.add(MutationEvent.FLIPSTATE);
 					break;
 				}
 			}

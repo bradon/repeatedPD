@@ -19,6 +19,8 @@ import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
  * 
  */
 public class DPDA implements Agent, RepeatedStrategy {
+
+	// TODO: Pop stack marker should always push stack marker?
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
 	public static final char[] stackAlphabet = { 'l', '$', 'a', 'b' };

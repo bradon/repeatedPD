@@ -1,4 +1,4 @@
-package edu.monash.bthal2.repeatedPD;
+package edu.monash.bthal2.repeatedPD.DPDA;
 
 /**
  * Creates both Non-D and DPDA and tests if construction is successful/if

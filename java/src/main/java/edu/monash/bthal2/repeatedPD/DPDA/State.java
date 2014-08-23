@@ -249,4 +249,8 @@ public class State {
 			return false;
 		}
 	}
+
+	public void flip() {
+		isFinal = !isFinal;
+	}
 }
