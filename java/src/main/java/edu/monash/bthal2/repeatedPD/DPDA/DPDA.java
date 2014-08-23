@@ -196,6 +196,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return this.toString().hashCode();
 	}
 
+	public void removeState(State toRemove) {
+		// Possibly put checks here
+		states.remove(toRemove);
+	}
+
 	@Override
 	public String toString() {
 		// I am likely to add IDs to states

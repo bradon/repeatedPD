@@ -46,6 +46,10 @@ public class State {
 
 	}
 
+	public void removeTransition(Transition transition) {
+		transitions.remove(transition);
+	}
+
 	/**
 	 * Adds transition<br>
 	 * Returns true if added successfully
@@ -153,15 +157,19 @@ public class State {
 		public void setRead(Action read) {
 			this.read = read;
 		}
-		public void setPop (char pop) {
-			this.pop=pop;
+
+		public void setPop(char pop) {
+			this.pop = pop;
 		}
+
 		public char getPop() {
 			return pop;
 		}
-		public void setPush (char push) {
-			this.push=push;
+
+		public void setPush(char push) {
+			this.push = push;
 		}
+
 		public char getPush() {
 			return push;
 		}

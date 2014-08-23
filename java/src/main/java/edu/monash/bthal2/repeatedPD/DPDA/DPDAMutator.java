@@ -169,12 +169,42 @@ public class DPDAMutator implements AgentMutator {
 			}
 			break;
 		case REMOVESTATE:
+			// Going to be a bit complex
+			// If 1 state, do nothing
+			// if >1, delete state and redirect transitions
+			// redirect transitions will require stepping through all
+			// transitions
+			ArrayList<State> rsstates = automaton.getStates();
+
+			if (rsstates.size() > 1) {
+				State rmState;
+				rmState = rsstates.get(Random.nextInt(rsstates.size()));
+				automaton.removeState(rmState);
+				// Iterate through remaining states
+				rsstates = automaton.getStates();
+				for (State state : rsstates) {
+					for (Transition transition : state.getTransitions()) {
+						// Change destination can create loops, can't remove
+						// determinism
+						transition.changeDestination(rsstates.get(Random
+								.nextInt(rsstates.size())));
+					}
+				}
+
+			} else {
+				// Cant remove action?
+			}
 			break;
 		case REMOVETRANSITION:
+			ArrayList<State> rtstates = automaton.getStates();
+			State rtState = rtstates.get(Random.nextInt(rtstates.size()));
+			ArrayList<Transition> rttransitions = rtState.getTransitions();
+			if (rttransitions.size() > 0) {
+				Transition rttransition = rttransitions.get(Random
+						.nextInt(rttransitions.size()));
+				rtState.removeTransition(rttransition);
+			}
 			break;
-		default:
-			break;
-
 		}
 
 		return automaton;
