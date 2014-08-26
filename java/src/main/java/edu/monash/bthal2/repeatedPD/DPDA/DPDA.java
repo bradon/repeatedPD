@@ -1,6 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -23,7 +22,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 	// TODO: Pop stack marker should always push stack marker?
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
-	public static final char[] stackAlphabet = { 'l', '$', 'a', 'b' };
+	//TODO: remove temp fsa-ification
+	public static final char[] stackAlphabet = { 'l', '$', 'a' };
+	//public static final char[] stackAlphabet={'l'};
 	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
 			Action.DEFECT };
 	// Notes: -Testing for determinism is easiest to do from perspective of
@@ -143,7 +144,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				throw e;
 
 			} catch (NoTransitionException e) {
-				//System.out.println("No transition found");
+				// System.out.println("No transition found");
 				prefixInLanguage = false;
 				return defaultAction;
 			} catch (CycleException e) {

@@ -80,18 +80,7 @@ public class DPDAMutator implements AgentMutator {
 		// Some change transition events share code too
 		switch (mutationEvent) {
 		case ADDSTATE:
-
-			// Add mutations?
-			State newState = new State();
-			automaton.addState(newState);
-			// 50/50 what the state is.....
-			if (Random.nextBoolean()) {
-				newState.flip();
-			}
-			boolean addTransitionsWithState = true;
-			if (addTransitionsWithState) {
-				// Increase chance of state being useful?
-			}
+			addState(automaton);
 			break;
 		case ADDTRANSITION:
 			ArrayList<State> atstates = automaton.getStates();
@@ -116,134 +105,10 @@ public class DPDAMutator implements AgentMutator {
 			}
 			break;
 		case CHANGEDESTINATION:
-			ArrayList<State> cdstates = automaton.getStates();
-			if (cdstates.size() > 1) {
-				State cdeminatingState = cdstates.get(Random.nextInt(cdstates
-						.size()));
-				ArrayList<Transition> transitions = cdeminatingState
-						.getTransitions();
-				if (transitions.size() > 0) {
-					// TODO: aa
-					Transition transition = transitions.get(Random
-							.nextInt(transitions.size()));
-					// Remove Transition, then Add after change.
-					// This way determinism check is run.
-					Transition cdnewTransition = cdeminatingState
-							.copyTransition(transition);
-					cdeminatingState.removeTransition(transition);
-					// Change: Base probability of destination partly on
-					// 'distance' from current state?
-					cdnewTransition.changeDestination(cdstates.get(Random
-							.nextInt(cdstates.size())));
-					if (!cdeminatingState.addTransition(cdnewTransition)) {
-						// if addition fails
-						// revert to original! (with transition moved->
-						// problem?)
-						cdeminatingState.addTransition(transition);
-					}
-				} else {
-					// Switch to add transition?
-				}
-			} else {
-				// Switch to add state?
-			}
-			break;
 		case CHANGEPOP:
-			ArrayList<State> cpstates = automaton.getStates();
-			if (cpstates.size() > 1) {
-				State cdeminatingState = cpstates.get(Random.nextInt(cpstates
-						.size()));
-				ArrayList<Transition> transitions = cdeminatingState
-						.getTransitions();
-				if (transitions.size() > 0) {
-					Transition transition = transitions.get(Random
-							.nextInt(transitions.size()));
-					// Remove Transition, then Add after change.
-					// This way determinism check is run.
-					Transition cpnewTransition = cdeminatingState
-							.copyTransition(transition);
-					cdeminatingState.removeTransition(transition);
-
-					// Change: Base probability of destination partly on
-					// 'distance' from current state?
-					cpnewTransition.setPop((DPDA.stackAlphabet[Random
-							.nextInt(DPDA.stackAlphabet.length)]));
-					if (!cdeminatingState.addTransition(cpnewTransition)) {
-						// if addition fails
-						// revert to original! (with transition moved->
-						// problem?)
-						cdeminatingState.addTransition(transition);
-					}
-				} else {
-					// Switch to add transition?
-				}
-			} else {
-				// Switch to add state?
-			}
-			break;
 		case CHANGEPUSH:
-			ArrayList<State> cpustates = automaton.getStates();
-			if (cpustates.size() > 1) {
-				State cdeminatingState = cpustates.get(Random.nextInt(cpustates
-						.size()));
-				ArrayList<Transition> transitions = cdeminatingState
-						.getTransitions();
-				if (transitions.size() > 0) {
-					Transition transition = transitions.get(Random
-							.nextInt(transitions.size()));
-					// Remove Transition, then Add after change.
-					// This way determinism check is run.
-					Transition cpunewTransition = cdeminatingState
-							.copyTransition(transition);
-					cdeminatingState.removeTransition(transition);
-					// Change: Base probability of destination partly on
-					// 'distance' from current state?
-					cpunewTransition.setPush((DPDA.stackAlphabet[Random
-							.nextInt(DPDA.stackAlphabet.length)]));
-					if (!cdeminatingState.addTransition(cpunewTransition)) {
-						// if addition fails
-						// revert to original! (with transition moved->
-						// problem?)
-						cdeminatingState.addTransition(transition);
-					}
-				} else {
-					// Switch to add transition?
-				}
-			} else {
-				// Switch to add state?
-			}
-			break;
 		case CHANGEREAD:
-			ArrayList<State> crstates = automaton.getStates();
-			if (crstates.size() > 1) {
-				State cdeminatingState = crstates.get(Random.nextInt(crstates
-						.size()));
-				ArrayList<Transition> transitions = cdeminatingState
-						.getTransitions();
-				if (transitions.size() > 0) {
-					Transition transition = transitions.get(Random
-							.nextInt(transitions.size()));
-					// Remove Transition, then Add after change.
-					// This way determinism check is run.
-					Transition crnewTransition = cdeminatingState
-							.copyTransition(transition);
-					cdeminatingState.removeTransition(transition);
-					// Change: Base probability of destination partly on
-					// 'distance' from current state?
-					crnewTransition.setRead((DPDA.inputAlphabet[Random
-							.nextInt(DPDA.inputAlphabet.length)]));
-					if (!cdeminatingState.addTransition(crnewTransition)) {
-						// if addition fails
-						// revert to original! (with transition moved->
-						// problem?)
-						cdeminatingState.addTransition(transition);
-					}
-				} else {
-					// Switch to add transition?
-				}
-			} else {
-				// Switch to add state?
-			}
+			changeTransition(automaton, mutationEvent);
 			break;
 		case REMOVESTATE:
 			// Going to be a bit complex
@@ -340,5 +205,109 @@ public class DPDAMutator implements AgentMutator {
 			}
 		}
 		return mutationEvents;
+	}
+
+	/**
+	 * Add a state to an automaton
+	 * 
+	 * @param dpda
+	 */
+	public void addState(DPDA dpda) {
+		boolean addOutwardsTransitionsWithState = true;
+		boolean addInwardsTransitionWithState = true;
+		// Options:
+		// add state, do nothing
+		// add state, add transition to
+		// add state, add transitions from
+		// add state, add transitions to+from
+		// last compatible with pruning
+
+		State newState = new State();
+		dpda.addState(newState);
+		// 50/50 what the state is.....
+		if (Random.nextBoolean()) {
+			newState.flip();
+		}
+
+		if (addOutwardsTransitionsWithState) {
+			// Increase chance of state being useful?
+			// Allow pruning function to do its thing
+			newState.addTransition(newState.new Transition(dpda.getStates()
+					.get(Random.nextInt(dpda.getStates().size())),
+					Action.COOPERATE, DPDA.emptyChar, DPDA.emptyChar));
+			newState.addTransition(newState.new Transition(dpda.getStates()
+					.get(Random.nextInt(dpda.getStates().size())),
+					Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar));
+		}
+		if (addInwardsTransitionWithState) {
+
+		}
+	}
+
+	/**
+	 * Random prune
+	 * 
+	 * @param dpda
+	 */
+	public void prune(DPDA dpda) {
+		ArrayList<State> states = dpda.getStates();
+		// Pick a random part of the dpda except head
+		State state = states.get(1 + Random.nextInt(states.size() - 1));
+		for (State sourceState : states) {
+			for (Transition transition : sourceState.getTransitions()) {
+				if (transition.getDestination() == state)
+					// If state selected is reachable
+					return;
+			}
+		}
+		// State unreachable
+		dpda.removeState(state);
+	}
+
+	/**
+	 * @param dpda
+	 * @param mutationEvent
+	 */
+	public void changeTransition(DPDA dpda, MutationEvent mutationEvent) {
+		ArrayList<State> cdstates = dpda.getStates();
+		if (cdstates.size() > 1) {
+			State state = cdstates.get(Random.nextInt(cdstates.size()));
+			ArrayList<Transition> transitions = state.getTransitions();
+			if (transitions.size() > 0) {
+				Transition transition = transitions.get(Random
+						.nextInt(transitions.size()));
+				Transition newTransition = state.copyTransition(transition);
+				state.removeTransition(transition);
+				// Change: Base probability of destination partly on
+				// 'distance' from current state?
+				switch (mutationEvent) {
+				case CHANGEDESTINATION:
+					newTransition.changeDestination(cdstates.get(Random
+							.nextInt(cdstates.size())));
+					break;
+				case CHANGEPOP:
+					newTransition.setPop((DPDA.stackAlphabet[Random
+							.nextInt(DPDA.stackAlphabet.length)]));
+					break;
+				case CHANGEPUSH:
+					newTransition.setPush((DPDA.stackAlphabet[Random
+							.nextInt(DPDA.stackAlphabet.length)]));
+					break;
+				case CHANGEREAD:
+					newTransition.setRead((DPDA.inputAlphabet[Random
+							.nextInt(DPDA.inputAlphabet.length)]));
+					break;
+				default:
+					System.out.println("Unreachable code reached");
+					break;
+				}
+				if (!state.addTransition(newTransition)) {
+					// if addition fails
+					// revert to original! (with transition moved->
+					// problem?)
+					state.addTransition(transition);
+				}
+			}
+		}
 	}
 }
