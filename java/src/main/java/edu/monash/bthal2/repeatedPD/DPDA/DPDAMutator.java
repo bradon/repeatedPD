@@ -129,14 +129,21 @@ public class DPDAMutator implements AgentMutator {
 					for (Transition transition : state.getTransitions()) {
 						// Change destination can create loops, can't remove
 						// determinism
-						transition.changeDestination(rsstates.get(Random
-								.nextInt(rsstates.size())));
+
+						// TODO: Check if a loop is created
+						State randomState = rsstates.get(Random
+								.nextInt(rsstates.size()));
+						// Basic self-loop check, identifies empty, $ or
+						// empty->? to self
+						if (!(randomState == state && transition.getRead() == null)
+								&& (transition.getPop() == DPDA.stackMarker || transition
+										.getPop() == DPDA.emptyChar)) {
+							transition.changeDestination(randomState);
+						}
 					}
 				}
-
-			} else {
-				// Cant remove action?
 			}
+
 			break;
 		case REMOVETRANSITION:
 			ArrayList<State> rtstates = automaton.getStates();
@@ -265,6 +272,8 @@ public class DPDAMutator implements AgentMutator {
 	}
 
 	/**
+	 * Change A Random Transition Function
+	 * 
 	 * @param dpda
 	 * @param mutationEvent
 	 */
@@ -309,5 +318,9 @@ public class DPDAMutator implements AgentMutator {
 				}
 			}
 		}
+	}
+
+	public void addTransition(DPDA dpda) {
+
 	}
 }
