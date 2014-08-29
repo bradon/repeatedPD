@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import automata.State;
 import automata.Transition;
+import automata.UnreachableStatesDetector;
 import automata.pda.PushdownAutomaton;
 import automata.pda.PDATransition;
 
@@ -28,7 +29,7 @@ public class PDAMutator implements AgentMutator {
 	double changeFinalStateProbability = uniformShare;
 	double deleteStateProbability = uniformShare;
 
-	String[] readAlphabet = { "C", "D" };
+	String[] readAlphabet = { "C", "D", "" };
 	String[] stackAlphabet = { "0", "" }; // Modifiable for each
 											// PDA?
 
@@ -40,6 +41,22 @@ public class PDAMutator implements AgentMutator {
 	private void addState(PushdownAutomaton pda, int statesCount) {
 		State newState = pda.createState(new Point(0, 0));
 		newState.setLabel("q" + statesCount);
+		// Reroute random transition
+		Transition[] transitions = pda.getTransitions();
+		if (transitions.length > 0) {
+			Transition transition = transitions[Random
+					.nextInt(transitions.length)];
+			transition.setToState(newState);
+		}
+	}
+
+	public void prune(PushdownAutomaton pda) {
+
+		UnreachableStatesDetector detector = new UnreachableStatesDetector(pda);
+		State[] unreachableStates = detector.getUnreachableStates();
+		for (State unreachableState : unreachableStates) {
+			pda.removeState(unreachableState);
+		}
 	}
 
 	private void addTransition(PushdownAutomaton pda) {
@@ -61,11 +78,13 @@ public class PDAMutator implements AgentMutator {
 	public void changeDestination(PushdownAutomaton pda) {
 		State[] states = pda.getStates();
 		Transition[] transitions = pda.getTransitions();
-		PDATransition toChange = (PDATransition) transitions[Random
-				.nextInt(transitions.length)];
-		PDATransition newTransition = (PDATransition) toChange.clone();
-		newTransition.setToState(states[Random.nextInt(states.length)]);
-		pda.replaceTransition(toChange, newTransition);
+		if (transitions.length > 0) {
+			PDATransition toChange = (PDATransition) transitions[Random
+					.nextInt(transitions.length)];
+			PDATransition newTransition = (PDATransition) toChange.clone();
+			newTransition.setToState(states[Random.nextInt(states.length)]);
+			pda.replaceTransition(toChange, newTransition);
+		}
 	}
 
 	public void changeTransition(PushdownAutomaton pda) {
@@ -86,23 +105,29 @@ public class PDAMutator implements AgentMutator {
 
 	public void changePush(PushdownAutomaton pda) {
 		Transition[] transitions = pda.getTransitions();
-		PDATransition toChange = (PDATransition) transitions[Random
-				.nextInt(transitions.length)];
-		String newPush = stackAlphabet[Random.nextInt(stackAlphabet.length)];
-		PDATransition newTransition = new PDATransition(
-				toChange.getFromState(), toChange.getToState(),
-				toChange.getInputToRead(), toChange.getStringToPop(), newPush);
-		pda.replaceTransition(toChange, newTransition);
+		if (transitions.length > 0) {
+			PDATransition toChange = (PDATransition) transitions[Random
+					.nextInt(transitions.length)];
+
+			String newPush = stackAlphabet[Random.nextInt(stackAlphabet.length)];
+			PDATransition newTransition = new PDATransition(
+					toChange.getFromState(), toChange.getToState(),
+					toChange.getInputToRead(), toChange.getStringToPop(),
+					newPush);
+			pda.replaceTransition(toChange, newTransition);
+		}
 	}
 
 	public void changeSource(PushdownAutomaton pda) {
 		State[] states = pda.getStates();
 		Transition[] transitions = pda.getTransitions();
-		PDATransition toChange = (PDATransition) transitions[Random
-				.nextInt(transitions.length)];
-		PDATransition newTransition = (PDATransition) toChange.clone();
-		newTransition.setFromState(states[Random.nextInt(states.length)]);
-		pda.replaceTransition(toChange, newTransition);
+		if (transitions.length > 0) {
+			PDATransition toChange = (PDATransition) transitions[Random
+					.nextInt(transitions.length)];
+			PDATransition newTransition = (PDATransition) toChange.clone();
+			newTransition.setFromState(states[Random.nextInt(states.length)]);
+			pda.replaceTransition(toChange, newTransition);
+		}
 	}
 
 	public void changeFinal(PushdownAutomaton pda) {
@@ -156,6 +181,7 @@ public class PDAMutator implements AgentMutator {
 			// mutate
 			PushdownAutomaton pda = (PushdownAutomaton) ((PDAStrategy) agent)
 					.getPDA().clone();
+			prune(pda);
 			double mutationSelector = Random.nextDouble();
 			// System.out.println(mutationSelector);
 			if (mutationSelector < addStateProbability) {
