@@ -138,9 +138,6 @@ public class DPDAMutator implements AgentMutator {
 						// determinism
 
 						// TODO: Check if a loop is created
-						//
-						// TODO: This should reroute broken transitions, what
-						// the fuck is it doing now?
 
 						if (transition.getDestination() == rmState) {
 							State randomState = rsstates.get(Random
@@ -162,20 +159,6 @@ public class DPDAMutator implements AgentMutator {
 							}
 						}
 
-						// Basic self-loop check, identifies empty, $ or
-						// empty->? to self
-						// Second not?
-						// if (!(randomState == state && transition.getRead() ==
-						// null)
-						// && !(transition.getPop() == DPDA.stackMarker ||
-						// transition
-						// .getPop() == DPDA.emptyChar)) {
-						// transition.changeDestination(randomState);
-						// }
-
-						// *****BLOCK BELOW*****
-
-						// *****BLOCK ABOVE*****
 					}
 					for (Transition transition : removedTransitions) {
 						state.removeTransition(transition);
