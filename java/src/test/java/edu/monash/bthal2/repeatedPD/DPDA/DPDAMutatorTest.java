@@ -25,5 +25,10 @@ public class DPDAMutatorTest {
 		}
 		System.out.println(victim.toString());
 	}
+	
+	@Test
+	public void testForNull() {
+		
+	}
 
 }

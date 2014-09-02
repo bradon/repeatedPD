@@ -1,5 +1,6 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -69,8 +70,12 @@ public class State {
 					return false;
 				}
 			} else {
-				transitions.add(newTransition);
-				return true;
+				if (newTransition.getDestination() != null) {
+					transitions.add(newTransition);
+					return true;
+				} else {
+					System.out.println("ADD TRANSITION: ADDING NULL ATTEMPTED");
+				}
 				// System.out.println("wasn't do nothing");
 			}
 		} else {
@@ -130,6 +135,15 @@ public class State {
 			// until
 			// one does
 			if (transition.read == null) {
+				// TODO: newstate can be null, why
+				// Does this occur on running automaton with a null transition
+				// at first
+				if (newState == null) {
+					// Null due to no transition to follow? (why does
+					// possibleTransitions return nonzero size?)
+					throw new NoTransitionException();
+					// System.out.println("State was null");
+				}
 				return newState.readInput(stack, input,
 						statesVisitedThisInput + 1);
 			}
@@ -250,8 +264,18 @@ public class State {
 			return indexOfNonDeterministicPartners;
 		}
 
+		/**
+		 * Do nothing to self disallowed.
+		 * 
+		 * To self checked externally to this
+		 * 
+		 * @return
+		 */
 		public boolean isDoNothingTransition() {
 			if (pop == DPDA.emptyChar && read == null) {
+				return true;
+			}
+			if (read == null && pop == push) {
 				return true;
 			}
 			return false;

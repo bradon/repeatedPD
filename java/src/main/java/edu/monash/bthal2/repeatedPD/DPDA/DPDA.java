@@ -1,5 +1,6 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -8,23 +9,26 @@ import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
+import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator.MutationEvent;
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.CycleException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.MultipleTransitionException;
 import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
 
 /**
+ * Deterministic Pushdown Automata that play the half-memory Prisoner's Dilemma
+ * 
  * @author Bradon Hall
  * 
  */
 public class DPDA implements Agent, RepeatedStrategy {
-
+	public MutationEvent lastMutation = null;
 	// TODO: Pop stack marker should always push stack marker?
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
-	//TODO: remove temp fsa-ification
-	public static final char[] stackAlphabet = { 'l', '$', 'a' };
-	//public static final char[] stackAlphabet={'l'};
+	// TODO: remove temp fsa-ification
+	public static final char[] stackAlphabet = { 'l', 'a' };
+	// public static final char[] stackAlphabet={'l'};
 	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
 			Action.DEFECT };
 	// Notes: -Testing for determinism is easiest to do from perspective of
@@ -44,9 +48,12 @@ public class DPDA implements Agent, RepeatedStrategy {
 	// in the language
 	protected boolean prefixInLanguage = true;
 
+	/**
+	 * Create ALLD automaton by default
+	 */
 	public DPDA() {
 		// Initialize to ALLD
-
+		// TODO: something wrong here?
 		// Set current state
 		currentState = initialState;
 
@@ -54,6 +61,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 		stack.add('$');
 	}
 
+	/**
+	 * Create a copy of the current automaton
+	 * 
+	 * @return Copy of Automaton
+	 */
 	public DPDA copy() {
 		// Copy can ignore the stack
 		// Must create new states. Transitions need a way to know what the new
@@ -69,15 +81,21 @@ public class DPDA implements Agent, RepeatedStrategy {
 		for (State state : states) {
 			newDPDA.addState(map.get(state));
 			map.get(state).isFinal = state.isFinal;
+
 			State newState = map.get(state);
 			// Set state id?
 			for (Transition transition : state.getTransitions()) {
 				// map old transition to new
 				State newDestination = map.get(transition.getDestination());
-				Transition newTransition = newState.new Transition(
-						newDestination, transition.getRead(),
-						transition.getPop(), transition.getPush());
-				map.get(state).addTransition(newTransition);
+				if (newDestination == null) {
+					System.out.println("COPY HAD A NULL STATE");
+					printStrategy();
+				} else {
+					Transition newTransition = newState.new Transition(
+							newDestination, transition.getRead(),
+							transition.getPop(), transition.getPush());
+					map.get(state).addTransition(newTransition);
+				}
 			}
 		}
 
@@ -85,6 +103,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	}
 
+	/**
+	 * @param state
+	 */
 	public void addState(State state) {
 		states.add(state);
 	}
@@ -99,6 +120,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 	}
 
 	public Action currentAction() {
+		if (currentState == null) {
+			System.out.println("Current state is null");
+			// printStrategy();
+			return defaultAction;
+		}
 		if (currentState.isFinal && prefixInLanguage) {
 			return Action.COOPERATE;
 		} else {
@@ -128,10 +154,31 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return false;
 	}
 
+	/**
+	 * Follow the DPDA according to an input
+	 * 
+	 * @param input
+	 * @return
+	 * @throws MultipleTransitionException
+	 */
 	public Action readInput(Action input) throws MultipleTransitionException {
 		if (prefixInLanguage) {
 			try {
+				if (currentState == null) {
+					System.out
+							.println("Current state was null before following transition");
+					prefixInLanguage = false;
+					return defaultAction;
+				}
+				// printStrategy();
+				// System.out.println(currentState.isFinal)
 				currentState = currentState.readInput(stack, input);
+				if (currentState == null) {
+					System.out
+							.println("Current state was null after following transition");
+					prefixInLanguage = false;
+					return defaultAction;
+				}
 				if (currentState.isFinal) {
 					return Action.COOPERATE;
 				} else {
@@ -239,7 +286,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				} else {
 					builder.append("D");
 				}
-				builder.append("," + transition.getPop() + "->"
+				builder.append("." + transition.getPop() + "->"
 						+ transition.getPush());
 				builder.append("&");
 			}

@@ -17,7 +17,9 @@ public class DPDAFactory implements AgentBasedPopulationFactory {
 	public AgentBasedPopulation createPopulation() {
 		Agent[] agents = new DPDA[popSize];
 		for (int i = 0; i < popSize; i++) {
-			agents[i] = new DPDA();
+			agents[i]=ExampleStrategies.allD();
+			//((DPDA)agents[i]).reset();
+			//agents[i] = new DPDA();
 		}
 		return new ExtensivePopulationImpl(agents);
 	}

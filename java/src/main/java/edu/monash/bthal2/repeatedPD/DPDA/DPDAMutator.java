@@ -1,5 +1,6 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.evolutionandgames.agentbased.Agent;
@@ -50,7 +51,7 @@ public class DPDAMutator implements AgentMutator {
 			changingPopProbability, changingPushProbability,
 			changingDestinationProbability, flipState };
 
-	private enum MutationEvent {
+	public enum MutationEvent {
 		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION, FLIPSTATE
 	}
 
@@ -62,6 +63,7 @@ public class DPDAMutator implements AgentMutator {
 		for (MutationEvent mutationEvent : mutationEvents) {
 			applyMutation(newDPDA, mutationEvent);
 		}
+		dprune(newDPDA);
 		return newDPDA;
 	}
 
@@ -78,6 +80,7 @@ public class DPDAMutator implements AgentMutator {
 		// TODO: most of these are complicated enough to justify seperating to
 		// new functions
 		// Some change transition events share code too
+		// System.out.println(mutationEvent);
 		switch (mutationEvent) {
 		case ADDSTATE:
 			addState(automaton);
@@ -96,6 +99,9 @@ public class DPDAMutator implements AgentMutator {
 					.nextInt(DPDA.stackAlphabet.length)];
 			State newDestination = atstates
 					.get(Random.nextInt(atstates.size()));
+			if (newDestination == null) {
+				System.out.println("Tried to randomly add null");
+			}
 			Transition newTransition = atEminatingStates.new Transition(
 					newDestination, newRead, newPop, newPush);
 			if (atEminatingStates.addTransition(newTransition)) {
@@ -126,20 +132,53 @@ public class DPDAMutator implements AgentMutator {
 				// Iterate through remaining states
 				rsstates = automaton.getStates();
 				for (State state : rsstates) {
+					ArrayList<Transition> removedTransitions = new ArrayList<Transition>();
 					for (Transition transition : state.getTransitions()) {
 						// Change destination can create loops, can't remove
 						// determinism
 
 						// TODO: Check if a loop is created
-						State randomState = rsstates.get(Random
-								.nextInt(rsstates.size()));
+						//
+						// TODO: This should reroute broken transitions, what
+						// the fuck is it doing now?
+
+						if (transition.getDestination() == rmState) {
+							State randomState = rsstates.get(Random
+									.nextInt(rsstates.size()));
+							if (transition.getRead() == null
+									&& randomState == state) {
+								// Self Transition
+								if (transition.getPop() == DPDA.stackMarker
+										|| transition.getPop() == DPDA.emptyChar) {
+									// Empty self transition, just remove
+									// instead
+									removedTransitions.add(transition);
+								} else {
+									transition.changeDestination(randomState);
+								}
+							} else {
+								// Non-self
+								transition.changeDestination(randomState);
+							}
+						}
+
 						// Basic self-loop check, identifies empty, $ or
 						// empty->? to self
-						if (!(randomState == state && transition.getRead() == null)
-								&& (transition.getPop() == DPDA.stackMarker || transition
-										.getPop() == DPDA.emptyChar)) {
-							transition.changeDestination(randomState);
-						}
+						// Second not?
+						// if (!(randomState == state && transition.getRead() ==
+						// null)
+						// && !(transition.getPop() == DPDA.stackMarker ||
+						// transition
+						// .getPop() == DPDA.emptyChar)) {
+						// transition.changeDestination(randomState);
+						// }
+
+						// *****BLOCK BELOW*****
+
+						// *****BLOCK ABOVE*****
+					}
+					for (Transition transition : removedTransitions) {
+						state.removeTransition(transition);
 					}
 				}
 			}
@@ -247,7 +286,18 @@ public class DPDAMutator implements AgentMutator {
 					Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar));
 		}
 		if (addInwardsTransitionWithState) {
-
+			// Reroute existing transition
+			State sourceState = dpda.getStates().get(
+					Random.nextInt(dpda.getStates().size()));
+			ArrayList<Transition> transitions = sourceState.getTransitions();
+			if (transitions.size() < 1) {
+				return;
+			}
+			Transition transition = transitions.get(Random.nextInt(transitions
+					.size()));
+			if (transition != null) {
+				transition.changeDestination(newState);
+			}
 		}
 	}
 
@@ -256,7 +306,7 @@ public class DPDAMutator implements AgentMutator {
 	 * 
 	 * @param dpda
 	 */
-	public void prune(DPDA dpda) {
+	public void rprune(DPDA dpda) {
 		ArrayList<State> states = dpda.getStates();
 		// Pick a random part of the dpda except head
 		State state = states.get(1 + Random.nextInt(states.size() - 1));
@@ -271,6 +321,37 @@ public class DPDAMutator implements AgentMutator {
 		dpda.removeState(state);
 	}
 
+	public void dprune(DPDA dpda) {
+		ArrayList<State> states = dpda.getStates();
+		ArrayList<State> statesToRemove = new ArrayList<State>();
+		for (State destinationState : states) {
+			boolean reachable = false;
+			for (State sourceState : states) {
+				for (Transition transition : sourceState.getTransitions()) {
+					if (transition.getDestination() == destinationState) {
+						// If state selected is reachable
+						reachable = true;
+					}
+					if (reachable)
+						break;
+				}
+				if (reachable)
+					break;
+			}
+			// State unreachable
+			if (!reachable) {
+				statesToRemove.add(destinationState);
+				// dpda.removeState(destinationState);
+			}
+		}
+		for (State removeState : statesToRemove) {
+			if (removeState != dpda.getInitialState()) {
+				dpda.removeState(removeState); // LINKS! what?
+			}
+		}
+
+	}
+
 	/**
 	 * Change A Random Transition Function
 	 * 
@@ -278,9 +359,9 @@ public class DPDAMutator implements AgentMutator {
 	 * @param mutationEvent
 	 */
 	public void changeTransition(DPDA dpda, MutationEvent mutationEvent) {
-		ArrayList<State> cdstates = dpda.getStates();
-		if (cdstates.size() > 1) {
-			State state = cdstates.get(Random.nextInt(cdstates.size()));
+		ArrayList<State> states = dpda.getStates();
+		if (states.size() > 1) {
+			State state = states.get(Random.nextInt(states.size()));
 			ArrayList<Transition> transitions = state.getTransitions();
 			if (transitions.size() > 0) {
 				Transition transition = transitions.get(Random
@@ -291,8 +372,13 @@ public class DPDAMutator implements AgentMutator {
 				// 'distance' from current state?
 				switch (mutationEvent) {
 				case CHANGEDESTINATION:
-					newTransition.changeDestination(cdstates.get(Random
-							.nextInt(cdstates.size())));
+					State newDestination = states.get(Random.nextInt(states
+							.size()));
+					if (newDestination == null) {
+						System.out.println("Randomly selected null");
+					}
+
+					newTransition.changeDestination(newDestination);
 					break;
 				case CHANGEPOP:
 					newTransition.setPop((DPDA.stackAlphabet[Random
