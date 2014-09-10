@@ -259,7 +259,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		// Start by printing each state, indexed by position in states arraylist
 		// Postfix F if final
 		StringBuilder builder = new StringBuilder();
-		builder.append("S:");
+		builder.append("S#");
 		for (int i = 0; i < states.size(); i++) {
 			if (i > 0) {
 				builder.append("&");
@@ -269,7 +269,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				builder.append("F");
 			}
 		}
-		builder.append("T:");
+		builder.append("T#");
 		// This is terrible, revisit asap
 		// No need to search for states each time
 		for (int i = 0; i < states.size(); i++) {
@@ -278,7 +278,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				builder.append("-");
 				builder.append("q"
 						+ states.indexOf(transition.getDestination()));
-				builder.append(":");
+				builder.append("v");
 				if (transition.getRead() == null) {
 					builder.append(emptyChar);
 				} else if (transition.getRead() == Action.COOPERATE) {
