@@ -10,6 +10,10 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 
+/**
+ * @author bradon
+ * 
+ */
 public class DPDAMutator implements AgentMutator {
 	// in json set this to 1/n
 	private double mutationProbabilityPerState; // For testing its high
@@ -63,7 +67,8 @@ public class DPDAMutator implements AgentMutator {
 		for (MutationEvent mutationEvent : mutationEvents) {
 			applyMutation(newDPDA, mutationEvent);
 		}
-		dprune(newDPDA);
+		// dprune(newDPDA);
+		pruneDisconnectedStates(newDPDA);
 		return newDPDA;
 	}
 
@@ -87,28 +92,25 @@ public class DPDAMutator implements AgentMutator {
 			break;
 		case ADDTRANSITION:
 			ArrayList<State> atstates = automaton.getStates();
-			State atEminatingStates = atstates.get(Random.nextInt(atstates
-					.size()));
-			// Generate a new transition
-			Action newRead = DPDA.inputAlphabet[Random
-					.nextInt(DPDA.inputAlphabet.length)];
-			// Pop, Push- bias towards null?
-			char newPop = DPDA.stackAlphabet[Random
-					.nextInt(DPDA.stackAlphabet.length)];
-			char newPush = DPDA.stackAlphabet[Random
-					.nextInt(DPDA.stackAlphabet.length)];
-			State newDestination = atstates
+			State eminatingState = atstates
 					.get(Random.nextInt(atstates.size()));
-			if (newDestination == null) {
-				System.out.println("Tried to randomly add null");
-			}
-			Transition newTransition = atEminatingStates.new Transition(
-					newDestination, newRead, newPop, newPush);
-			if (atEminatingStates.addTransition(newTransition)) {
-
-			} else {
-				// How to respond to transition addition failure
-			}
+			/*
+			 * // Generate a new transition Action newRead =
+			 * DPDA.inputAlphabet[Random .nextInt(DPDA.inputAlphabet.length)];
+			 * // Pop, Push- bias towards null? char newPop =
+			 * DPDA.stackAlphabet[Random .nextInt(DPDA.stackAlphabet.length)];
+			 * char newPush = DPDA.stackAlphabet[Random
+			 * .nextInt(DPDA.stackAlphabet.length)]; State newDestination =
+			 * atstates .get(Random.nextInt(atstates.size())); if
+			 * (newDestination == null) {
+			 * System.out.println("Tried to randomly add null"); } Transition
+			 * newTransition = atEminatingStates.new Transition( newDestination,
+			 * newRead, newPop, newPush); if
+			 * (atEminatingStates.addTransition(newTransition)) {
+			 * 
+			 * } else { // How to respond to transition addition failure }
+			 */
+			addTransition(automaton, eminatingState);
 			break;
 		case CHANGEDESTINATION:
 		case CHANGEPOP:
@@ -261,12 +263,16 @@ public class DPDAMutator implements AgentMutator {
 		if (addOutwardsTransitionsWithState) {
 			// Increase chance of state being useful?
 			// Allow pruning function to do its thing
-			newState.addTransition(newState.new Transition(dpda.getStates()
+
+			// Random transition
+			addTransition(dpda, newState);
+			addTransition(dpda, newState);
+/*			newState.addTransition(newState.new Transition(dpda.getStates()
 					.get(Random.nextInt(dpda.getStates().size())),
 					Action.COOPERATE, DPDA.emptyChar, DPDA.emptyChar));
 			newState.addTransition(newState.new Transition(dpda.getStates()
 					.get(Random.nextInt(dpda.getStates().size())),
-					Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar));
+					Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar));*/
 		}
 		if (addInwardsTransitionWithState) {
 			// Reroute existing transition
@@ -389,7 +395,75 @@ public class DPDAMutator implements AgentMutator {
 		}
 	}
 
-	public void addTransition(DPDA dpda) {
+	/**
+	 * Randomly add transition from a state
+	 * 
+	 * @param dpda
+	 * @param sourceState
+	 */
+	public void addTransition(DPDA dpda, State sourceState) {
+		// Generate a new transition
+		Action newRead = DPDA.inputAlphabet[Random
+				.nextInt(DPDA.inputAlphabet.length)];
+		// Pop, Push- bias towards null?
+		char newPop = DPDA.stackAlphabet[Random
+				.nextInt(DPDA.stackAlphabet.length)];
+		char newPush = DPDA.stackAlphabet[Random
+				.nextInt(DPDA.stackAlphabet.length)];
+		ArrayList<State> destinations = dpda.getStates();
+		State newDestination = destinations.get(Random.nextInt(destinations
+				.size()));
+		if (newDestination == null) {
+			System.out.println("Tried to randomly add null");
+		}
+		Transition newTransition = sourceState.new Transition(newDestination,
+				newRead, newPop, newPush);
+		if (sourceState.addTransition(newTransition)) {
 
+		} else {
+			// How to respond to transition addition failure
+		}
+	}
+
+	/**
+	 * Check if states connected, prune disconnected
+	 * 
+	 * @param dpda
+	 */
+	public void pruneDisconnectedStates(DPDA dpda) {
+		ArrayList<State> states = dpda.getStates();
+		ArrayList<State> discovered = new ArrayList<State>();
+		// Search from initial
+		dfs(discovered, states, dpda.getInitialState());
+		ArrayList<State> toRemove = new ArrayList<State>();
+		for (State state : states) {
+			if (discovered.contains(state)) {
+				// Safe
+			} else {
+				toRemove.add(state);
+			}
+		}
+		for (State remove : toRemove) {
+
+			dpda.removeState(remove);
+		}
+	}
+
+	/**
+	 * Depth First Search Connected states discovery
+	 * 
+	 * @param discovered
+	 * @param g
+	 * @param v
+	 */
+	private void dfs(ArrayList<State> discovered, ArrayList<State> g, State v) {
+		discovered.add(v);
+		for (Transition transition : v.getTransitions()) {
+			if (discovered.contains(transition.getDestination())) {
+				// vertex searched, do nothing
+			} else {
+				dfs(discovered, g, transition.getDestination());
+			}
+		}
 	}
 }
