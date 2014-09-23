@@ -411,11 +411,12 @@ public class DPDAMutator implements AgentMutator {
 		char newPop = DPDA.stackAlphabet[Random
 				.nextInt(DPDA.stackAlphabet.length)];
 		char newPush;
+		// Restrict newPush to non-stack marker unless it reads stack marker
 		if (newPop == DPDA.stackMarker) {
 			newPush = DPDA.stackMarker;
 		} else {
 			newPush = DPDA.stackAlphabet[Random
-					.nextInt(DPDA.stackAlphabet.length)];
+					.nextInt(DPDA.stackAlphabet.length-1)];
 		}
 		ArrayList<State> destinations = dpda.getStates();
 		State newDestination = destinations.get(Random.nextInt(destinations
