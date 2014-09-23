@@ -244,7 +244,7 @@ public class DPDAMutator implements AgentMutator {
 	 * @param dpda
 	 */
 	public void addState(DPDA dpda) {
-		boolean addOutwardsTransitionsWithState = true;
+		boolean addOutwardsTransitionsWithState = false;
 		boolean addInwardsTransitionWithState = true;
 		// Options:
 		// add state, do nothing

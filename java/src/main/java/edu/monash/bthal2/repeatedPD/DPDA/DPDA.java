@@ -1,6 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -27,8 +26,8 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
 	// TODO: remove temp fsa-ification
-	public static final char[] stackAlphabet = { 'l', 'a' };
-	//public static final char[] stackAlphabet={'l'};
+	// public static final char[] stackAlphabet = { 'l', 'a' };
+	public static final char[] stackAlphabet = { 'l' };
 	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
 			Action.DEFECT };
 	// Notes: -Testing for determinism is easiest to do from perspective of

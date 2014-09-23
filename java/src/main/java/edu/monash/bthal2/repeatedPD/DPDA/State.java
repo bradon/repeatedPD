@@ -147,10 +147,49 @@ public class State {
 				return newState.readInput(stack, input,
 						statesVisitedThisInput + 1);
 			}
-			return newState;
+			if (newState.isFinal) {
+				return newState;
+			} else {
+				return followNullTransitions(newState);
+			}
+
 		} else {
 			throw new CycleException();
 		}
+	}
+
+	/**
+	 * Follow Null Transitions
+	 * 
+	 * @param state
+	 * @return
+	 */
+	private State followNullTransitions(State state) {
+		return followNullTransitions(state, 0);
+	}
+
+	/**
+	 * Follow Null Transitions
+	 * 
+	 * @param state
+	 * @param count
+	 * @return
+	 */
+	private State followNullTransitions(State state, int count) {
+		if (count > loopTolerance) {
+			System.out.println("Appeared to have a loop");
+			return state;
+		}
+		for (Transition transition : state.transitions) {
+			if (transition.read == null) {
+				if (transition.destination.isFinal) {
+					return transition.destination;
+				} else {
+					return followNullTransitions(transition.destination);
+				}
+			}
+		}
+		return state;
 	}
 
 	public ArrayList<Transition> getTransitions() {
@@ -286,6 +325,10 @@ public class State {
 		isFinal = !isFinal;
 	}
 
+	/**
+	 * @param transition
+	 * @return
+	 */
 	public Transition copyTransition(Transition transition) {
 		Transition newTransition = this.new Transition(
 				transition.getDestination(), transition.getRead(),
