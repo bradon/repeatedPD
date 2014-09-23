@@ -8,6 +8,7 @@ import com.evolutionandgames.agentbased.extensive.AgentBasedWrightFisherProcessW
 import com.evolutionandgames.agentbased.extensive.ExtensivePopulation;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGame;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGamePayoffCalculator;
+import com.evolutionandgames.repeatedgames.utils.ExtraMeasuresProcessor;
 import com.evolutionandgames.repeatedgames.utils.RepeatedStrategyPopulationFactory;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -58,6 +59,10 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				.loadFromFile(filename);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile);
+		ExtraMeasuresProcessor extraProcessor=new ExtraMeasuresProcessor();
+		//ExtraMeasuresProcessor
+		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
+				app.reportEveryTimeSteps, app.seed, app.outputFile, extraProcessor);
 	}
 
 	public static String exampleJson() {

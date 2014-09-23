@@ -267,12 +267,14 @@ public class DPDAMutator implements AgentMutator {
 			// Random transition
 			addTransition(dpda, newState);
 			addTransition(dpda, newState);
-/*			newState.addTransition(newState.new Transition(dpda.getStates()
-					.get(Random.nextInt(dpda.getStates().size())),
-					Action.COOPERATE, DPDA.emptyChar, DPDA.emptyChar));
-			newState.addTransition(newState.new Transition(dpda.getStates()
-					.get(Random.nextInt(dpda.getStates().size())),
-					Action.DEFECT, DPDA.emptyChar, DPDA.emptyChar));*/
+			/*
+			 * newState.addTransition(newState.new Transition(dpda.getStates()
+			 * .get(Random.nextInt(dpda.getStates().size())), Action.COOPERATE,
+			 * DPDA.emptyChar, DPDA.emptyChar));
+			 * newState.addTransition(newState.new Transition(dpda.getStates()
+			 * .get(Random.nextInt(dpda.getStates().size())), Action.DEFECT,
+			 * DPDA.emptyChar, DPDA.emptyChar));
+			 */
 		}
 		if (addInwardsTransitionWithState) {
 			// Reroute existing transition
@@ -408,8 +410,12 @@ public class DPDAMutator implements AgentMutator {
 		// Pop, Push- bias towards null?
 		char newPop = DPDA.stackAlphabet[Random
 				.nextInt(DPDA.stackAlphabet.length)];
-		char newPush = DPDA.stackAlphabet[Random
-				.nextInt(DPDA.stackAlphabet.length)];
+		if (newPop == DPDA.stackMarker) {
+			char newPush = DPDA.stackMarker;
+		} else {
+			char newPush = DPDA.stackAlphabet[Random
+					.nextInt(DPDA.stackAlphabet.length)];
+		}
 		ArrayList<State> destinations = dpda.getStates();
 		State newDestination = destinations.get(Random.nextInt(destinations
 				.size()));
