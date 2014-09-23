@@ -705,7 +705,21 @@ We know enough to make some predictions about the behaviour of agents playing th
 We know that no strategy is the best strategy (all strategies can be invaded). 
 How the dynamics change when larger strategy spaces are allowed is not fully understood, and is the focus of my research.
 \chapter{Contribution Chapters}
+\section{Deterministic Pushdown Automata}
+%Rambling. Fix.
+Non-Deterministic Pushdown Automata have the advantage that they can represent all of the Regular Language strategy space, plus the Context-Free Language strategy space. They have the disadvantage that at any point multiple paths may be followed; a set of valid configurations is needed rather than a single configuration, impacting complexity and runtime. Using Deterministic Pushdown Automata removes this disadvantage, allowing only a single valid configuration. 
+It also limits the strategy space; all regular languages are still present, but now it is limited to Deterministic Context-Free Languages; and if only accept by state or only accept by empty stack is allowed, it is further limited. 
 
+It is useful to explore the statement of only one valid configuration with some examples, and convince ourselves that there is in fact only one valid configuration (with a caveat) for any DPDA. 
+Take an example where we have null transitions between several states, and transition from reading 'C' emanating from one of these states. 
+Is this a DPDA, and is there really only one configuration for any input? 
+The transition 'C' combined with a null transition from the same state results in non-determinism. 
+So far, this is trivial. What about when that 'C' transition does not exist? 
+We could justify stopping at any of the null states. 
+So, we do in fact have a few valid configurations- and different results for each configuration. 
+The question we ask when we present a sequence to an Automaton is whether it is in the language. 
+So, the only question we need to answer is if *one* of these configurations is accepting. 
+\subsection{Mutation}
 \chapter{Discussion Chapters}
 
 \chapter{Conclusion}
