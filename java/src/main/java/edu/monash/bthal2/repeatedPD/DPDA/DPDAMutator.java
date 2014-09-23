@@ -410,10 +410,11 @@ public class DPDAMutator implements AgentMutator {
 		// Pop, Push- bias towards null?
 		char newPop = DPDA.stackAlphabet[Random
 				.nextInt(DPDA.stackAlphabet.length)];
+		char newPush;
 		if (newPop == DPDA.stackMarker) {
-			char newPush = DPDA.stackMarker;
+			newPush = DPDA.stackMarker;
 		} else {
-			char newPush = DPDA.stackAlphabet[Random
+			newPush = DPDA.stackAlphabet[Random
 					.nextInt(DPDA.stackAlphabet.length)];
 		}
 		ArrayList<State> destinations = dpda.getStates();
