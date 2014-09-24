@@ -254,12 +254,12 @@ public class State {
 			// Pop, Pull, return state
 			if (pop != DPDA.emptyChar) {
 				stack.pop();
-				if (stack.size() == 0) {
+				//if (stack.size() == 0) {
 					// Prevent an empty stack, readd stack marker
 					// TODO: Is this the best solution? Force pop $, pull $
 					// instead?
-					stack.push('$');
-				}
+					//stack.push('$');
+				//}
 			}
 			if (push != DPDA.emptyChar) {
 				stack.push(push);

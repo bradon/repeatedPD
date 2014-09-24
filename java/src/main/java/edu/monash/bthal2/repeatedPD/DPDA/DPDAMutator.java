@@ -372,12 +372,17 @@ public class DPDAMutator implements AgentMutator {
 					newTransition.changeDestination(newDestination);
 					break;
 				case CHANGEPOP:
-					newTransition.setPop((DPDA.stackAlphabet[Random
-							.nextInt(DPDA.stackAlphabet.length)]));
+					char newPop = DPDA.stackAlphabet[Random
+							.nextInt(DPDA.stackAlphabet.length)];
+					newTransition.setPop(newPop);
+					if (newPop == DPDA.stackMarker) {
+						newTransition.setPush(DPDA.stackMarker);
+					}
+
 					break;
 				case CHANGEPUSH:
 					newTransition.setPush((DPDA.stackAlphabet[Random
-							.nextInt(DPDA.stackAlphabet.length)]));
+							.nextInt(DPDA.stackAlphabet.length - 1)]));
 					break;
 				case CHANGEREAD:
 					newTransition.setRead((DPDA.inputAlphabet[Random
@@ -416,7 +421,7 @@ public class DPDAMutator implements AgentMutator {
 			newPush = DPDA.stackMarker;
 		} else {
 			newPush = DPDA.stackAlphabet[Random
-					.nextInt(DPDA.stackAlphabet.length-1)];
+					.nextInt(DPDA.stackAlphabet.length - 1)];
 		}
 		ArrayList<State> destinations = dpda.getStates();
 		State newDestination = destinations.get(Random.nextInt(destinations

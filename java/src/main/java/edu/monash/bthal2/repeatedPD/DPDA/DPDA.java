@@ -26,6 +26,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
 	// TODO: remove temp fsa-ification
+	// Stack marker should be tail
 	public static final char[] stackAlphabet = { 'l', 'a', stackMarker };
 	// public static final char[] stackAlphabet = { 'l' };
 	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
@@ -57,7 +58,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		currentState = initialState;
 
 		// Set up stack marker
-		stack.add('$');
+		stack.add(stackMarker);
 	}
 
 	/**
