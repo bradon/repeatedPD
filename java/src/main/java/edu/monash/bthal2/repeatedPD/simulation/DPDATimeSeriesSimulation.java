@@ -59,10 +59,10 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				.loadFromFile(filename);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile);
-		ExtraMeasuresProcessor extraProcessor=new ExtraMeasuresProcessor();
+		//ExtraMeasuresProcessor extraProcessor=new ExtraMeasuresProcessor();
 		//ExtraMeasuresProcessor
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
-				app.reportEveryTimeSteps, app.seed, app.outputFile, extraProcessor);
+				app.reportEveryTimeSteps, app.seed, app.outputFile, null);
 	}
 
 	public static String exampleJson() {

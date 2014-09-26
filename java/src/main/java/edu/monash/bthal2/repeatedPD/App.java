@@ -13,6 +13,12 @@ import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOneTimeSeries;
 import edu.monash.bthal2.repeatedPD.simulation.PDAPayoffSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.PDATimeSeriesSimulation;
 
+/**
+ * Initializing class for running as jar
+ * 
+ * @author bradon
+ * 
+ */
 public class App {
 	@Parameter(names = { "-file", "-f" }, description = "Name of the json file")
 	private String file;

@@ -4,6 +4,11 @@ import edu.monash.bthal2.repeatedPD.JFLAPoverride.PDAStepByStateSimulator;
 import automata.Automaton;
 
 
+
+/**
+ * @author Bradon Hall
+ *
+ */
 public class PDASimulator extends PDAStepByStateSimulator {
 
 	String inputString="";
