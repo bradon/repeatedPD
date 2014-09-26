@@ -1,6 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -176,6 +175,7 @@ public class State {
 	 * @return
 	 */
 	private State followNullTransitions(State state, int count) {
+		count=count+1;
 		if (count > loopTolerance) {
 			System.out.println("Appeared to have a loop");
 			return state;
@@ -185,7 +185,7 @@ public class State {
 				if (transition.destination.isFinal) {
 					return transition.destination;
 				} else {
-					return followNullTransitions(transition.destination);
+					return followNullTransitions(transition.destination, count);
 				}
 			}
 		}
@@ -254,15 +254,13 @@ public class State {
 			// Pop, Pull, return state
 			if (pop != DPDA.emptyChar) {
 				stack.pop();
-				//if (stack.size() == 0) {
-					// Prevent an empty stack, readd stack marker
-					// TODO: Is this the best solution? Force pop $, pull $
-					// instead?
-					//stack.push('$');
-				//}
 			}
 			if (push != DPDA.emptyChar) {
 				stack.push(push);
+			}
+			if (stack.size() == 0) {
+				// Prevent an empty stack, readd stack marker
+				stack.push('$');
 			}
 			return destination;
 		}

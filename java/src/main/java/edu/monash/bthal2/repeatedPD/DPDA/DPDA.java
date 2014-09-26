@@ -44,6 +44,8 @@ public class DPDA implements Agent, RepeatedStrategy {
 	Action defaultAction = Action.DEFECT;
 	private ArrayList<State> states = new ArrayList<State>();
 
+	public boolean flipResult = false;
+
 	// If a transition has failed, anything with the current prefix moves is not
 	// in the language
 	protected boolean prefixInLanguage = true;
@@ -126,9 +128,17 @@ public class DPDA implements Agent, RepeatedStrategy {
 			return defaultAction;
 		}
 		if (currentState.isFinal && prefixInLanguage) {
-			return Action.COOPERATE;
+			if (flipResult) {
+				return Action.DEFECT;
+			} else {
+				return Action.COOPERATE;
+			}
 		} else {
-			return Action.DEFECT;
+			if (flipResult) {
+				return Action.COOPERATE;
+			} else {
+				return Action.DEFECT;
+			}
 		}
 	}
 
@@ -259,7 +269,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 		// Start by printing each state, indexed by position in states arraylist
 		// Postfix F if final
 		StringBuilder builder = new StringBuilder();
-		builder.append("S#");
+		if (flipResult) {
+			builder.append("S!#");
+		} else {
+			builder.append("S#");
+		}
 		for (int i = 0; i < states.size(); i++) {
 			if (i > 0) {
 				builder.append("&");

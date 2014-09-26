@@ -26,7 +26,7 @@ public class DPDAMutator implements AgentMutator {
 	// Currently, addState can never fail, removeState can.
 	// This means despit Pr(add)=Pr(remove), num states will increase
 	// Maybe Pr(remove) proportional to states?
-	int mutationOptions = 9;
+	int mutationOptions = 10;
 	private double addingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double removingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double addTransitionProbability = 1.0 * 1 / mutationOptions;
@@ -36,6 +36,7 @@ public class DPDAMutator implements AgentMutator {
 	private double changingPushProbability = 1.0 * 1 / mutationOptions;
 	private double changingDestinationProbability = 1.0 * 1 / mutationOptions;
 	private double flipState = 1.0 * 1 / mutationOptions;
+	private double flipInLanguage = 1.0 * 1 / mutationOptions;
 
 	// TODO: Consider putting changes to transitions as a sub operation of
 	// change
@@ -53,10 +54,10 @@ public class DPDAMutator implements AgentMutator {
 			removingStatesProbability, addTransitionProbability,
 			removeTransitionProbability, changingReadProbability,
 			changingPopProbability, changingPushProbability,
-			changingDestinationProbability, flipState };
+			changingDestinationProbability, flipState, flipInLanguage };
 
 	public enum MutationEvent {
-		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION, FLIPSTATE
+		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION, FLIPSTATE, FLIPINLANGUAGE
 	}
 
 	@Override
@@ -129,8 +130,15 @@ public class DPDAMutator implements AgentMutator {
 			if (rsstates.size() > 1) {
 				State rmState;
 				// +1 to prevent 0 (initial state) being selected
-				rmState = rsstates.get(1 + Random.nextInt(rsstates.size() - 1));
+				// rmState = rsstates.get(1 + Random.nextInt(rsstates.size() -
+				// 1));
+				// +1 to prevent 0 (initial state) being selected
+				rmState = rsstates.get(Random.nextInt(rsstates.size()));
 				automaton.removeState(rmState);
+				if (rmState == automaton.getInitialState()) {
+					automaton.setInitialState(rsstates.get(Random
+							.nextInt(rsstates.size())));
+				}
 				// Iterate through remaining states
 				rsstates = automaton.getStates();
 				for (State state : rsstates) {
@@ -183,6 +191,9 @@ public class DPDAMutator implements AgentMutator {
 			ArrayList<State> fsstates = automaton.getStates();
 			fsstates.get(Random.nextInt(fsstates.size())).flip();
 			break;
+		case FLIPINLANGUAGE:
+			automaton.flipResult = !automaton.flipResult;
+			break;
 		}
 
 		return automaton;
@@ -232,6 +243,9 @@ public class DPDAMutator implements AgentMutator {
 				case 8:
 					mutationEvents.add(MutationEvent.FLIPSTATE);
 					break;
+				case 9:
+					mutationEvents.add(MutationEvent.FLIPINLANGUAGE);
+					break;
 				}
 			}
 		}
@@ -244,7 +258,7 @@ public class DPDAMutator implements AgentMutator {
 	 * @param dpda
 	 */
 	public void addState(DPDA dpda) {
-		boolean addOutwardsTransitionsWithState = false;
+		boolean addOutwardsTransitionsWithState = true;
 		boolean addInwardsTransitionWithState = true;
 		// Options:
 		// add state, do nothing
@@ -266,7 +280,7 @@ public class DPDAMutator implements AgentMutator {
 
 			// Random transition
 			addTransition(dpda, newState);
-			addTransition(dpda, newState);
+			// addTransition(dpda, newState);
 			/*
 			 * newState.addTransition(newState.new Transition(dpda.getStates()
 			 * .get(Random.nextInt(dpda.getStates().size())), Action.COOPERATE,
