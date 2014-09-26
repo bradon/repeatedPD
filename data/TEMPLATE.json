@@ -1,0 +1,17 @@
+{
+  "populationSize": 250,
+  "mutationProbability": 0.004,
+  "reward": 3.0,
+  "mistakeProbability": 0.0,
+  "mapping": "LINEAR",
+  "temptation": 4.0,
+  "punishment": 2.0,
+  "sucker": 1.0,
+  "continuationProbability": DELTA,
+  "intensityOfSelection": 1.0,
+  "r": R_VALUE,
+  "outputFile": "OUTPUT_FILE_NAME",
+  "reportEveryTimeSteps": 100,
+  "numberOfTimeSteps": 5000000,
+  "seed": SEED
+}

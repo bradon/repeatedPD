@@ -1,0 +1,14 @@
+#!/bin/sh
+#$ -S /bin/sh
+#$ -cwd
+#$ -l h_rt=2:30:00
+#$ -l h_vmem=2G
+# -M bthal2@student.monash.edu.au
+# -m e
+#$ -o JSON_FILENAME.out.fil
+#$ -e JSON_FILENAME.err.fil
+module load java/jdk1.7.0_21
+echo "Current working directory is `pwd`"
+echo "Starting run "$0" at: `date`"
+java -Xms128m -Xmx1500m -jar dpda.jar -t DPDATIMESERIES -f JSON_FILENAME > JSON_FILENAME.j.fil
+echo "Program "$0" finished with exit code $? at: `date`"
