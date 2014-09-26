@@ -95,22 +95,6 @@ public class DPDAMutator implements AgentMutator {
 			ArrayList<State> atstates = automaton.getStates();
 			State eminatingState = atstates
 					.get(Random.nextInt(atstates.size()));
-			/*
-			 * // Generate a new transition Action newRead =
-			 * DPDA.inputAlphabet[Random .nextInt(DPDA.inputAlphabet.length)];
-			 * // Pop, Push- bias towards null? char newPop =
-			 * DPDA.stackAlphabet[Random .nextInt(DPDA.stackAlphabet.length)];
-			 * char newPush = DPDA.stackAlphabet[Random
-			 * .nextInt(DPDA.stackAlphabet.length)]; State newDestination =
-			 * atstates .get(Random.nextInt(atstates.size())); if
-			 * (newDestination == null) {
-			 * System.out.println("Tried to randomly add null"); } Transition
-			 * newTransition = atEminatingStates.new Transition( newDestination,
-			 * newRead, newPop, newPush); if
-			 * (atEminatingStates.addTransition(newTransition)) {
-			 * 
-			 * } else { // How to respond to transition addition failure }
-			 */
 			addTransition(automaton, eminatingState);
 			break;
 		case CHANGEDESTINATION:
@@ -120,62 +104,7 @@ public class DPDAMutator implements AgentMutator {
 			changeTransition(automaton, mutationEvent);
 			break;
 		case REMOVESTATE:
-			// Going to be a bit complex
-			// If 1 state, do nothing
-			// if >1, delete state and redirect transitions
-			// redirect transitions will require stepping through all
-			// transitions
-			ArrayList<State> rsstates = automaton.getStates();
-
-			if (rsstates.size() > 1) {
-				State rmState;
-				// +1 to prevent 0 (initial state) being selected
-				// rmState = rsstates.get(1 + Random.nextInt(rsstates.size() -
-				// 1));
-				// +1 to prevent 0 (initial state) being selected
-				rmState = rsstates.get(Random.nextInt(rsstates.size()));
-				automaton.removeState(rmState);
-				if (rmState == automaton.getInitialState()) {
-					automaton.setInitialState(rsstates.get(Random
-							.nextInt(rsstates.size())));
-				}
-				// Iterate through remaining states
-				rsstates = automaton.getStates();
-				for (State state : rsstates) {
-					ArrayList<Transition> removedTransitions = new ArrayList<Transition>();
-					for (Transition transition : state.getTransitions()) {
-						// Change destination can create loops, can't remove
-						// determinism
-
-						// TODO: Check if a loop is created
-
-						if (transition.getDestination() == rmState) {
-							State randomState = rsstates.get(Random
-									.nextInt(rsstates.size()));
-							if (transition.getRead() == null
-									&& randomState == state) {
-								// Self Transition
-								if (transition.getPop() == DPDA.stackMarker
-										|| transition.getPop() == DPDA.emptyChar) {
-									// Empty self transition, just remove
-									// instead
-									removedTransitions.add(transition);
-								} else {
-									transition.changeDestination(randomState);
-								}
-							} else {
-								// Non-self
-								transition.changeDestination(randomState);
-							}
-						}
-
-					}
-					for (Transition transition : removedTransitions) {
-						state.removeTransition(transition);
-					}
-				}
-			}
-
+			removeState(automaton);
 			break;
 		case REMOVETRANSITION:
 			ArrayList<State> rtstates = automaton.getStates();
@@ -197,6 +126,66 @@ public class DPDAMutator implements AgentMutator {
 		}
 
 		return automaton;
+
+	}
+
+	private void removeState(DPDA automaton) {
+
+		// Going to be a bit complex
+		// If 1 state, do nothing
+		// if >1, delete state and redirect transitions
+		// redirect transitions will require stepping through all
+		// transitions
+		ArrayList<State> rsstates = automaton.getStates();
+
+		if (rsstates.size() > 1) {
+			State rmState;
+			// +1 to prevent 0 (initial state) being selected
+			// rmState = rsstates.get(1 + Random.nextInt(rsstates.size() -
+			// 1));
+			// +1 to prevent 0 (initial state) being selected
+			rmState = rsstates.get(Random.nextInt(rsstates.size()));
+			automaton.removeState(rmState);
+			if (rmState == automaton.getInitialState()) {
+				automaton.setInitialState(rsstates.get(Random.nextInt(rsstates
+						.size())));
+			}
+			// Iterate through remaining states
+			rsstates = automaton.getStates();
+			for (State state : rsstates) {
+				ArrayList<Transition> removedTransitions = new ArrayList<Transition>();
+				for (Transition transition : state.getTransitions()) {
+					// Change destination can create loops, can't remove
+					// determinism
+
+					// TODO: Check if a loop is created
+
+					if (transition.getDestination() == rmState) {
+						State randomState = rsstates.get(Random
+								.nextInt(rsstates.size()));
+						if (transition.getRead() == null
+								&& randomState == state) {
+							// Self Transition
+							if (transition.getPop() == DPDA.stackMarker
+									|| transition.getPop() == DPDA.emptyChar) {
+								// Empty self transition, just remove
+								// instead
+								removedTransitions.add(transition);
+							} else {
+								transition.changeDestination(randomState);
+							}
+						} else {
+							// Non-self
+							transition.changeDestination(randomState);
+						}
+					}
+
+				}
+				for (Transition transition : removedTransitions) {
+					state.removeTransition(transition);
+				}
+			}
+		}
 
 	}
 
