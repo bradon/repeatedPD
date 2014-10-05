@@ -20,10 +20,7 @@ import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
  * @author Bradon Hall
  * 
  */
-/**
- * @author Bradon Hall
- * 
- */
+
 public class DPDA implements Agent, RepeatedStrategy {
 	public MutationEvent lastMutation = null;
 	// TODO: Pop stack marker should always push stack marker?
@@ -59,6 +56,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	 * Creates single-state ALLD automaton by default
 	 */
 	public DPDA() {
+		State initialState = new State();
 		// Set current state
 		currentState = initialState;
 
