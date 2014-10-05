@@ -20,15 +20,18 @@ import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
  * @author Bradon Hall
  * 
  */
+/**
+ * @author Bradon Hall
+ * 
+ */
 public class DPDA implements Agent, RepeatedStrategy {
 	public MutationEvent lastMutation = null;
 	// TODO: Pop stack marker should always push stack marker?
 	public static final char emptyChar = 'l';
 	public static final char stackMarker = '$';
-	// TODO: remove temp fsa-ification
+	// TODO: Different Alphabets
 	// Stack marker should be tail
 	public static final char[] stackAlphabet = { 'l', 'a', stackMarker };
-	// public static final char[] stackAlphabet = { 'l' };
 	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
 			Action.DEFECT };
 	// Notes: -Testing for determinism is easiest to do from perspective of
@@ -44,6 +47,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	Action defaultAction = Action.DEFECT;
 	private ArrayList<State> states = new ArrayList<State>();
 
+	// Accept if in Language vs Accept if not in Language
 	public boolean flipResult = false;
 
 	// If a transition has failed, anything with the current prefix moves is not
@@ -51,11 +55,10 @@ public class DPDA implements Agent, RepeatedStrategy {
 	protected boolean prefixInLanguage = true;
 
 	/**
-	 * Create ALLD automaton by default
+	 * Constructor<br>
+	 * Creates single-state ALLD automaton by default
 	 */
 	public DPDA() {
-		// Initialize to ALLD
-		// TODO: something wrong here?
 		// Set current state
 		currentState = initialState;
 
@@ -73,19 +76,18 @@ public class DPDA implements Agent, RepeatedStrategy {
 		// Must create new states. Transitions need a way to know what the new
 		// state is based on the old state
 		HashMap<State, State> map = new HashMap<State, State>();
-		// fill map first
+		// Map old to new states
 		for (State state : states) {
 			map.put(state, new State());
 		}
 		DPDA newDPDA = new DPDA();
 		newDPDA.setInitialState(map.get(this.initialState));
-		// newDPDA.setInitialState(map.get(this.initialState));
 		for (State state : states) {
 			newDPDA.addState(map.get(state));
 			map.get(state).isFinal = state.isFinal;
 
 			State newState = map.get(state);
-			// Set state id?
+			// Set state id if implemented
 			for (Transition transition : state.getTransitions()) {
 				// map old transition to new
 				State newDestination = map.get(transition.getDestination());
@@ -106,26 +108,53 @@ public class DPDA implements Agent, RepeatedStrategy {
 	}
 
 	/**
+	 * Add state to DPDA
+	 * 
 	 * @param state
 	 */
 	public void addState(State state) {
 		states.add(state);
 	}
 
+	/**
+	 * Set initial state and reset automaton
+	 * 
+	 * @param state
+	 */
 	public void setInitialState(State state) {
 		initialState = state;
 		reset();
 	}
 
+	/**
+	 * Get initial state
+	 * 
+	 * @return
+	 */
 	public State getInitialState() {
 		return initialState;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy#currentAction
+	 * ()
+	 */
 	public Action currentAction() {
 		if (currentState == null) {
 			System.out.println("Current state is null");
 			// printStrategy();
-			return defaultAction;
+			if (flipResult) {
+				if (defaultAction == Action.COOPERATE) {
+					return Action.DEFECT;
+				} else {
+					return Action.COOPERATE;
+				}
+			} else {
+				return defaultAction;
+			}
 		}
 		if (currentState.isFinal && prefixInLanguage) {
 			if (flipResult) {
@@ -161,6 +190,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	 * @return true if a cycle is found
 	 */
 	public static boolean containsCycle(ArrayList<State> states) {
+		// TODO: Cycle detection
 		return false;
 	}
 
@@ -180,8 +210,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 					prefixInLanguage = false;
 					return defaultAction;
 				}
-				// printStrategy();
-				// System.out.println(currentState.isFinal)
 				currentState = currentState.readInput(stack, input);
 				if (currentState == null) {
 					System.out
@@ -195,7 +223,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 					return Action.DEFECT;
 				}
 			} catch (MultipleTransitionException e) {
-				// Handle here or throw?
+				// If non-determinisim is appearing, serious problem, break
 				System.out.println("A PDA was non-deterministic");
 				printStrategy();
 				throw e;
@@ -206,7 +234,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				return defaultAction;
 			} catch (CycleException e) {
 				// Non-fatal
-				System.out.println("A PDA appeared to have a cycle");
+				System.out.println("A DPDA appeared to have a cycle");
 				printStrategy();
 				prefixInLanguage = false;
 				return defaultAction;
@@ -215,6 +243,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return defaultAction;
 	}
 
+	/**
+	 * Get states in the DPDA
+	 * 
+	 * @return
+	 */
 	public ArrayList<State> getStates() {
 		return states;
 	}
@@ -232,7 +265,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	@Override
 	public boolean equals(Object obj) {
 
-		// TODO: Replace with more sesible method, esp for tostring comparison
+		// TODO: Replace with more sensible method, esp for tostring comparison
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -251,13 +284,17 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return false;
 	}
 
-	// I am not a smart man.
 	@Override
 	public int hashCode() {
 		// TODO: Replace with something more sensible
 		return this.toString().hashCode();
 	}
 
+	/**
+	 * Remove a state from the DPDA
+	 * 
+	 * @param toRemove
+	 */
 	public void removeState(State toRemove) {
 		// Possibly put checks here
 		states.remove(toRemove);
@@ -308,6 +345,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return builder.toString();
 	}
 
+	/**
+	 * ToString to System.out
+	 */
 	public void printStrategy() {
 		System.out.println(this.toString());
 	}
