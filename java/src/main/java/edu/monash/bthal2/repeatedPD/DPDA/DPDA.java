@@ -100,7 +100,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				}
 			}
 		}
-
+		newDPDA.flipResult = flipResult;
 		return newDPDA;
 
 	}

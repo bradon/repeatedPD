@@ -8,8 +8,13 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 import edu.monash.bthal2.repeatedPD.DPDA.State;
-import edu.monash.bthal2.repeatedPD.PDARepresentation.PDAStrategy;
 
+/**
+ * Population Factory for DPDA Players
+ * 
+ * @author Bradon Hall
+ * 
+ */
 public class DPDAFactory implements AgentBasedPopulationFactory {
 	private int popSize = 100;
 
@@ -17,9 +22,7 @@ public class DPDAFactory implements AgentBasedPopulationFactory {
 	public AgentBasedPopulation createPopulation() {
 		Agent[] agents = new DPDA[popSize];
 		for (int i = 0; i < popSize; i++) {
-			agents[i]=ExampleStrategies.allD();
-			//((DPDA)agents[i]).reset();
-			//agents[i] = new DPDA();
+			agents[i] = ExampleStrategies.allD();
 		}
 		return new ExtensivePopulationImpl(agents);
 	}

@@ -125,6 +125,37 @@ public class DPDAStrategyTests {
 	}
 	
 	@Test
+	public void flippedTftCloneTest() throws MultipleTransitionException {
+		DPDA original = DPDAFactory.ExampleStrategies.tft();
+		original.flipResult=true;
+		DPDA clone = original.copy();
+		DPDA tft = clone;
+		// Initially C
+		assertTrue(tft.currentAction() == Action.DEFECT);
+		// Response to C
+		tft.readInput(Action.COOPERATE);
+		assertTrue(tft.currentAction() == Action.DEFECT);
+		// Response to D
+		tft.readInput(Action.DEFECT);
+		assertTrue(tft.currentAction() == Action.COOPERATE);
+		tft.reset();
+		// Response to random sequence
+		Random.seed(System.nanoTime());
+		Action previousMove;
+		for (int i = 0; i < 100; i++) {
+			if (Random.nextBoolean()) {
+				previousMove=tft.readInput(Action.COOPERATE);
+			} else {
+				previousMove=tft.readInput(Action.DEFECT);
+			}
+			if ((i + 1) % 10 == 0) {
+				assertTrue(tft.currentAction() != previousMove);
+			}
+		}
+	}
+	
+	
+	@Test
 	public void testToString() {
 		DPDA allc=DPDAFactory.ExampleStrategies.tft();
 		System.out.println(allc.toString());
