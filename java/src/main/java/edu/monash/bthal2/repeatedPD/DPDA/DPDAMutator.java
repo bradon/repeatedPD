@@ -1,6 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.evolutionandgames.agentbased.Agent;
@@ -11,7 +10,7 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 
 /**
- * @author bradon
+ * @author Bradon Hall
  * 
  */
 public class DPDAMutator implements AgentMutator {
@@ -22,10 +21,7 @@ public class DPDAMutator implements AgentMutator {
 	// Seems sensible though- high probability of a transition change
 	// Low probability of a states change
 
-	// TODO: Address bloat
-	// Currently, addState can never fail, removeState can.
-	// This means despit Pr(add)=Pr(remove), num states will increase
-	// Maybe Pr(remove) proportional to states?
+	// Bloat addressed by pruning
 	int mutationOptions = 10;
 	private double addingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double removingStatesProbability = 1.0 * 1 / mutationOptions;
