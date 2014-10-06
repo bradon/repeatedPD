@@ -10,8 +10,6 @@ import edu.monash.bthal2.repeatedPD.simulation.DPDAPayoffSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.DPDATimeSeriesSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOnePayoffSimulation;
 import edu.monash.bthal2.repeatedPD.simulation.LookupPlayerLengthOneTimeSeries;
-import edu.monash.bthal2.repeatedPD.simulation.PDAPayoffSimulation;
-import edu.monash.bthal2.repeatedPD.simulation.PDATimeSeriesSimulation;
 
 /**
  * Initializing class for running as jar
@@ -65,22 +63,6 @@ public class App {
 			}
 			break;
 		case PAYOFF:
-		case PDAPAYOFF:
-			if (showJson) {
-				System.out.println(PDAPayoffSimulation.exampleJson());
-			} else {
-				PDAPayoffSimulation.runOncePayoff(app.file);
-			}
-			break;
-		case TIMESERIES:
-		case PDATIMESERIES:
-			if (showJson) {
-				System.out.println(PDATimeSeriesSimulation.exampleJson());
-
-			} else {
-				PDATimeSeriesSimulation.runApp(app.file);
-			}
-			break;
 		case DPDAPAYOFF:
 			if (showJson) {
 				System.out.println(DPDAPayoffSimulation.exampleJson());
@@ -88,6 +70,7 @@ public class App {
 				DPDAPayoffSimulation.runOncePayoff(app.file);
 			}
 			break;
+		case TIMESERIES:
 		case DPDATIMESERIES:
 			if (showJson) {
 				System.out.println(DPDATimeSeriesSimulation.exampleJson());
