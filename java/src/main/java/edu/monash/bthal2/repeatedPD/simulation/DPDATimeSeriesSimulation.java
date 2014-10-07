@@ -47,7 +47,6 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				addTransitionProbability, removeTransitionProbability,
 				changeReadProbability, changePopProbability,
 				changePushProbability, changeDestinationProbability, flipState);
-		System.out.println(addStatesProbability);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
