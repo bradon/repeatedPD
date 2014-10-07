@@ -37,7 +37,7 @@ public abstract class TimeSeriesSimulation {
 	protected transient AgentBasedSimulation simulation;
 	protected transient ExtensivePopulation population;
 
-	protected static void prepareJson(TimeSeriesSimulation app) {
+	protected static void prepareJsonTimeSeries(TimeSeriesSimulation app) {
 		app.continuationProbability = 0.1;
 		app.intensityOfSelection = 1.0;
 		app.mapping = PayoffToFitnessMapping.LINEAR;

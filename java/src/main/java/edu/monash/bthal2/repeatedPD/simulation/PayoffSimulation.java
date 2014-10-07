@@ -117,7 +117,7 @@ public abstract class PayoffSimulation {
 		}
 		return buffer.toString();
 	}
-	protected static void prepareJson(PayoffSimulation app) {
+	protected static void prepareJsonPayoffSimulation(PayoffSimulation app) {
 		app.samplesPerEstimate = 1000;
 		app.reportEveryTimeSteps = 1000;
 		app.seed = System.currentTimeMillis();

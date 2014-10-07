@@ -10,6 +10,12 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 import edu.monash.bthal2.repeatedPD.DPDA.State.Transition;
 
 /**
+ * Mutate DPDA players
+ * 
+ * @author Bradon Hall
+ * 
+ */
+/**
  * @author Bradon Hall
  * 
  */
@@ -22,16 +28,15 @@ public class DPDAMutator implements AgentMutator {
 	// Low probability of a states change
 
 	// Bloat addressed by pruning
-	int mutationOptions = 9;
-	private double addingStatesProbability = 1.0 * 1 / mutationOptions;
-	private double removingStatesProbability = 1.0 * 1 / mutationOptions;
-	private double addTransitionProbability = 1.0 * 1 / mutationOptions;
-	private double removeTransitionProbability = 1.0 * 1 / mutationOptions;
-	private double changingReadProbability = 1.0 * 1 / mutationOptions;
-	private double changingPopProbability = 1.0 * 1 / mutationOptions;
-	private double changingPushProbability = 1.0 * 1 / mutationOptions;
-	private double changingDestinationProbability = 1.0 * 1 / mutationOptions;
-	private double flipState = 1.0 * 1 / mutationOptions;
+	private double addingStatesProbability;
+	private double removingStatesProbability;
+	private double addTransitionProbability;
+	private double removeTransitionProbability;
+	private double changingReadProbability;
+	private double changingPopProbability;
+	private double changingPushProbability;
+	private double changingDestinationProbability;
+	private double flipState;
 
 	// private double flipInLanguage = 1.0 * 1 / mutationOptions;
 
@@ -51,11 +56,48 @@ public class DPDAMutator implements AgentMutator {
 	public DPDAMutator() {
 		super();
 		mutationProbabilityPerState = 0.1; // Should be called only in testing
+		int mutationOptions = 9;
+		addingStatesProbability = 1.0 * 1 / mutationOptions;
+		removingStatesProbability = 1.0 * 1 / mutationOptions;
+		addTransitionProbability = 1.0 * 1 / mutationOptions;
+		removeTransitionProbability = 1.0 * 1 / mutationOptions;
+		changingReadProbability = 1.0 * 1 / mutationOptions;
+		changingPopProbability = 1.0 * 1 / mutationOptions;
+		changingPushProbability = 1.0 * 1 / mutationOptions;
+		changingDestinationProbability = 1.0 * 1 / mutationOptions;
+		flipState = 1.0 * 1 / mutationOptions;
 	}
 
-	public DPDAMutator(double mutationProbabilityPerState) {
+	/**
+	 * @param mutationProbabilityPerState
+	 * @param addingStatesProbability
+	 * @param removingStatesProbability
+	 * @param addTransitionProbability
+	 * @param removeTransitionProbability
+	 * @param changingReadProbability
+	 * @param changingPopProbabilty
+	 * @param changingPushProbability
+	 * @param changingDestinationProbability
+	 * @param flipState
+	 */
+	public DPDAMutator(double mutationProbabilityPerState,
+			double addingStatesProbability, double removingStatesProbability,
+			double addTransitionProbability,
+			double removeTransitionProbability, double changingReadProbability,
+			double changingPopProbability, double changingPushProbability,
+			double changingDestinationProbability, double flipState) {
+		// TODO: Those params could go into a new data type 'mutation options'
 		super();
 		this.mutationProbabilityPerState = mutationProbabilityPerState;
+		this.addingStatesProbability = addingStatesProbability;
+		this.removingStatesProbability = removingStatesProbability;
+		this.addTransitionProbability = addTransitionProbability;
+		this.removeTransitionProbability = removeTransitionProbability;
+		this.changingReadProbability = changingReadProbability;
+		this.changingPopProbability = changingPopProbability;
+		this.changingPushProbability = changingPushProbability;
+		this.changingDestinationProbability = changingDestinationProbability;
+		this.flipState = flipState;
 	}
 
 	private double[] distributionOfEvents = { addingStatesProbability,

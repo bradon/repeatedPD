@@ -20,7 +20,16 @@ import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
 
 public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 
-	protected double mutationProbability;
+	protected double addStatesProbability;
+	protected double removeStatesProbability;
+	protected double addTransitionProbability;
+	protected double removeTransitionProbability;
+	protected double changeReadProbability;
+	protected double changePopProbability;
+	protected double changePushProbability;
+	protected double changeDestinationProbability;
+	protected double flipState;
+	protected double mutationProbabilityPerState;
 
 	public void init() {
 		// Refactor- some of this code can be generalized
@@ -28,7 +37,17 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				DPDAFactory.ExampleStrategies.allD());
 
 		// Will need mutation parameters
-		this.mutator = new DPDAMutator(mutationProbability);
+		// mutationProbabilityPerState, addingStatesProbability,
+		// removingStatesProbability, addTransitionProbability,
+		// removeTransitionProbability, changingReadProbability,
+		// changingPopProbability, changingPushProbability,
+		// changingDestinationProbability, flipState
+		this.mutator = new DPDAMutator(mutationProbabilityPerState,
+				addStatesProbability, removeStatesProbability,
+				addTransitionProbability, removeTransitionProbability,
+				changeReadProbability, changePopProbability,
+				changePushProbability, changeDestinationProbability,
+				flipState);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
@@ -59,16 +78,27 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				.loadFromFile(filename);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile);
-		//ExtraMeasuresProcessor extraProcessor=new ExtraMeasuresProcessor();
-		//ExtraMeasuresProcessor
+		// ExtraMeasuresProcessor extraProcessor=new ExtraMeasuresProcessor();
+		// ExtraMeasuresProcessor
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile, null);
 	}
 
+	/**
+	 * @return
+	 */
 	public static String exampleJson() {
 		DPDATimeSeriesSimulation app = new DPDATimeSeriesSimulation();
-		prepareJson(app);
-		app.mutationProbability = 0.001;
+		prepareJsonTimeSeries(app);
+		app.mutationProbabilityPerState = 0.001;
+		app.addStatesProbability=0.01;
+		app.removeStatesProbability=0.05;
+		app.addTransitionProbability=0.05;
+		app.removeTransitionProbability=0.04;
+		app.changeReadProbability=0.05;
+		app.changePopProbability=0.05;
+		app.changePushProbability=0.05;
+		app.changeDestinationProbability=0.70;
 
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);

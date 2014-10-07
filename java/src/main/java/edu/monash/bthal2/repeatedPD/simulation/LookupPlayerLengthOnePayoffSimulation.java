@@ -116,7 +116,7 @@ public class LookupPlayerLengthOnePayoffSimulation extends PayoffSimulation {
 
 	public static String exampleJson() {
 		LookupPlayerLengthOnePayoffSimulation app = new LookupPlayerLengthOnePayoffSimulation();
-		prepareJson(app);
+		prepareJsonPayoffSimulation(app);
 		app.mutationProbability = 0.00001;
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);

@@ -20,6 +20,15 @@ import edu.monash.bthal2.repeatedPD.DPDA.DPDAFactory;
 import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
 
 public class DPDAPayoffSimulation extends PayoffSimulation {
+	protected double addStatesProbability;
+	protected double removeStatesProbability;
+	protected double addTransitionProbability;
+	protected double removeTransitionProbability;
+	protected double changeReadProbability;
+	protected double changePopProbability;
+	protected double changePushProbability;
+	protected double changeDestinationProbability;
+	protected double flipState;
 	protected double mutationProbabilityPerState;
 
 	public double numericalRunOnce(String filename) throws IOException {
@@ -32,12 +41,13 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		double averageTotalPayoff = totalPayoff / (double) app.populationSize;
 
 		for (int i = 0; i < 10; i++) {
-			DPDA test = (DPDA) app.process.getPopulation()
-					.getAgent(Random.nextInt(app.populationSize));
+			DPDA test = (DPDA) app.process.getPopulation().getAgent(
+					Random.nextInt(app.populationSize));
 			test.printStrategy();
 		}
 		return averageTotalPayoff;
 	}
+
 	// RunOnce?
 	public static void runOncePayoff(String filename) throws IOException {
 		DPDAPayoffSimulation app = DPDAPayoffSimulation.loadFromFile(filename);
@@ -90,8 +100,11 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 				DPDAFactory.ExampleStrategies.allD());
 
 		// Will need mutation parameters
-		this.mutator = new DPDAMutator(mutationProbabilityPerState);
-
+		this.mutator = new DPDAMutator(mutationProbabilityPerState,
+				addStatesProbability, removeStatesProbability,
+				addTransitionProbability, removeTransitionProbability,
+				changeReadProbability, changePopProbability,
+				changePushProbability, changeDestinationProbability, flipState);
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
 				this.temptation, this.punishment, this.continuationProbability);
@@ -107,8 +120,16 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 
 	public static String exampleJson() {
 		DPDAPayoffSimulation app = new DPDAPayoffSimulation();
-		prepareJson(app);
-		app.mutationProbabilityPerState = 0.00001;
+		prepareJsonPayoffSimulation(app);
+		app.mutationProbabilityPerState = 0.001;
+		app.addStatesProbability = 0.01;
+		app.removeStatesProbability = 0.05;
+		app.addTransitionProbability = 0.05;
+		app.removeTransitionProbability = 0.04;
+		app.changeReadProbability = 0.05;
+		app.changePopProbability = 0.05;
+		app.changePushProbability = 0.05;
+		app.changeDestinationProbability = 0.70;
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);
 		return json;
