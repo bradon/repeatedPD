@@ -129,6 +129,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		app.changeReadProbability = 0.05;
 		app.changePopProbability = 0.05;
 		app.changePushProbability = 0.05;
+		app.flipState=0.0;
 		app.changeDestinationProbability = 0.70;
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);

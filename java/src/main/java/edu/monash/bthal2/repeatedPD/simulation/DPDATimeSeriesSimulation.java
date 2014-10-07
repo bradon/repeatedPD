@@ -46,8 +46,8 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				addStatesProbability, removeStatesProbability,
 				addTransitionProbability, removeTransitionProbability,
 				changeReadProbability, changePopProbability,
-				changePushProbability, changeDestinationProbability,
-				flipState);
+				changePushProbability, changeDestinationProbability, flipState);
+		System.out.println(addStatesProbability);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
@@ -91,14 +91,15 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 		DPDATimeSeriesSimulation app = new DPDATimeSeriesSimulation();
 		prepareJsonTimeSeries(app);
 		app.mutationProbabilityPerState = 0.001;
-		app.addStatesProbability=0.01;
-		app.removeStatesProbability=0.05;
-		app.addTransitionProbability=0.05;
-		app.removeTransitionProbability=0.04;
-		app.changeReadProbability=0.05;
-		app.changePopProbability=0.05;
-		app.changePushProbability=0.05;
-		app.changeDestinationProbability=0.70;
+		app.addStatesProbability = 0.01;
+		app.removeStatesProbability = 0.05;
+		app.addTransitionProbability = 0.05;
+		app.removeTransitionProbability = 0.04;
+		app.changeReadProbability = 0.05;
+		app.changePopProbability = 0.05;
+		app.changePushProbability = 0.05;
+		app.flipState = 0.0;
+		app.changeDestinationProbability = 0.70;
 
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);
