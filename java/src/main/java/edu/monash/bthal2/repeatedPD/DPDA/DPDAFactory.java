@@ -18,6 +18,14 @@ import edu.monash.bthal2.repeatedPD.DPDA.State;
 public class DPDAFactory implements AgentBasedPopulationFactory {
 	private int popSize = 100;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.evolutionandgames.agentbased.AgentBasedPopulationFactory#createPopulation
+	 * ()
+	 */
+	// Create population of allD by default
 	@Override
 	public AgentBasedPopulation createPopulation() {
 		Agent[] agents = new DPDA[popSize];
@@ -35,6 +43,12 @@ public class DPDAFactory implements AgentBasedPopulationFactory {
 		this.popSize = popSize;
 	}
 
+	/**
+	 * Basic Common Strategies
+	 * 
+	 * @author Bradon Hall
+	 * 
+	 */
 	public static class ExampleStrategies {
 		public static DPDA allC() {
 			DPDA allc = new DPDA();

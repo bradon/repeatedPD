@@ -22,7 +22,7 @@ public class DPDAMutator implements AgentMutator {
 	// Low probability of a states change
 
 	// Bloat addressed by pruning
-	int mutationOptions = 10;
+	int mutationOptions = 9;
 	private double addingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double removingStatesProbability = 1.0 * 1 / mutationOptions;
 	private double addTransitionProbability = 1.0 * 1 / mutationOptions;
@@ -32,18 +32,19 @@ public class DPDAMutator implements AgentMutator {
 	private double changingPushProbability = 1.0 * 1 / mutationOptions;
 	private double changingDestinationProbability = 1.0 * 1 / mutationOptions;
 	private double flipState = 1.0 * 1 / mutationOptions;
-	private double flipInLanguage = 1.0 * 1 / mutationOptions;
-	
-//	private double addingStatesProbability = 1.0 * 1 / 28;
-//	private double removingStatesProbability = 1.0 * 1 / 28;
-//	private double addTransitionProbability = 1.0 * 1 / 14;
-//	private double removeTransitionProbability = 1.0 * 1 / 14;
-//	private double changingReadProbability = 1.0 * 1 / 7;
-//	private double changingPopProbability = 1.0 * 1 / 7;
-//	private double changingPushProbability = 1.0 * 1 / 7;
-//	private double changingDestinationProbability = 1.0 * 1 / 7;
-//	private double flipState = 1.0 * 1 / 7;
-//	private double flipInLanguage = 1.0 * 1 / 14;
+
+	// private double flipInLanguage = 1.0 * 1 / mutationOptions;
+
+	// private double addingStatesProbability = 1.0 * 1 / 28;
+	// private double removingStatesProbability = 1.0 * 1 / 28;
+	// private double addTransitionProbability = 1.0 * 1 / 14;
+	// private double removeTransitionProbability = 1.0 * 1 / 14;
+	// private double changingReadProbability = 1.0 * 1 / 7;
+	// private double changingPopProbability = 1.0 * 1 / 7;
+	// private double changingPushProbability = 1.0 * 1 / 7;
+	// private double changingDestinationProbability = 1.0 * 1 / 7;
+	// private double flipState = 1.0 * 1 / 7;
+	// private double flipInLanguage = 1.0 * 1 / 14;
 
 	// TODO: Consider putting changes to transitions as a sub operation of
 	// change
@@ -61,7 +62,7 @@ public class DPDAMutator implements AgentMutator {
 			removingStatesProbability, addTransitionProbability,
 			removeTransitionProbability, changingReadProbability,
 			changingPopProbability, changingPushProbability,
-			changingDestinationProbability, flipState, flipInLanguage };
+			changingDestinationProbability, flipState };// flipInLanguage
 
 	public enum MutationEvent {
 		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION, FLIPSTATE, FLIPINLANGUAGE
