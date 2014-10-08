@@ -31,7 +31,7 @@ public class App {
 	@Parameter(names = { "-json", "-j" }, description = "Show example JSON file", required = false)
 	private static boolean showJson = false;
 
-	@Parameter(names = { "-neutral" }, description = "Initialise with mixture of ALLC and ALLC")
+	@Parameter(names = { "-neutral" }, description = "Initialise with mixture of ALLC and ALLD")
 	private static boolean neutralPopulation = false;
 
 	public static void main(String[] args) throws IOException {
@@ -70,7 +70,7 @@ public class App {
 			if (showJson) {
 				System.out.println(DPDAPayoffSimulation.exampleJson());
 			} else {
-				DPDAPayoffSimulation.runOncePayoff(app.file);
+				DPDAPayoffSimulation.runOncePayoff(app.file, neutralPopulation);
 			}
 			break;
 		case TIMESERIES:
@@ -79,7 +79,7 @@ public class App {
 				System.out.println(DPDATimeSeriesSimulation.exampleJson());
 
 			} else {
-				DPDATimeSeriesSimulation.runApp(app.file);
+				DPDATimeSeriesSimulation.runApp(app.file,neutralPopulation);
 			}
 			break;
 		default:

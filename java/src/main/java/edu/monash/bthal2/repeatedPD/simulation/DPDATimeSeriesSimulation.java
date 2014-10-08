@@ -35,8 +35,9 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 
 	public void init() {
 		// Refactor- some of this code can be generalized
-		this.factory = new RepeatedStrategyPopulationFactory(populationSize,
-				DPDAFactory.ExampleStrategies.allD());
+		//this.factory = new RepeatedStrategyPopulationFactory(populationSize,
+			//	DPDAFactory.ExampleStrategies.allD());
+		this.factory= new DPDAFactory(populationSize);
 
 		if (neutralPopulation) {
 			((DPDAFactory) this.factory).setNeutralPopulation();
@@ -85,15 +86,18 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 		return loadFromFile(string, false);
 	}
 
-	public static void runApp(String filename) throws IOException {
-		DPDATimeSeriesSimulation app = DPDATimeSeriesSimulation
-				.loadFromFile(filename);
+	public static void runApp(String filename, boolean setNeutralPopulation)
+			throws IOException {
+		DPDATimeSeriesSimulation app = DPDATimeSeriesSimulation.loadFromFile(
+				filename, setNeutralPopulation);
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile);
-		// ExtraMeasuresProcessor extraProcessor=new ExtraMeasuresProcessor();
-		// ExtraMeasuresProcessor
 		app.simulation.simulateTimeSeries(app.numberOfTimeSteps,
 				app.reportEveryTimeSteps, app.seed, app.outputFile, null);
+	}
+
+	public static void runApp(String filename) throws IOException {
+		runApp(filename, false);
 	}
 
 	/**

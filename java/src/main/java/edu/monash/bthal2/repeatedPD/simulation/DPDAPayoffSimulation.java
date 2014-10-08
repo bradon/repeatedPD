@@ -20,7 +20,8 @@ import edu.monash.bthal2.repeatedPD.DPDA.DPDAFactory;
 import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
 
 public class DPDAPayoffSimulation extends PayoffSimulation {
-	protected double flipMachineResultProbability; //change C on accept or D on accept
+	protected double flipMachineResultProbability; // change C on accept or D on
+													// accept
 	protected double addStatesProbability;
 	protected double removeStatesProbability;
 	protected double addTransitionProbability;
@@ -51,8 +52,10 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 	}
 
 	// RunOnce?
-	public static void runOncePayoff(String filename) throws IOException {
-		DPDAPayoffSimulation app = DPDAPayoffSimulation.loadFromFile(filename);
+	public static void runOncePayoff(String filename, boolean neutralPop)
+			throws IOException {
+		DPDAPayoffSimulation app = DPDAPayoffSimulation.loadFromFile(filename,
+				neutralPop);
 		double totalPayoff = app.simulation.estimateTotalPayoff(
 				app.burningTimePerEstimate, app.timeStepsPerEstimate,
 				app.numberOfEstimates, app.reportEveryTimeSteps, app.seed,
@@ -67,6 +70,10 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 				Charsets.UTF_8);
 	}
 
+	public static void runOncePayoff(String filename) throws IOException {
+		runOncePayoff(filename, false);
+	}
+
 	public static DPDAPayoffSimulation loadFromFile(String string,
 			boolean setNeutralPopulation) throws IOException {
 		File file = new File(string);
@@ -74,7 +81,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		String json = Files.toString(file, Charsets.UTF_8);
 		DPDAPayoffSimulation sim = gson.fromJson(json,
 				DPDAPayoffSimulation.class);
-		neutralPopulation=setNeutralPopulation;
+		neutralPopulation = setNeutralPopulation;
 		sim.init();
 		return sim;
 	}
@@ -103,10 +110,11 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 	private void init() {
 
 		// Refactor- some of this code can be generalized
-		this.factory = new RepeatedStrategyPopulationFactory(populationSize,
-				DPDAFactory.ExampleStrategies.allD());
+		//this.factory = new RepeatedStrategyPopulationFactory(populationSize,
+				//DPDAFactory.ExampleStrategies.allD());
+		this.factory=new DPDAFactory(populationSize);
 		if (neutralPopulation) {
-			 ((DPDAFactory) this.factory).setNeutralPopulation();
+			((DPDAFactory) this.factory).setNeutralPopulation();
 		}
 
 		// Will need mutation parameters
@@ -114,7 +122,8 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 				addStatesProbability, removeStatesProbability,
 				addTransitionProbability, removeTransitionProbability,
 				changeReadProbability, changePopProbability,
-				changePushProbability, changeDestinationProbability, flipState,flipMachineResultProbability);
+				changePushProbability, changeDestinationProbability, flipState,
+				flipMachineResultProbability);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
