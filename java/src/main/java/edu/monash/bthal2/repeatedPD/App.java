@@ -22,7 +22,7 @@ public class App {
 	private String file;
 
 	enum SimulationType {
-		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, PDAPAYOFF, TIMESERIES, PDATIMESERIES, DPDAPAYOFF, DPDATIMESERIES
+		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, TIMESERIES, DPDAPAYOFF, DPDATIMESERIES
 	}
 
 	@Parameter(names = { "-type", "-t" }, description = "Type of simulation", required = true)
