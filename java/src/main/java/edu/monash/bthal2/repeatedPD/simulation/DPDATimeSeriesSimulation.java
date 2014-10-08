@@ -19,7 +19,8 @@ import edu.monash.bthal2.repeatedPD.DPDA.DPDAFactory;
 import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
 
 public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
-
+	protected double flipMachineResultProbability; // change C on accept or D on
+													// accept
 	protected double addStatesProbability;
 	protected double removeStatesProbability;
 	protected double addTransitionProbability;
@@ -51,7 +52,8 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 				addStatesProbability, removeStatesProbability,
 				addTransitionProbability, removeTransitionProbability,
 				changeReadProbability, changePopProbability,
-				changePushProbability, changeDestinationProbability, flipState);
+				changePushProbability, changeDestinationProbability, flipState,
+				flipMachineResultProbability);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
@@ -73,7 +75,7 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 		String json = Files.toString(file, Charsets.UTF_8);
 		DPDATimeSeriesSimulation sim = gson.fromJson(json,
 				DPDATimeSeriesSimulation.class);
-		neutralPopulation=setNeutralPopulation;
+		neutralPopulation = setNeutralPopulation;
 		sim.init();
 		return sim;
 	}

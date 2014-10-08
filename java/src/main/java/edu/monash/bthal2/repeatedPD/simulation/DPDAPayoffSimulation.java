@@ -20,6 +20,7 @@ import edu.monash.bthal2.repeatedPD.DPDA.DPDAFactory;
 import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
 
 public class DPDAPayoffSimulation extends PayoffSimulation {
+	protected double flipMachineResultProbability; //change C on accept or D on accept
 	protected double addStatesProbability;
 	protected double removeStatesProbability;
 	protected double addTransitionProbability;
@@ -113,7 +114,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 				addStatesProbability, removeStatesProbability,
 				addTransitionProbability, removeTransitionProbability,
 				changeReadProbability, changePopProbability,
-				changePushProbability, changeDestinationProbability, flipState);
+				changePushProbability, changeDestinationProbability, flipState,flipMachineResultProbability);
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,

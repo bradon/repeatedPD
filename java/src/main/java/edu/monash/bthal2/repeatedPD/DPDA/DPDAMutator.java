@@ -61,13 +61,15 @@ public class DPDAMutator implements AgentMutator {
 	 * @param changingPushProbability
 	 * @param changingDestinationProbability
 	 * @param flipState
+	 * @param flipMachineResultProbability
 	 */
 	public DPDAMutator(double mutationProbabilityPerState,
 			double addingStatesProbability, double removingStatesProbability,
 			double addTransitionProbability,
 			double removeTransitionProbability, double changingReadProbability,
 			double changingPopProbability, double changingPushProbability,
-			double changingDestinationProbability, double flipState) {
+			double changingDestinationProbability, double flipState,
+			double flipMachineResultProbability) {
 		// TODO: Those params could go into a new data type 'mutation options'
 		super();
 		this.mutationProbabilityPerState = mutationProbabilityPerState;
@@ -75,7 +77,8 @@ public class DPDAMutator implements AgentMutator {
 				removingStatesProbability, addTransitionProbability,
 				removeTransitionProbability, changingReadProbability,
 				changingPopProbability, changingPushProbability,
-				changingDestinationProbability, flipState };// flipInLanguage
+				changingDestinationProbability, flipState,
+				flipMachineResultProbability };// flipInLanguage
 	}
 
 	public enum MutationEvent {
