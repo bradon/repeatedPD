@@ -30,11 +30,16 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 	protected double changeDestinationProbability;
 	protected double flipState;
 	protected double mutationProbabilityPerState;
+	private static boolean neutralPopulation = false;
 
 	public void init() {
 		// Refactor- some of this code can be generalized
 		this.factory = new RepeatedStrategyPopulationFactory(populationSize,
 				DPDAFactory.ExampleStrategies.allD());
+
+		if (neutralPopulation) {
+			((DPDAFactory) this.factory).setNeutralPopulation();
+		}
 
 		// Will need mutation parameters
 		// mutationProbabilityPerState, addingStatesProbability,
@@ -61,15 +66,21 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 		this.simulation = new AgentBasedSimulation(this.process);
 	}
 
-	private static DPDATimeSeriesSimulation loadFromFile(String filename)
-			throws IOException {
+	private static DPDATimeSeriesSimulation loadFromFile(String filename,
+			boolean setNeutralPopulation) throws IOException {
 		File file = new File(filename);
 		Gson gson = new Gson();
 		String json = Files.toString(file, Charsets.UTF_8);
 		DPDATimeSeriesSimulation sim = gson.fromJson(json,
 				DPDATimeSeriesSimulation.class);
+		neutralPopulation=setNeutralPopulation;
 		sim.init();
 		return sim;
+	}
+
+	public static DPDATimeSeriesSimulation loadFromFile(String string)
+			throws IOException {
+		return loadFromFile(string, false);
 	}
 
 	public static void runApp(String filename) throws IOException {

@@ -31,6 +31,9 @@ public class App {
 	@Parameter(names = { "-json", "-j" }, description = "Show example JSON file", required = false)
 	private static boolean showJson = false;
 
+	@Parameter(names = { "-neutral" }, description = "Initialise with mixture of ALLC and ALLC")
+	private static boolean neutralPopulation = false;
+
 	public static void main(String[] args) throws IOException {
 
 		App app = new App();

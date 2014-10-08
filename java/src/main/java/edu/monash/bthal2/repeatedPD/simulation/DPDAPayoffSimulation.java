@@ -30,6 +30,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 	protected double changeDestinationProbability;
 	protected double flipState;
 	protected double mutationProbabilityPerState;
+	private static boolean neutralPopulation = false;
 
 	public double numericalRunOnce(String filename) throws IOException {
 		DPDAPayoffSimulation app = DPDAPayoffSimulation.loadFromFile(filename);
@@ -65,16 +66,21 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 				Charsets.UTF_8);
 	}
 
-	public static DPDAPayoffSimulation loadFromFile(String string)
-			throws IOException {
+	public static DPDAPayoffSimulation loadFromFile(String string,
+			boolean setNeutralPopulation) throws IOException {
 		File file = new File(string);
 		Gson gson = new Gson();
 		String json = Files.toString(file, Charsets.UTF_8);
 		DPDAPayoffSimulation sim = gson.fromJson(json,
 				DPDAPayoffSimulation.class);
+		neutralPopulation=setNeutralPopulation;
 		sim.init();
 		return sim;
+	}
 
+	public static DPDAPayoffSimulation loadFromFile(String string)
+			throws IOException {
+		return loadFromFile(string, false);
 	}
 
 	public static void generatesTimeSeries(String filename) throws IOException {
@@ -98,6 +104,9 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		// Refactor- some of this code can be generalized
 		this.factory = new RepeatedStrategyPopulationFactory(populationSize,
 				DPDAFactory.ExampleStrategies.allD());
+		if (neutralPopulation) {
+			 ((DPDAFactory) this.factory).setNeutralPopulation();
+		}
 
 		// Will need mutation parameters
 		this.mutator = new DPDAMutator(mutationProbabilityPerState,
@@ -105,6 +114,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 				addTransitionProbability, removeTransitionProbability,
 				changeReadProbability, changePopProbability,
 				changePushProbability, changeDestinationProbability, flipState);
+
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,
 				this.temptation, this.punishment, this.continuationProbability);
@@ -129,7 +139,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		app.changeReadProbability = 0.05;
 		app.changePopProbability = 0.05;
 		app.changePushProbability = 0.05;
-		app.flipState=0.0;
+		app.flipState = 0.0;
 		app.changeDestinationProbability = 0.70;
 		String json = new GsonBuilder().setPrettyPrinting().create()
 				.toJson(app);
