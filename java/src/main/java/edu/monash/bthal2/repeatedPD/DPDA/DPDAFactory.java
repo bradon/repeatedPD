@@ -17,6 +17,7 @@ import edu.monash.bthal2.repeatedPD.DPDA.State;
  */
 public class DPDAFactory implements AgentBasedPopulationFactory {
 	private int popSize = 100;
+	boolean neutralPopulation=false; //Mix C and D for neutrality test
 
 	/**
 	 * Create population of ALLD DPDA players
@@ -27,7 +28,14 @@ public class DPDAFactory implements AgentBasedPopulationFactory {
 	public AgentBasedPopulation createPopulation() {
 		Agent[] agents = new DPDA[popSize];
 		for (int i = 0; i < popSize; i++) {
-			agents[i] = ExampleStrategies.allD();
+			if (neutralPopulation) {
+				if (i%2==0) {
+					agents[i]=ExampleStrategies.allC();
+				} else {
+					agents[i]=ExampleStrategies.allD();
+				}
+			} else {
+			agents[i] = ExampleStrategies.allD();}
 		}
 		return new ExtensivePopulationImpl(agents);
 	}
@@ -40,6 +48,10 @@ public class DPDAFactory implements AgentBasedPopulationFactory {
 		this.popSize = popSize;
 	}
 
+	public DPDAFactory(int popSize, boolean neutralPopulation) {
+		this.popSize = popSize;
+		this.neutralPopulation=neutralPopulation;
+	}
 	/**
 	 * Basic Common Strategies
 	 * 

@@ -27,16 +27,7 @@ public class DPDAMutator implements AgentMutator {
 	// Seems sensible though- high probability of a transition change
 	// Low probability of a states change
 
-	// Bloat addressed by pruning
-	private double addingStatesProbability;
-	private double removingStatesProbability;
-	private double addTransitionProbability;
-	private double removeTransitionProbability;
-	private double changingReadProbability;
-	private double changingPopProbability;
-	private double changingPushProbability;
-	private double changingDestinationProbability;
-	private double flipState;
+	private double[] distributionOfEvents;
 
 	// private double flipInLanguage = 1.0 * 1 / mutationOptions;
 
@@ -57,15 +48,6 @@ public class DPDAMutator implements AgentMutator {
 		super();
 		mutationProbabilityPerState = 0.1; // Should be called only in testing
 		int mutationOptions = 9;
-		addingStatesProbability = 1.0 * 1 / mutationOptions;
-		removingStatesProbability = 1.0 * 1 / mutationOptions;
-		addTransitionProbability = 1.0 * 1 / mutationOptions;
-		removeTransitionProbability = 1.0 * 1 / mutationOptions;
-		changingReadProbability = 1.0 * 1 / mutationOptions;
-		changingPopProbability = 1.0 * 1 / mutationOptions;
-		changingPushProbability = 1.0 * 1 / mutationOptions;
-		changingDestinationProbability = 1.0 * 1 / mutationOptions;
-		flipState = 1.0 * 1 / mutationOptions;
 	}
 
 	/**
@@ -89,22 +71,12 @@ public class DPDAMutator implements AgentMutator {
 		// TODO: Those params could go into a new data type 'mutation options'
 		super();
 		this.mutationProbabilityPerState = mutationProbabilityPerState;
-		this.addingStatesProbability = addingStatesProbability;
-		this.removingStatesProbability = removingStatesProbability;
-		this.addTransitionProbability = addTransitionProbability;
-		this.removeTransitionProbability = removeTransitionProbability;
-		this.changingReadProbability = changingReadProbability;
-		this.changingPopProbability = changingPopProbability;
-		this.changingPushProbability = changingPushProbability;
-		this.changingDestinationProbability = changingDestinationProbability;
-		this.flipState = flipState;
+		distributionOfEvents = new double[] { addingStatesProbability,
+				removingStatesProbability, addTransitionProbability,
+				removeTransitionProbability, changingReadProbability,
+				changingPopProbability, changingPushProbability,
+				changingDestinationProbability, flipState };// flipInLanguage
 	}
-
-	private double[] distributionOfEvents = { addingStatesProbability,
-			removingStatesProbability, addTransitionProbability,
-			removeTransitionProbability, changingReadProbability,
-			changingPopProbability, changingPushProbability,
-			changingDestinationProbability, flipState };// flipInLanguage
 
 	public enum MutationEvent {
 		ADDSTATE, REMOVESTATE, ADDTRANSITION, REMOVETRANSITION, CHANGEREAD, CHANGEPOP, CHANGEPUSH, CHANGEDESTINATION, FLIPSTATE, FLIPINLANGUAGE
