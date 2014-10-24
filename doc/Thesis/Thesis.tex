@@ -710,16 +710,23 @@ How the dynamics change when larger strategy spaces are allowed is not fully und
 Non-Deterministic Pushdown Automata have the advantage that they can represent all of the Regular Language strategy space, plus the Context-Free Language strategy space. They have the disadvantage that at any point multiple paths may be followed; a set of valid configurations is needed rather than a single configuration, impacting complexity and runtime. Using Deterministic Pushdown Automata removes this disadvantage, allowing only a single valid configuration. 
 It also limits the strategy space; all regular languages are still present, but now it is limited to Deterministic Context-Free Languages; and if only accept by state or only accept by empty stack is allowed, it is further limited. 
 
-It is useful to explore the statement of only one valid configuration with some examples, and convince ourselves that there is in fact only one valid configuration (with a caveat) for any DPDA. 
-Take an example where we have null transitions between several states, and transition from reading 'C' emanating from one of these states. 
-Is this a DPDA, and is there really only one configuration for any input? 
-The transition 'C' combined with a null transition from the same state results in non-determinism. 
-So far, this is trivial. What about when that 'C' transition does not exist? 
-We could justify stopping at any of the null states. 
-So, we do in fact have a few valid configurations- and different results for each configuration. 
-The question we ask when we present a sequence to an Automaton is whether it is in the language. 
-So, the only question we need to answer is if *one* of these configurations is accepting. 
+The requirements of a DPDA are:
+
+
+
 \subsection{Mutation}
+As discussed previously *chap ref*, the mutation scheme matters. As long as it is a reasonable exploration of the strategy space we expect certain behaviour to hold, but much of the dynamics will be dependant on the mutation scheme chosen. Since I intend to extend work done with Finite State Automata, I have based my mutation scheme heavily on a mutation scheme for Finite State Automata.
+
+The first mutation is the Add State mutation. A state is generated, which can be either an accepting state or a non-accepting state. Additionally, an outbound transitions is added with random Read, Pop, Push instructions and a random destination (with no bias towards 'nearby' states, or bias against the new state itself as the destination). One transition is rerouted with the new state as its destination, ensuring the new state is connected to the Automaton. 
+
+Alternative mutation schemes could already be noted for just this first mechanism. 
+The requirement that the new state be connect could be dropped- perhaps with justification to biologic systems. Inactive, and potentially useless information may exist in a genome. 
+It could also be important- at some later stage it may be the subject of an advantageous mutation. 
+The connected requirement is made in order to address bloat *a ref here*. 
+Another alternative would be to not add any transitions- or to add an inbound transition rather than reroute an existing one. The method chosen is used as it ensures connectedness and is a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted (Read, Pop, Push, Destination), whereas the single re-routing is only one parameter change.
+
+Removing a state is the second method of mutation. Outbound transitions from the state are deleted. 
+Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. 
 \chapter{Discussion Chapters}
 
 \chapter{Conclusion}
