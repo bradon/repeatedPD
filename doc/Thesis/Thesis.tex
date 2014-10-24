@@ -728,9 +728,18 @@ The connected requirement is made in order to address bloat *a ref here*.
 Another alternative would be to not add any transitions- or to add an inbound transition rather than reroute an existing one. The method chosen is used as it ensures connectedness and is a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted (Read, Pop, Push, Destination), whereas the single re-routing is only one parameter change.
 
 Removing a state is the second method of mutation. Outbound transitions from the state are deleted. 
-Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. Rerouting is chosen over deleting all related transition to minimize the size of the mutation. 
+Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. Rerouting is chosen over deleting all related transition to minimize the size of the mutation. If the initial state is removed, another randomly chosen state is assigned as the initial state.
 
-Adding a transition involves randomly selecting a source, destination, and Read Pop and Push instructions. 
+Adding a transition involves randomly selecting a source, destination, and Read Pop and Push instructions. All factors are uniformly selected, with the exception of only allowing a Stack interactions with a stack marker to both pop and push; not one or the other. 
+
+The remove transition mutation removes a transition. As a result, this may trigger more substantial changes to the Automaton. For example, it may disconnect the Automaton, making part unreachable and causing it to be pruned. 
+
+Each parameter that a Transition contains can also change. It's destination state, read condition, pop condition and push instruction can all be changed. These are selected randomly, with the exception of stack markers (with the pop and push condition as before). Transitions that would make the Automaton Non-Deterministic are simply not added, so the Automaton does not change on this mutation event in that case.
+
+*?Finally, the accepting/non-accepting parameter of a state can be flipped.
+
+Note that this scheme can explore the entirety of the strategy space that can be represented by Deterministic Pushdown Automata which accept by final state. 
+
 \chapter{Discussion Chapters}
 
 \chapter{Conclusion}
