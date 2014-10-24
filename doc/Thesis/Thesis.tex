@@ -710,6 +710,8 @@ How the dynamics change when larger strategy spaces are allowed is not fully und
 Non-Deterministic Pushdown Automata have the advantage that they can represent all of the Regular Language strategy space, plus the Context-Free Language strategy space. They have the disadvantage that at any point multiple paths may be followed; a set of valid configurations is needed rather than a single configuration, impacting complexity and runtime. Using Deterministic Pushdown Automata removes this disadvantage, allowing only a single valid configuration. 
 It also limits the strategy space; all regular languages are still present, but now it is limited to Deterministic Context-Free Languages; and if only accept by state or only accept by empty stack is allowed, it is further limited. 
 
+A DPDA consists of States which can be accepting or non-accepting, a Stack which contains letters from the Stack Alphabet, a Tape containing letters from the Tape Alphabet which can only be read in one direction, and Transitions. These transitions are followed according when the letter read from the tape matches the Read parameter for that transition, and the stack contains the transitions Pop parameter at the top. As the transition is followed, the State changes to the Destination and the character that is the transitions Push parameter is pushed to the top of the stack. 
+
 The requirements of a DPDA are:
 
 
@@ -726,7 +728,9 @@ The connected requirement is made in order to address bloat *a ref here*.
 Another alternative would be to not add any transitions- or to add an inbound transition rather than reroute an existing one. The method chosen is used as it ensures connectedness and is a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted (Read, Pop, Push, Destination), whereas the single re-routing is only one parameter change.
 
 Removing a state is the second method of mutation. Outbound transitions from the state are deleted. 
-Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. 
+Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. Rerouting is chosen over deleting all related transition to minimize the size of the mutation. 
+
+Adding a transition involves randomly selecting a source, destination, and Read Pop and Push instructions. 
 \chapter{Discussion Chapters}
 
 \chapter{Conclusion}
