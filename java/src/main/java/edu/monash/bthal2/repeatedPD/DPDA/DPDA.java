@@ -31,6 +31,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public static final char[] stackAlphabet = { 'l', 'a', stackMarker };
 	public static final Action[] inputAlphabet = { null, Action.COOPERATE,
 			Action.DEFECT };
+	private static final boolean debug_strategies = false;
 	// Notes: -Testing for determinism is easiest to do from perspective of
 	// transitions from a state
 	// Treating Transitions as link between states, which belongs in the state
@@ -90,8 +91,10 @@ public class DPDA implements Agent, RepeatedStrategy {
 				// map old transition to new
 				State newDestination = map.get(transition.getDestination());
 				if (newDestination == null) {
-					System.out.println("COPY HAD A NULL STATE");
-					printStrategy();
+					if (debug_strategies) {
+						System.out.println("COPY HAD A NULL STATE");
+						printStrategy();
+					}
 				} else {
 					Transition newTransition = newState.new Transition(
 							newDestination, transition.getRead(),
@@ -232,8 +235,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 				return defaultAction;
 			} catch (CycleException e) {
 				// Non-fatal
-				System.out.println("A DPDA appeared to have a cycle");
-				printStrategy();
+				if (debug_strategies) {
+					System.out.println("A DPDA appeared to have a cycle");
+					printStrategy();
+				}
+				
 				prefixInLanguage = false;
 				return defaultAction;
 			}

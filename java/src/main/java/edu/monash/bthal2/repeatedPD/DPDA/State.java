@@ -11,6 +11,7 @@ import edu.monash.bthal2.repeatedPD.DPDA.Exception.NoTransitionException;
 
 public class State {
 
+	private static final boolean debug_strategies = false;
 	// TODO: Getters/setters for everything (Before implementing copyable)
 	private ArrayList<Transition> transitions = new ArrayList<Transition>();
 	boolean isFinal = false;
@@ -175,9 +176,11 @@ public class State {
 	 * @return
 	 */
 	private State followNullTransitions(State state, int count) {
-		count=count+1;
+		count = count + 1;
 		if (count > loopTolerance) {
-			System.out.println("Appeared to have a loop");
+			if (debug_strategies) {
+				System.out.println("Appeared to have a loop");
+			}
 			return state;
 		}
 		for (Transition transition : state.transitions) {

@@ -29,19 +29,6 @@ public class DPDAMutator implements AgentMutator {
 
 	private double[] distributionOfEvents;
 
-	// private double flipInLanguage = 1.0 * 1 / mutationOptions;
-
-	// private double addingStatesProbability = 1.0 * 1 / 28;
-	// private double removingStatesProbability = 1.0 * 1 / 28;
-	// private double addTransitionProbability = 1.0 * 1 / 14;
-	// private double removeTransitionProbability = 1.0 * 1 / 14;
-	// private double changingReadProbability = 1.0 * 1 / 7;
-	// private double changingPopProbability = 1.0 * 1 / 7;
-	// private double changingPushProbability = 1.0 * 1 / 7;
-	// private double changingDestinationProbability = 1.0 * 1 / 7;
-	// private double flipState = 1.0 * 1 / 7;
-	// private double flipInLanguage = 1.0 * 1 / 14;
-
 	// TODO: Consider putting changes to transitions as a sub operation of
 	// change
 	public DPDAMutator() {
