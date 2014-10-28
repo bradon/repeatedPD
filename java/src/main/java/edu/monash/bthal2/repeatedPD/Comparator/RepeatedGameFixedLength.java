@@ -24,7 +24,7 @@ public class RepeatedGameFixedLength {
 		playerTwo.reset();
 		double[][] payoffArray=new double[2][2];
 		payoffArray[0][0]=rg.getReward();
-		payoffArray[1][1]=rg.getSucker();
+		payoffArray[1][1]=rg.getPunishment();
 		payoffArray[0][1]=rg.getTemptation();
 		payoffArray[1][0]=rg.getSucker();
 
@@ -51,6 +51,7 @@ public class RepeatedGameFixedLength {
 			RepeatedStrategy playerTwo, ArrayList<Action> actionsPlayerOne,
 			ArrayList<Action> actionsPlayerTwo, double[][] payoffArray) {
 		// history tracking
+
 		Action playerOneAction=playerOne.currentAction();
 		Action playerTwoAction=playerTwo.currentAction();
 		actionsPlayerOne.add(playerOneAction);
