@@ -1,9 +1,12 @@
 package edu.monash.bthal2.repeatedPD.LookupTableRepresentation;
 
+import java.lang.reflect.Array;
+
 import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.agentbased.AgentBasedPopulation;
 import com.evolutionandgames.agentbased.AgentBasedPopulationFactory;
 import com.evolutionandgames.agentbased.extensive.ExtensivePopulationImpl;
+import com.evolutionandgames.repeatedgames.evolution.Action;
 
 /**
  * Factory for Agents with memory 1/2 , length 1
@@ -30,6 +33,11 @@ public class LookupStrategyLengthOneFactory implements
 	 */
 	public static LookupStrategyLengthOne allD() {
 		return new LookupStrategyLengthOne();
+	}
+	
+	public static LookupStrategyLengthOne stft() {
+		Action[] stft ={Action.DEFECT,Action.COOPERATE,Action.DEFECT};
+		return new LookupStrategyLengthOne(stft);
 	}
 
 	/*

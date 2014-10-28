@@ -1,5 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA;
 
-public class MutationParamaters {
+public class MutationParameters {
 
 }

@@ -323,6 +323,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 			if (states.get(i).isFinal) {
 				builder.append("F");
 			}
+			if (states.get(i)==initialState) {
+				builder.append("I");
+			}
 		}
 		builder.append("T#");
 		// This is terrible, revisit asap

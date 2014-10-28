@@ -91,7 +91,7 @@ public class DPDAFactory implements AgentBasedPopulationFactory {
 			tft.setInitialState(acceptState);
 			State rejectState = new State();
 			tft.addState(rejectState);
-			System.out.println(tft.getStates().size());
+//			/System.out.println(tft.getStates().size());
 			Transition selfCTransition = acceptState.new Transition(
 					acceptState, Action.COOPERATE, DPDA.emptyChar,
 					DPDA.emptyChar);
