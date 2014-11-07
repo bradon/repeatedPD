@@ -29,7 +29,7 @@
 
 % Definitions needed by the cssethesis class. See the documentation for
 % others
-\thesisauthor{Bradon Thoms Hall}
+\thesisauthor{Bradon Thomas Hall}
 \thesisauthorlastname{Hall}
 \thesisauthorpreviousdegrees{BSc, BCompSc} % Optional
 %\thesisdepartment{Caulfield School of Information Technology} % Optional.
@@ -117,13 +117,71 @@ Based on history of actions, the transitions are followed.
 How the individual behaves depends on what state it ends up on after following this history. 
 
 This representation cannot represent all possible ways of choosing how to interact- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata. Finite State Automata define a class of strategies called Regular strategies. I will examine some that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
-\section{Objectives}
+\section{Objectives and Research Questions}
 \section{Thesis Structure}
 
 \chapter{Research Context}
 \section{Game Theory}
+A game is a competition between two or more individuals who make choices as to how to interact. 
+Depending on the choices made, each individual gains a payoff.  
+I consider games where two players compete at once in particular, with any number of possible players in the entire population. 
+Each player plays using a strategy, which we might represent explicitly, or we might simply state the payoff that the strategies gain against each other. 
+Game Theory is the study of what strategies will be successful in a given scenario. 
+
+The general approach in game theory is to consider a scenario, and simplify it. 
+By doing this we examine the general dynamics of a situation. 
+Each individual playing a game is assumed to try to maximize their personal payoff. 
+For example; let us look circumstances where aggression or non-aggression are possible strategies. 
+Two birds compete for a benefit; they fight for some food. 
+A Hawk strategy escalates the fight. A Dove strategy fights with normal intensity against other Doves, avoiding injury, or retreats in response to escalation. 
+A cost is assigned to escalating a fight (due to injury); call it $c$. 
+A benefit is assigned to winning a fight, call it $b$. 
+So, if an individual plays a Hawk strategy against a Hawk strategy, they have a 50/50 chance of winning since they are equivalent. Hawk-Hawk results in an expected payoff of $\frac{{b}-{c}}{2}$. 
+When two Doves encounter each other, they don't get injured. 
+They have a 50/50 chance of winning the non-escalated fight, so the expected payoff is $\frac{b}{2}$. 
+A Dove retreats from a Hawk, avoiding injury but also losing any chance of getting the benefit. 
+So, they get a payoff of $0$. A Hawk wins by default since the Dove retreats, avoids injury, and gets all the benefit; they recieve a payoff $b$. 
+
+The payoff matrix for this scenario is given in Table \ref{table:payoffHD}.
+\begin{table}[h]\centering
+\captionsetup{justification=centering}
+\begin{tabular}{|l|c|c|}
+\hline
+ & \bf{Hawk} & \bf{Dove}\\
+\hline
+Hawk & $\frac{{b}-{c}}{2}$, {$\boldsymbol{\frac{{b}-{c}}{2}}$} & $b$,$\boldsymbol{0}$\\
+\hline
+Dove & $0$,$\boldsymbol{b}$ & $\frac{b}{2}$,$\boldsymbol{\frac{b}{2}}$ \\
+\hline
+\end{tabular}
+\caption{Payoff Matrix for the Hawk-Dove game}
+\label{table:payoffHD}
+\end{table}
+
+What is the best strategy to play? 
+Assume that each individual has a strategy they are going to use. 
+In a population of Doves, a lone Hawk will do well in comparison to the rest of the population, gaining the benefit (the food) without paying the cost (of injury). 
+The rest of the population (Doves) gains either $\frac{b}{2}$ or $0$. 
+
+In a population of Hawks, how well a Dove does depends on the parameters. 
+If the cost of injury is higher than benefit of winning the fight and getting the food, Hawks can be expected to get a negative payoff most of the time-- and so the lone Dove, with $0$ expected payoff may have the best expected payoff. In a population of 100 Hawks and 1 Dove, where each individual plays another individual randomly, a Hawk is expected to make $\frac{99}{100}\cdot\frac{b-c}{2}+\frac{1}{100}\cdot b$ and a Dove is expected to make $0$.
+
+Existing literature in Game Theory allows us to analyse scenarios like these, and answer what is the best strategy to play.
 \subsection{Nash Equilibria}
+The Nash Equilibria for a game are the strategies from which individuals have no incentive to switch. 
+That is, it cannot get a higher payoff by choosing, on its own, to switch to a new strategy. 
+
+A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing any other strategy ($T$) in the set of possible strategies ($S$) by changing to another strategy ($x^\prime$):
+\begin{equation}
+\forall T \neq x, \{T,x\} \in S: \pi(x,T)\geq \pi(x^\prime,T)
+\end{equation}
+Where $\pi(A,B)$ is the payoff for $A$ when it plays against $B$. 
+If the relation is greater than, it is a Strict Nash equilibrium. 
+If it is greater than or equal to, it is a Weak Nash equilibrium.
+
 \subsection{Evolutionary Stable Strategies}
+In an environment where strategies evolve, an extra condition must be added to see what is the best performing strategy. 
+
 \subsection{Replicator Dynamics}
 
 \section{The Prisoner's Dilemma}
@@ -155,10 +213,10 @@ FSA with only one valid transition for any input are Deterministic FSA.
 For every Non-Deterministic FSA, there is a Deterministic FSA that produces the same result for any valid input, equivalently; the two types of FSA can represent the same classes of languages/strategies \cite{Sipser2006chap1}. 
 
 Research Proposal Strategy Representations
-\subsection{Related Work}
+\section{Related Work}
 Literature Review Direct Reciprocity Section
 **REWORD ALL OF ME**
-\subsubsection{Axelrod's Tournaments}
+\subsection{Axelrod's Tournaments}
 \citet{axelrod:Science:1981} investigated the behaviour of strategies using computer tournaments, with repeated Prisoner's Dilemma games played between strategies submitted by people to the tournaments. 
 This study compared fitness (payoff of games) of submitted strategies playing each other. 
 Strategies play each other probabilistically; the game is not a fixed size, instead a continuation probability determines if they continue to play. Out of the 14 submitted strategies, Tit-For-Tat (TFT) performed best. 
@@ -177,7 +235,7 @@ From the outcome of the tournaments one might initially suspect Tit-For-Tat migh
 %Axelrod also let the players compete in an evolutionary environment. 
 %*Axelrod population vs population 1987 might be worth it here*
 
-\subsubsection{Evolving Strategies in Simulations}
+\subsection{Evolving Strategies in Simulations}
 \label{sec:axelrodEvolving}
 \citet{axelrod1987evolution} used a simple Genetic Algorithm approach to study the evolution of strategies for the Prisoner's Dilemma \citep{back1997handbook}. A half-memory approach is one in which the opponent's sequence of Cooperate (C) or Defect (D) moves are remembered. A full memory approach remembers its own moves, or equivalently the results (both C is the same as Reward, R, both D is the same as Punish, P, etc). A string of \{C,D\} represents each strategy. A Full-Memory approach was used in \citet{axelrod1987evolution}. 
 
@@ -203,7 +261,7 @@ In an environment where the competing strategies is not fixed, for example when 
 Axelrod also performed simulations in which reproduction only involved the chromosome of one parent; reproduction was asexual, involving no crossover, so new strategies only appeared from random mutations. 
 Again, Tit-For-Tat-like strategies evolved. However, strategies that exploited one of the 8 representatives did not appear as often. Reproduction mechanism affects results of this simulation- in this case, crossover explored the strategies differently to only mutating, and as will be discussed further how strategies mutate from one to another is important. 
 
-\subsubsection{Fogel's Automata}
+\subsection{Fogel's Automata}
 \citet{fogel1993evolving} studied the evolution of strategies using Finite State Automata (FSA). 
 These are abstract computing machines with a number of states, and a number of transitions \citep{Sipser2006}. 
 Each state can be labelled an accept state, and one state is labelled the start state. 
@@ -223,7 +281,7 @@ When payoff for exploiting the opponent is increased, it is expected that mutual
 This approach limits the strategies that can evolve to those representable by Automata with 8 nodes. 
 It also uses fixed length games; with an expanded strategy space, cooperation would not be expected with this simulation.
 
-\subsubsection{Miller's Automata}
+\subsection{Miller's Automata}
 \citet{miller1996coevolution} used FSA, of a size of 16 states, to perform Prisoner's Dilemma simulations.  
 Each FSA is represented by a string of bits. 
 To define each state, 9 bits are used. One bit defines what to do if the history input to the machine ends at the state- or, equivalently defines if it is an accept state. Four bits define what state to transition to in response to a cooperation, and the final 4 define what to do in response to a defection (16 states, so 4 bits are required to identify the target state). 
@@ -491,9 +549,9 @@ I intend to improve upon this work in the future here, perhaps with others inter
 \bibliographystyle{dcu} % A good style to use with the Harvard package
 \bibliography{examplebib}
 
-\chapter{Last Thing} % Appendices after the \backmatter command do not
+%\chapter{Last Thing} % Appendices after the \backmatter command do not
 						% get a letter
-This sort of appendix has no letter. 
+%This sort of appendix has no letter. 
 
 
 \end{document}
