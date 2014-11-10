@@ -121,13 +121,12 @@ More recently, the interplay between reciprocity, structure, and resulting behav
 To study cooperation, a simple representation is used for the individuals that interact. One popular method is to use Finite State Automata. 
 In short, these machines have a collection of states and transitions between states. 
 In a repeated game, the history is the series of moves that have occured so far in an interaction between two players. 
-Based on history of actions, the transitions in a FSA are followed. 
+Based on history of actions, the transitions in an FSA are followed. 
 How the individual behaves depends on what state it ends up on after following this history. 
 If it ends on a state that is a final state, it cooperates. If it ends on a state that is not a final state, it defects. An example is shown in figure \ref{fig:fsa.tft.lang}. This strategy, called Tit-For-Tat (TFT) starts where the arrow indicates; which is an accepting state (indicated by two circles).
 
 \begin{figure}
-\centering
-\label{fig:fsa.tft.lang}
+\center
 \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
 \node[initial,state,accepting] (C)	{C};
 \node[state] (D) [right of=C] {D};
@@ -136,7 +135,8 @@ If it ends on a state that is a final state, it cooperates. If it ends on a stat
 \path[->] (C) edge [loop above] node {C} (C);
 \path[->] (C) edge [bend left] node {D} (D);
 \end{tikzpicture}
-\caption{Tit-For-Tat as a FSA}
+\caption{Tit-For-Tat as an FSA}
+\label{fig:fsa.tft.lang}
 \end{figure}
 
 This representation does not cover all possible ways of choosing how to interact-- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata. Finite State Automata define a class of strategies called Regular strategies. I will examine some strategies that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
@@ -436,25 +436,26 @@ A notable one being that the specific strategies examined must be chosen some ho
 If we know or can guess what strategies will be important, this is an effective tool. 
 One way to find what strategies will be important is through simulating an evolutionary environment. 
 
-Instead of picking the strategy, we pick a representation method of some sort. 
-The goal of this representation is to take a History $\mathcal{H}$ of previous moves in an interaction, and map it to the action $\mathcal{A}$ the strategy decides to use:
+Instead of picking the strategy, we pick a representation. 
+A strategy takes a History $\mathcal{H}$ of previous moves in an interaction, and maps it to the action $\mathcal{A}$ the strategy decides to use:
 \begin{equation}
 f: \mathcal{H} \rightarrow \mathcal{A}
 \end{equation}
+The representation will be able to represent a subset of all possible strategies $f$ for the repeated Prisoner's Dilemma. 
 In the case of the simulation presented in this thesis, $\mathcal{H}$ contains previous moves of an opponent-- so a sequence of $\{C,D\}$. 
 If instead the full history is recorded -- a combination of both what the opponent and the strategy itself did-- a sequence of pairs of $\{C,D\}$ or a sequence of results $\{R,T,S,P\}$ would be recorded. \citet{Axelrod1987} and \citet{fogel1993evolving} are two examples of work using this 'full-memory' representation that will be discussed in \ref{sec:relatedWork}.
 
 In addition to the method to map from a History to an Action, a mutation scheme is also needed; to take an existing strategy and create a new one. 
-This Genetic Programming approach will allow the creation of strategies, without the researcher needing to design or pick any. 
+This will allow the creation of strategies, without the researcher needing to design or pick any \citep{koza}. 
 
-Previous work that will be discussed has used primarily a Finite State Automata model for strategies. 
-A simple model, that of the Lookup Table as well as FSA models will be discussed.
+Previous work has primarily used a Finite State Automata model for strategies. 
+An even simpler representation, is that of the Lookup Table. 
+I will discuss both these methods in this section. 
 \subsection{Lookup Tables}
-One approach to represent strategies playing the prisoner's dilemma is to have a list of possible histories, and how to respond to that history. This is called a Lookup Table. 
+One approach to represent strategies is to have a list of possible histories, and how to respond to that history. This is called a Lookup Table. 
 
-For example, consider a representation that consists of a binary string of length 3 \citep{garcia:PLoSOne:2012}. 
+For example, consider a representation that consists of a binary string of length 3 \citep{garcia:PLoSOne:2012}. A $0$ represents a choice to cooperate, a $1$ represents a choice to defect. 
 The first digit represents the move performed in the initial game, when no history exists between two players. 
-A $0$ represents a choice to cooperate, a $1$ represents a choice to defect. 
 The next two digits determine the choice made, based on the previous choice made by the opponent and discarding all previous history. 
 The second digit in the three digit string describes what the strategy does in response to a cooperation. 
 The final digit describes what the strategy does in response to a defection. 
@@ -480,28 +481,27 @@ STFT & Defect, then repeat opponents last move & 101\\
 \label{table:binaryStrategy}
 \end{table}
 
-The length 3 binary string method can explore a set of $2^3=8$ strategies. Increasing the size of the string can allow consideration of larger sets of history. 
-If all bar the last 2 moves are discarded, and so decisions are made based on the last 2 moves, $2^7=32$ strategies can be represented. 
+The length 3 binary string representation can explore a set of $2^3=8$ strategies. Increasing the size of the string can allow for longer histories. 
+If all except the last two moves are discarded, decisions are made based on the last 2 moves. 
+With this representation $2^7=32$ strategies can be represented. 
 
 Part of what makes this a good example representation is that it allows for several example mutation schemes. 
 We could vary the strategies by flipping a bit in the string that represents the strategy. 
-Alternative methods could be used; we could use a 'mutation kernel' that indexes all strategies possible. 
-For a 3-bit lookup table, this would require an 8x8 matrix, that gives the probability of mutating from any of the 8 states to any other of the 8 states. 
-The mutation kernel could assume uniform mutations; that any one state is reachable from any other state in a single mutation. 
-Each term in the matrix could also have some other justification; it could be based on the number bit flips to get from one strategy to another. 
-This matters; \citet{garcia:PLoSOne:2012} showed the results from uniform or bitwise kernels differed; cooperative strategies were less common with the bitwise kernel. 
-
-Knowing that mutation schemes matter, how should we go about picking one?
-If we are simulating some biologic process, we could base our mutation scheme off that. 
-In this thesis, strategies in general will be represented. 
-One approach in design for a mutation scheme could be to aim for minimal mutations, for every possible mutation. 
-
-Possible mutation schemes for lookup tables are not related to what I have discussed. 
 Other examples could include multiple flips, or inverting the entire string. 
 Crossover could be used; selecting a new strategy with parts from the lookup table of 2 parents.
 
+Alternatively, we could use a `mutation kernel' that indexes all strategies possible. 
+For a 3-bit lookup table, this would require an 8x8 matrix, that gives the probability of mutating from any of the 8 states to any other of the 8 states. 
+The mutation kernel could assume uniform mutations; that any one state is reachable from any other state in a single mutation. 
+Each term in the matrix could also have some other justification; it could be based on the number bit flips to get from one strategy to another. 
+\citet{garcia:PLoSOne:2012} showed the results from uniform or bitwise kernels differed; cooperative strategies were less common with the bitwise kernel. 
+
+%Knowing that mutation schemes matter, how should we go about picking one?
+%If we are simulating some biological process, we could base our mutation scheme on biological %factors. 
+%The approach in this thesis is to design a scheme with minimal mutations, that can explore the entire strategy space representable by the computational model used. 
+
 \subsection{Finite State Automata}
-A common method used to represent strategies is Finite State Automata. 
+Another common representation is Finite State Automata. 
 A Finite State Automaton consists of a set of states, a set of transitions from state to state, and each state can be marked as an accepting state. 
 Based on the history between two players in the current interaction, the transitions are followed until the history has been read. 
 If the state the automaton ends up on is an accepting state, the individual represented by that automaton Cooperates, if not, they Defect. 
@@ -520,8 +520,7 @@ The input alphabet is $\Sigma=\{C,D\}$ and $C$ is the initial state.
 There are four transitions; $C$ to $C$ when C is read, $D$ to $C$ when C is read, $C$ to $D$ when D is read, and $D$ to $D$ when $D$ is read.
 
 \begin{figure}[h]
-\centering
-\label{fig:fsa.tft.lang2}
+\center
 \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
 \node[initial,state,accepting] (C)	{C};
 \node[state] (D) [right of=C] {D};
@@ -530,7 +529,8 @@ There are four transitions; $C$ to $C$ when C is read, $D$ to $C$ when C is read
 \path[->] (C) edge [loop above] node {C} (C);
 \path[->] (C) edge [bend left] node {D} (D);
 \end{tikzpicture}
-\caption{Tit-For-Tat as a FSA}
+\caption{Tit-For-Tat as an FSA}
+\label{fig:fsa.tft.lang2}
 \end{figure}
 
 It is common that the transition function $\delta$ is a total function in Prisoner's Dilemma's- for every possible input (of a symbol from the input alphabet $\Sigma$) at any state a transition exists. 
@@ -546,8 +546,7 @@ This graph based view is used in \cite{van-veelen:PNAS:2012}.
 
 Alternatively, we could set the number of states to a constant or upper limit and represent the FSA by a string; for example a 4 state machine could be given as in Table \ref{table:fsa4state}:
 \begin{figure}[h]
-\centering
-\label{table:fsa4state}
+\center
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 0C & 0D & 1C&1D&2C&2D&3C&3D\\
@@ -556,12 +555,13 @@ Alternatively, we could set the number of states to a constant or upper limit an
 \hline
 \end{tabular}\hfill
 \caption{String representation for a 4 state FSA}
+\label{table:fsa4state}
 \end{figure}
 The FSA given in \ref{table:fsa4state} is the equivalent of TFT, given earlier. 
 Each column gives what to do if you are at a certain state, and read a certain input. 
 So, at state 0 you transfer to state 0 (00) if you read C. 
 You transfer to state 1 (01) if you read D. 
-So, a FSA can be represented by a string (in this case 0001000110101111) or number. 
+So, an FSA can be represented by a string (in this case 0001000110101111) or number. 
 Mutation schemes discussed in Lookup Tables can also be applied to FSA. 
 
 Variants on these methods are used in the work discussed.
@@ -622,7 +622,7 @@ Based on some input sequence, transitions are followed from one state to the nex
 When the machine has read all input, the final state may be an accept or reject state. 
 So, it can compute whether a sequence meets or does not meet a criterion. 
 
-The sequence of \{C,D\} choices (the history) in a game of Prisoner's Dilemma lends itself to this method; view the strategy as a language defined by a FSA. When a history is a word in that language (when its FSA ends in an accept state) the strategy cooperates, when it is not it defects. Fogel used FSA with a maximum of 8 states, to simplify analysis of evolved strategies. The strategies were full-memory, knowing both their opponent's history of moves and their own. 
+The sequence of \{C,D\} choices (the history) in a game of Prisoner's Dilemma lends itself to this method; view the strategy as a language defined by an FSA. When a history is a word in that language (when its FSA ends in an accept state) the strategy cooperates, when it is not it defects. Fogel used FSA with a maximum of 8 states, to simplify analysis of evolved strategies. The strategies were full-memory, knowing both their opponent's history of moves and their own. 
 A population of size 50 to 1000 was used, 151 games were played for each interaction, and there were at most 200 generations. 
 Number of generations and repetitions of experiments were limited by hardware. As in Axelrod, new strategies are created by mutations of parents, and what strategies reproduce are decided by fitness. 
 
@@ -659,7 +659,7 @@ One interpretation of this result is that establishing a pattern of behaviour be
 In the simulation, defection was reciprocated at a high rate, and cooperation was reciprocated at a lower rate- but still reciprocated. 
 Higher noise also negatively impacted rates of cooperation. 
 
-Miller's work provides a clear technique for defining a FSA, a simple mutation method, and various features of FSA that may be worth studying- like the number of states, and number of terminal states (both transitions at this state are to itself). However, in limiting the number of states, the strategy space is limited. Games are also fixed length; if the number of states were unbounded, this simulation would eventually collapse to a population of full defectors \citep{aumann1995backward}. Probabilistic length games, as I have used, would avoid this issue.
+Miller's work provides a clear technique for defining an FSA, a simple mutation method, and various features of FSA that may be worth studying- like the number of states, and number of terminal states (both transitions at this state are to itself). However, in limiting the number of states, the strategy space is limited. Games are also fixed length; if the number of states were unbounded, this simulation would eventually collapse to a population of full defectors \citep{aumann1995backward}. Probabilistic length games, as I have used, would avoid this issue.
 
 \subsection{Direct Reciprocity in Structured Populations}
 **REWORD ALL OF ME**
@@ -746,7 +746,12 @@ Defect & b, \bf{-c}  & 0, \bf{0} \\
 
 The analysis focused on identifying behaviour as both continuation probability (so, number of times the game is played) and Assortment are varied. Assortment is the likelihood of meeting an alike player: there is $r$ chance that the other player is the same as the current player, and $1-r$ chance that they other player is selected at random from the population \citep{eshel:PNAS:1982}. Several regions of predictable behaviour exist in a graph of continuation probability vs assortment. This graph is reproduced in Figure~\ref{fig:regions}. The graph is for b/c=2, different ratios will change the curves separating regions- but the results will be qualitatively the same. 
 
-**FIGURE OF PNAS**
+\begin{figure}[h]
+\center
+\includegraphics{regions}
+\caption{Regions of Expected Behaviour}
+\label{fig:regions}
+\end{figure}
 
 In Region I, ALLD is an equilibrium- determined by comparing the payoff of ALLD to a mutant that cooperates at least once. It is not the only equilibrium in the region, but equilibria strategies will play Defect against themselves and ALLD. In this region, cooperation is not expected; no cooperating strategy is an equilibrium.
 
@@ -825,7 +830,7 @@ This is a more complex task than Deterministic Pushdown Automata, due to needing
 This results in more complicated software to create, and more computation needed to determine if one of the configurations is an accepting configuration. \\
 
 Third party software was explored for use with this; specifically \citet{JFLAP}. 
-This was designed as a learning tool for Theory of Computation, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported- re-checking if the entirety of the current history instead of just iterating to the next item in the history- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage.
+This was designed as a learning tool for Theory of Computation \cite{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported- re-checking if the entirety of the current history instead of just iterating to the next item in the history- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage.
 
 An example of a Deterministic Pushdown Automata is given in Figure \ref{fig:dpda}. 
 It should be familiar-- it is a variation on TFT. 
@@ -960,7 +965,7 @@ The number of times each strategy is found over an entire can be reported based 
 \chapter{Results and Discussion}
 \section{Overall Cooperation}
 \begin{figure}[h]
-\centering
+\center
 \includegraphics{cooperationOverall}
 \caption{Cooperation observed}
 \label{fig:cooperation}
