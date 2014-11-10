@@ -853,7 +853,29 @@ This scheme can explore the entirety of the strategy space that can be represent
 Simulations were created in Java, extending existing code for simulating repeated games \citep{jggit}. 
 The simulations accept a collection of parameters specifying the simulation, and output either a time series or an estimate of the payoff of the population. 
 The time series contains the state of the population in specified generations. 
-It reports the payoff of the population in that generation, the strategies present in the population, and the number of each strategy present. 
+It reports the payoff of the population in that generation, the strategies present in the population, and the number of each strategy present. For example, a line of output may read:\\
+``2023340,500.0,"Strategy : S\#q0FIT\#q0-q0vC.\$--$>$\$\&, Count : 250;"''\\
+Meaning at generation 2023340 payoff was 500, and only one strategy was present (with a count of 250). 
+This strategy is shown in Figure \ref{fig:grim}. 
+
+\begin{figure}[h]
+\centering
+\includegraphics{grim}
+\caption{The Grim Strategy}
+\label{fig:grim}
+\end{figure}
+
+The "S\#q0FI" indicates one state, q0, which is accepting (final) and initial. 
+There is one transition-- when C is read and the top of the stack is empty (\$ is the stack marker), the stack remains the same and the state does not change. 
+This strategy is Grim--Trigger; it cooperates until its opponent defects, then never cooperates again. 
+
+
+\begin{figure}[h]
+\centering
+\includegraphics{wrightfischer}
+\caption{Wright-Fischer Process}
+\label{fig:wright}
+\end{figure}
 
 
 The Monash Campus Cluster \citep{cluster} was used for running simulations. 
@@ -866,7 +888,27 @@ What strategies are common with theses parameters?
 The number of times each strategy is found over an entire can be reported based on this time series, at which point the number of each strategy present when the strategy is common can be examined. Important factors to consider is how it enters the population, and how it exits if it does so. 
 
 \chapter{Results and Discussion}
+\section{Overall Cooperation}
+\begin{figure}[h]
+\centering
+\includegraphics{cooperationOverall}
+\caption{Cooperation observed}
+\label{fig:cooperation}
+\end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics{cooperation}
+\caption{Difference to FSA Paper}
+\label{fig:difference}
+\end{figure}
+\section{Behaviour in Regions}
+\subsection{Region I}
+\subsection{Region II}
+\subsection{Region III}
+\subsection{Region IV}
+\section{Successful DPDA Strategies}
+\subsection{Games with Noise}
 \chapter{Conclusions}
 
 \appendix % all \chapter{..} commands after this will generate appendices
