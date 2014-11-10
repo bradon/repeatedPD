@@ -26,6 +26,7 @@
 \usepackage{amssymb}
 \usepackage{subfig}
 \usepackage{tikz}
+\usepackage{listings}
 \usetikzlibrary{arrows,automata}
 \bibpunct{(}{)}{;}{a}{,}{,} % use more standard Harvard punctuation
 \renewcommand{\cite}{\citep} % often a useful short-cut
@@ -76,7 +77,7 @@ Thesis abstract page
 \thesisdeclarationpage			% generate the declaration page (optional).
 
 \begin{thesisacknowledgments}	% generate the acknowledgements page (optional).
-I would like to thank my supervisor Julian Garcia, as well as my friends, family and colleagues for their support over this past year. Special thanks to Candace Nazareth and Melissa Hall for their support and helpful critique of work over this year.
+I would like to thank my supervisor Julian Garcia, as well as my friends, family and colleagues for their support over this past year. In particular, thanks to Candace Nazareth and Melissa Hall for their support and helpful critique of my work over this year.
 %I would like to thank everyone who helped to make this possible. It has
 %been an incredible journey of self-discovery, and I love every last one of
 %you\ldots
@@ -90,8 +91,8 @@ I would like to thank my supervisor Julian Garcia, as well as my friends, family
 
 \chapter{Introduction}
 In competitive environments, cooperation often emerges. 
-Most notably in biology, with members of the population (not necessarily the same species) often working together for survival. 
-We are considering cases where there is some benefit getting help, and some cost to giving help. 
+Most notably in biology, with members of the population often working together for survival. 
+I will consider cases where there is some benefit getting help, and some cost to giving help. 
 For example, consider two predators sharing the food they capture in their separate hunts equally. 
 The predator can choose to share half the spoils of their hunt with their partner (cooperate), or to deceive their partner and keep an uneven share. 
 For simplicity, the deception is either full or not at all. 
@@ -104,8 +105,13 @@ If an encounter between two individuals is likely to re-occur, establishing coop
 It might be worth taking the risk of being exploited now, to secure cooperation in the future (there is incentive to reciprocate). 
 If reputation exists, so other members of a population can observe how an individual behaves with other members, cooperating could be a good idea so as to develop a reputation that you can be trusted. 
 If success is measured by your genes passing on to a new generation, then it can be beneficial to cooperate with kin so they pass on the genes you share with them. 
+These two ideas-- direct reciprocity and population structure (assortment)-- give mechanisms which could cause cooperation to be beneficial. 
+Success is not measured only by relative performance in a game. 
+I will consider strategies that must interact in a changing environment. 
+Some of the individuals they interact will occasionally change (mutate), and successful ones will reproduce-- it will be an evolutionary environment. 
+A successful strategy must play the game well relative to others in the population to ensure its survival, but it must also perform well as that environment changes.
 
-It is possible to investigate competition and cooperation mathematically-- Game Theory could be described as the study of competition and cooperation. 
+It is possible to investigate competition and cooperation mathematically-- Game Theory could be described as the mathematical study of competition and cooperation. 
 Consider the case of repeated interactions; for a given scenario, how high does the likelihood of repeating an interaction have to be for cooperating to be the best strategy? 
 In the case of cooperating with kin; how close should the relatives be for individuals to cooperate- should we cooperate fifth cousins, who share only a small number of genes? 
 
@@ -117,7 +123,7 @@ In short, these machines have a collection of states and transitions between sta
 In a repeated game, the history is the series of moves that have occured so far in an interaction between two players. 
 Based on history of actions, the transitions in a FSA are followed. 
 How the individual behaves depends on what state it ends up on after following this history. 
-If it ends on a state that is a final state, it cooperates. If it ends on a state that is not a final state, it defects. An example is shown in figure \ref{fig:TFT1}. This strategy, called Tit-For-Tat (TFT) starts where the arrow indicates; which is an accepting state (indicated by two circles).
+If it ends on a state that is a final state, it cooperates. If it ends on a state that is not a final state, it defects. An example is shown in figure \ref{fig:fsa.tft.lang}. This strategy, called Tit-For-Tat (TFT) starts where the arrow indicates; which is an accepting state (indicated by two circles).
 
 \begin{figure}
 \centering
@@ -133,36 +139,43 @@ If it ends on a state that is a final state, it cooperates. If it ends on a stat
 \caption{Tit-For-Tat as a FSA}
 \end{figure}
 
-This representation cannot represent all possible ways of choosing how to interact- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata. Finite State Automata define a class of strategies called Regular strategies. I will examine some that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
+This representation does not cover all possible ways of choosing how to interact-- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata. Finite State Automata define a class of strategies called Regular strategies. I will examine some strategies that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
 \section{Objectives and Research Questions}
-I have produced a simulation that can simulate the evolution of strategies in the Prisoner's Dilemma using a previously unexplored representation for those strategies. 
-The results of these simulations are used to answer several questions:
+%I have produced a simulation that can simulate the evolution of strategies in the Prisoner's Dilemma using a previously unexplored representation for those strategies. 
+I aim to answer several questions by evolving strategies in simulation:
 \begin{itemize}
 \item How does changing the strategy space affect the cooperation that is seen? 
 Results are compared to a previous simulation that used an FSA representation. 
-\item theoretical results hold with the larger strategy space? In certain regions of the graph, a bound can be placed on the behvaiour seen. 
+\item Do theoretical results hold with the larger strategy space? In certain regions of the graph, a bound can be placed on the behaviour seen. 
 \item Do successful non-regular strategies evolve?
 \end{itemize}
-The research contribution of my work is focused somewhat on the last question. 
-By asking this, I investigate the impact of the assumptions previous work has put on the capability of the strategies studied. 
+ 
+By asking the last two questions in particular, I investigate the impact of the assumptions previous work has put on the capability of the strategies studied. 
 
 \section{Thesis Structure}
-I will next discuss Game Theory as general background knowledge. 
-Building from this, I will discuss specific previous work into studying behaviour in the Repeated Prisoner's Dilemma. 
+The remainder of this thesis will be structured into several chapters.
+\begin{itemize}
+\item Research Context, in which I discuss fundamentals of game theory and previous studies of the repeated Prisoner's Dilemma.
+\item Research Methods, where I will discuss the details of my simulation and how results are analysed
+\item Results and Discussion, giving and discussing results of my work
+\item Conclusion, where I will summarise my work
+\end{itemize}
 
 \chapter{Research Context}
-My thesis is building of work in Game Theory in general, as well as specific work into the Repeated Prisoner's Dilemma. 
-Concepts from work in Game Theory will be discussed, as well as previous work into the simulated evolution of strategies for the repeated Prisoner's Dilemma.
+In this chapter, I will discuss several aspects of Game Theory my work uses, as well as specific work into the Repeated Prisoner's Dilemma. 
+Concepts from Game Theory will be discussed first, followed by as previous work into the simulated evolution of strategies for the repeated Prisoner's Dilemma. 
+Finally, I will discuss work that investigates when reciprocity (repeating the game) is combined with assortment (population structure).
 \section{Game Theory}
-A game is a competition between two or more individuals who make choices as to how to interact. 
+A game is a formalization of an interaction between two or more individuals who make choices. 
 Depending on the choices made, each individual gains a payoff.  
-I consider games where two players compete at once in particular, with any number of possible players in the entire population. 
+I consider games where two players compete at once in particular, with any number of possible players who could be paired. 
 Each player plays using a strategy, which we might represent explicitly, or we might simply state the payoff that the strategies gain against each other. 
 Game Theory is the study of what strategies will be successful in a given scenario. 
 
 The general approach in game theory is to consider a scenario, and simplify it. 
 By doing this we examine the general dynamics of a situation. 
 Each individual playing a game is assumed to try to maximize their personal payoff. 
+
 For example; let us look circumstances where aggression or non-aggression are possible strategies. 
 Two birds compete for a benefit; they fight for some food. 
 A Hawk strategy escalates the fight. A Dove strategy fights with normal intensity against other Doves, avoiding injury, or retreats in response to escalation. 
@@ -201,7 +214,7 @@ If the cost of injury is higher than benefit of winning the fight and getting th
 Existing literature in Game Theory allows us to analyse scenarios like these, and answer what is the best strategy to play.
 \subsection{Nash Equilibria}
 The Nash Equilibria for a game are the strategies from which individuals have no incentive to switch. 
-That is, it cannot get a higher payoff by choosing, on its own, to switch to a new strategy.  
+That is, they cannot get a higher payoff by choosing, on its own, to switch to a new strategy.  
 
 A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing any other strategy ($T$) in the set of possible strategies ($S$) by changing to another strategy ($x^\prime$):
 \begin{equation}
@@ -210,7 +223,7 @@ A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing an
 Where $\pi(A,B)$ is the payoff for $A$ when it plays against $B$. 
 Alternatively stated, a Nash Equilibrium is found when a strategy is the best reply to itself. 
 If the relation is greater than, it is a Strict Nash equilibrium. 
-If it is greater than or equal to, it is a Weak Nash equilibrium.
+If it is greater than or equal to, it is a Nash equilibrium.
 
 In the Hawk-Dove game for $c>b$, analysing the payoff for a Pure strategy (which always plays a stated strategy; in this one-shot version of the game, either Hawk or Dove) shows that neither is Nash. 
 When playing against a Hawk (H), you would do better to switch to Dove and avoid the cost. 
@@ -220,7 +233,7 @@ When playing against a Dove (D), you would do better to switch to Hawk and gain 
 \pi(D,D)&\ngeq \pi(H,D)
 \end{align*}
 
-If instead of playing with a set strategy, we can change to a scenario where two strategies probabilistically select a move. So, $p_1$ plays Hawk with probability $p$ and Dove with probability $p-1$. Strategies that make decisions probabilistically are Mixed Strategies. 
+If instead of playing with a single strategy, we can change to a scenario where two players probabilistically select an action. So, $p_1$ plays Hawk with probability $p$ and Dove with probability $p-1$. Strategies that make decisions probabilistically are Mixed Strategies. 
 In this case, the expected payoff must be calculated based on  probabilities of each move. 
 Consider some strategy $p_1$ playing itself: 
 \begin{align}
@@ -228,15 +241,24 @@ Consider some strategy $p_1$ playing itself:
 \pi(p_1,p_1)&=\pi_{H,H}*p_{H,H}+\pi_{D,D}*p_{D,D}+\pi_{D,H}*p_{D,H}+\pi_{H,D}*p_{H,D}\\
 \pi(p_1,p_1)&=\frac{b-c}{2}*p^2+\frac{b}{2}*(1-p)^2+0*(1-p)p+b*p(1-p) \nonumber
 \end{align}
-In a similar strategy, we can find the payoffs for all combinations of $p_1$ and $p_2$. 
-In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed strategies \footnote{In this case, a strategy that has a p of $b/c$. See \cite{Nowakp63}}. Pure strategies are the focus of this thesis, but the above serves as an introduction to updating the payoff matrix for a new scenario. 
+In a similar fashion, we can find the payoffs for all combinations of $p_1$ and $p_2$. 
+In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed strategies \footnote{In this case, a strategy that has a p of $b/c$. See \cite{nowak2006evolutionary63}}. Pure strategies are the focus of this thesis.
 
 \subsection{Evolutionary Stable Strategies}
-In an environment where strategies the strategies reproduce based on payoff from the game (fitness), an extra condition must be added to see what is the best performing strategy. 
+Instead of a number of strategies competing, let's consider a population that changes over time. 
+Players compete by playing the Prisoner's Dilemma. 
+The payoff results in a fitness, which determines the player's chance of reproducing. 
+In addition, new members can enter the population as mutations to a players strategy can occur when they reproduce. 
+In short, there will be random mutations and a selection condition (how well a player does in the population)-- it is an evolutionary environment. 
 
-In addition to not gaining a benefit from switching strategies in the immediate game, an Evolutionary Stable Strategy must survive against a population. 
+In an environment where strategies evolve, an extra condition must be added to see what is the best performing strategy. 
+In addition to not gaining a benefit from switching strategies in the immediate game, an Evolutionary Stable Strategy must survive in a population. 
 For example, in the Hawk Dove game given earlier, a single Dove entering a population of Hawks can do quite well. 
-That is, the population of individuals all playing Hawk are beaten by a single Dove invader (and likewise). 
+That is, the population of individuals all playing Hawk have a lower fitness than a Dove invader. 
+Its proportion in the population will grow; but Hawk gets a low payoff against itself. 
+So, as its proportion rises its payoff falls. 
+Will the population settle on some point? This will be discussed in Replicator Dynamics. 
+For now, I discuss the circumstance under which a strategy will stay the most common strategy used in a population. 
 
 For a strategy to be Evolutionarily Stable it must do better than any invader. 
 This is an extension to Nash:
@@ -245,9 +267,9 @@ This is an extension to Nash:
 \pi(x, T) &> \pi(T,T)
 \end{align*}
 In this example, I will call T an invader and x a candidate for ESS. 
-The weak Nash condition is used in this definition. 
+The non-strict Nash condition is used in this definition. 
 The extra condition considers that any invader will at some point play itself. 
-If the weak Nash condition is met, the invader does as well as the candidate against other strategies. 
+If the Nash condition is met, the invader does as well as the candidate against other strategies. 
 If the second condition is instead equal, it performs equivalently and each invader individual will have the same chance of reproducing as every candidate individual. 
 The candidate does not prevent invasion. 
 If the second condition is met, the invader cannot take over because sooner or later it plays itself, at which point it does worse than the candidate. 
@@ -256,36 +278,35 @@ The candidate is able to prevent invasion, and is an Evolutionary Stable Strateg
 
 \subsection{Replicator Dynamics}
 How strategies perform can be analysed with the Replicator equation. 
-The average fitness ($\phi(x)$) of a population ($x$, where $x_i$ is the number of strategy $i$ present) is found by summing total fitness of all members ($f_i(x)$, determined from payoffs) and dividing by the population size ($N$), with $n$ unique members:
+The average fitness ($\phi(x)$) of a population ($x$, where $x_i$ is the proportion of strategy $i$ present) is found by summing total fitness of all members ($f_i(x)$, determined from payoffs) and dividing by the population size ($N$), with $n$ unique members:
 \begin{equation}
-\phi(x)=\frac{1}{N}\sum_{i=1}^n x_i f_i(x)
+\phi(x)=\sum_{i=1}^n x_i f_i(x)
 \end{equation}
 The rate of change of the number of $i$ in a population is dependent on the proportion of $i$ in the population, and the fitness in relation to the rest of the population:
 \begin{equation}
-\dot{x}_i=\frac{x_i}{N} [ f_i(x)-\phi(x)]
+\dot{x}_i=x_i [ f_i(x)-\phi(x)]
 \end{equation}
-Dividing by N normalises the vector containing the number of each strategy type in a population, giving the proportion. 
 Given a proportion of a population, the rate of change can be found. 
 We can visualize how the strategies perform by plotting a phase diagram.  
 
-Take the example of the Hawk-Dove game. We'll use three strategies, so they can be plotted on a 2-d simplex. Let $b=2$ and $c=4$. The third strategy is a mixed strategy that plays either way with a fifty percent chance. 
+Take the example of the Hawk-Dove game. Using two strategies, the diagram is a line with arrows indicating the dynamics. In this example, $b=2$ and $c=4$ (see Table \ref{table:hawkdove50}).
 
 \begin{table}[h]\centering
 \captionsetup{justification=centering}
 \begin{tabular}{|l|c|c|c|}
 \hline
- & \bf{Hawk} & \bf{Dove} &\bf{1/2}\\
+ & \bf{Hawk} & \bf{Dove}\\
 \hline
-Hawk & 0, \bf{0} & 0, \bf{0}& 0, \bf{0}\\
+Hawk & -1, \bf{-1} & 2, \bf{0}\\
 \hline
-Dove & 0, \bf{0}  & 0, \bf{0}& 0, \bf{0} \\
-\hline
-1/2 & 0, \bf{0}  & 0, \bf{0}& 0, \bf{0} \\
+Dove & 0, \bf{2}  & 1, \bf{1} \\
 \hline
 \end{tabular}
-\caption{Payoff Matrix Hawk, Dove, 1/2}
+\caption{Payoff Matrix of Hawk--Dove with example values}
 \label{table:hawkdove50}
 \end{table}
+
+Figure X gives the diagram of the dynamics of the environment. An example with three strategies, giving a 2-d simplex, will be shown after I discuss repeating the Prisoner's Dilemma.
 
 \section{The Prisoner's Dilemma}
 The Prisoner's Dilemma is a simple model that has been widely used to study cooperation in repeated games \citep{Axelrod1997}. 
@@ -324,7 +345,7 @@ When the Prisoner's Dilemma is played multiple times, all parties defecting is n
 For the repeated Prisoner's Dilemma, the number of games played is not known by players in advance. 
 If both players knew how many rounds were to be played, the best move in the last round is defection. 
 The same logic causes the second last round to be a defection, and the problem reduces to the Nash equilibrium of the one-shot version. 
-A way to accomplish having an unknown number of rounds is to make future encounters probabilistic, the chance of another encounter between two players is the continuation probability $\delta$.
+A way to accomplish having an unknown number of rounds is to make future encounters probabilistic, the chance of another encounter between two players is given by the continuation probability $\delta$.
 
 \citet{garcia:PLoSOne:2012} calculate the payoff for strategy A from repeated games with strategy B as
 \begin{equation}
@@ -370,15 +391,18 @@ STFT & D & C&C&...\\
 \label{table:reciprocity}
 \end{figure}
 
-The previous combination of strategies can be examined analytically. 
-Equation \ref{eqn:repeatedPayoff} indicates a natural representation for the payoff of strategies as a matrix. 
-Comparisons can then be made between strategies, as done above but quantitatively. 
-Further, it can be determined what strategies will be selected for \citep{imhof:PNAS:2005}. 
-For example, a small number of ALLD can quickly dominate ALLC since ALLD gains a better payoff.
+Previously, the Replicator Equation was discussed. 
+What does the resulting 2-d simplex look like when ALLC, TFT and ALLD are compared? 
+For simplicity, I consider a case when the game is played 10 times. 
+
+FIGURE: TFT, ALLD, ALLC, maybe STFT
+ 
+These diagrams visualize the dynamics seen-- what strategies will be selected for in a givne population\citep{imhof:PNAS:2005}. 
+For example, a small number of ALLD can quickly dominate a population of ALLC since ALLD gains a better payoff. ** More**
 
 \subsection{Assortment}
-A solution in order to allow evolution of cooperative behaviour is to add structure to the population. 
-This also better reflects most situations that can be modelled with evolutionary simulations \citep{eshel:PNAS:1982}. 
+A mechanism to allow evolution of cooperative behaviour is to add structure to the population. 
+This also better reflects many situations that can be modelled with evolutionary simulations \citep{eshel:PNAS:1982}. 
 In nature, interaction between members of a population is not likely to be randomly distributed; interaction is more likely between kin, or social peers. 
 Structure can be added by changing the probability of interactions- a subset of a population is more likely to interact with that subset. 
 
@@ -406,7 +430,7 @@ For example, if T=3, R=2, P=1, S=0, and the population is 50 ALLC and 50 ALLD:
 \Pi^{(S)}_{ALLD}&=(1-r)(3*\frac{50}{99} + \frac{49}{99})+ r*1=\frac{199}{99}-\frac{199}{99}r+\frac{99}{99}r=\frac{1}{99}(199-100r)
 \end{align*}
 So ALLC has higher fitness if $r>101/200$. These cases demonstrate that structure can benefit cooperation. 
-\section{Simulating Strategies}
+\section{Representing Strategies}
 Previously discussed methods of analysing strategies for the repeated Prisoner's Dilemma have some limitations. 
 A notable one being that the specific strategies examined must be chosen some how. 
 If we know or can guess what strategies will be important, this is an effective tool. 
@@ -422,10 +446,10 @@ If instead the full history is recorded -- a combination of both what the oppone
 
 In addition to the method to map from a History to an Action, a mutation scheme is also needed; to take an existing strategy and create a new one. 
 This Genetic Programming approach will allow the creation of strategies, without the researcher needing to design or pick any. 
-\subsection{Representations}
+
 Previous work that will be discussed has used primarily a Finite State Automata model for strategies. 
 A simple model, that of the Lookup Table as well as FSA models will be discussed.
-\subsubsection{Lookup Tables}
+\subsection{Lookup Tables}
 One approach to represent strategies playing the prisoner's dilemma is to have a list of possible histories, and how to respond to that history. This is called a Lookup Table. 
 
 For example, consider a representation that consists of a binary string of length 3 \citep{garcia:PLoSOne:2012}. 
@@ -476,7 +500,7 @@ Possible mutation schemes for lookup tables are not related to what I have discu
 Other examples could include multiple flips, or inverting the entire string. 
 Crossover could be used; selecting a new strategy with parts from the lookup table of 2 parents.
 
-\subsubsection{Finite State Automata}
+\subsection{Finite State Automata}
 A common method used to represent strategies is Finite State Automata. 
 A Finite State Automaton consists of a set of states, a set of transitions from state to state, and each state can be marked as an accepting state. 
 Based on the history between two players in the current interaction, the transitions are followed until the history has been read. 
@@ -869,13 +893,59 @@ The "S\#q0FI" indicates one state, q0, which is accepting (final) and initial.
 There is one transition-- when C is read and the top of the stack is empty (\$ is the stack marker), the stack remains the same and the state does not change. 
 This strategy is Grim--Trigger; it cooperates until its opponent defects, then never cooperates again. 
 
+These DPDA strategies compete with other DPDA strategies for survival. 
+The simulation uses a Wright-Fisher process. Figure \ref{fig:wright} gives an overview of this process . 
+The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld} \footnote{In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''}. 
+Figure \ref{fig:wright} is started with a mixed population, to aid indicating how the process works. 
+The population in simulations is of a fixed size $N$, and $N$ is even. 
+Each player competes with a neighbour they are paired with, playing the repeated Prisoner's Dilemma, with the number of games they play dependent on the continuity probability $delta$. 
+Next, strategies reproduce. 
 
+Strategies in an odd position reproduce by chance, based on fitness. 
+In my example, A does well playing against the population, and is selected for the next generation. 
+Not always however; since a lower fitness strategy still has a chance (a lower chance) of reproducing. 
+Strategies in an even position reproduce by chance with probability $1-r$, where r is the assortment parameter, determining population structure. 
+
+Strategies in an even position have a probability $r$ of instead copying the neighbour strategy. 
+This is the means by which assortment is added. 
+Next, the population mutates. 
+The mutation probability is low; ideally, an average of one mutant occurs per generation. 
+If it were too high, analysis of whether a strategy can invade must consider a group of strategies entering at once rather than a single mutant. 
+
+These steps repeat; with pairs competing again and so forth. 
+The simulation is continued for a time that can be specified. 
+Several parameters, including population size; the assortment parameter; the continuity probability; and how often the state of the simulation is recorded can be specified. 
+
+A Wright-Fisher process is used as opposed to alternatives like a Moran process for less demanding computation. A Wright-Fisher process plays each player once against an opponent; a Moran process plays all players against all players. 
+
+\begin{figure}[h]
+\centering
+\includegraphics{alwaysDefect}
+\caption{The initial strategy, Always Defect}
+\label{fig:alld}
+\end{figure}
 \begin{figure}[h]
 \centering
 \includegraphics{wrightfischer}
 \caption{Wright-Fischer Process}
 \label{fig:wright}
 \end{figure}
+\pagebreak
+Simulations were run with parameters as follows:
+\lstinputlisting[frame=single]{Example.json}
+Add state through to flip state specify mutation probabilities. 
+In this case, all mutations are of similar probability; extra weight is given to transition changes as these transitions are small in comparison to others. 
+Other values could be argued for; a completely uniform probability, or a probability inversely proportional to the changes it causes, perhaps decided by the number of parameters that change. 
+
+Reward, Temptation, Sucker and Punishment are parameters for the payoff matrix for the Prisoner's Dilemma. 
+Population size, continuation probability, assortment r are also parameters-- with continuation probability and r the primary ones that are varied. 
+The mutation probability per state gives the chance of a mutation occuring. In a population of 250 players playing a strategy with a single state, there will be an average of one mutation per generation with the probability given in this example (1/250). The mapping can be either Linear or Exponential (and is linear in simulations given in this thesis). 
+Fitness is scored linearly in the first option, using an exponential function in the second. 
+The intensity of selection is also selectable, and was set at 1.0 for simulations. 
+If this is 0, there is no selection and likelihood of reproducing becomes entirely dependent on how populous a strategy is in the current generation (and an estimate of whether your mutation scheme is biasing defection or cooperation can be made). When this is 1.0, selection is strong. 
+
+The mistake probability parameter is for adding noise-- where players make a choice, but perform the opposite choice. For most simulation, this was set to 0 as the focus was on deterministic games. 
+A generation limit, and how often to report is also specified. Additionally, the seed is recorded so simulations can be reproduced. This is also useful for running simulations with a smaller reporting interval, to see what is happening generation by generation in an interesting run. 
 
 
 The Monash Campus Cluster \citep{cluster} was used for running simulations. 
