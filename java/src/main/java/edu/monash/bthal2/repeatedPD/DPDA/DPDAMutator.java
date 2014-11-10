@@ -281,6 +281,8 @@ public class DPDAMutator implements AgentMutator {
 
 			// Random transition
 			addTransition(dpda, newState);
+			// TODO: BIAS TFT
+			//addTransition(dpda, newState);
 			// addTransition(dpda, newState);
 			/*
 			 * newState.addTransition(newState.new Transition(dpda.getStates()
@@ -304,6 +306,8 @@ public class DPDAMutator implements AgentMutator {
 			if (transition != null) {
 				transition.changeDestination(newState);
 			}
+			// TODO: BIAS TFT
+			//addTransition(dpda, sourceState);
 		}
 	}
 
@@ -393,11 +397,16 @@ public class DPDAMutator implements AgentMutator {
 					if (newPop == DPDA.stackMarker) {
 						newTransition.setPush(DPDA.stackMarker);
 					}
-
+					if (newTransition.getPush() == DPDA.stackMarker) {
+						newTransition.setPop(DPDA.stackMarker);
+					}
 					break;
 				case CHANGEPUSH:
 					newTransition.setPush((DPDA.stackAlphabet[Random
-							.nextInt(DPDA.stackAlphabet.length - 1)]));
+							.nextInt(DPDA.stackAlphabet.length)]));
+					if (newTransition.getPush() == DPDA.stackMarker) {
+						newTransition.setPop(DPDA.stackMarker);
+					}
 					break;
 				case CHANGEREAD:
 					newTransition.setRead((DPDA.inputAlphabet[Random
@@ -438,6 +447,12 @@ public class DPDAMutator implements AgentMutator {
 			newPush = DPDA.stackAlphabet[Random
 					.nextInt(DPDA.stackAlphabet.length - 1)];
 		}
+
+		// TODO: if empty marker
+		if (newPush == DPDA.stackMarker) {
+			newPop = DPDA.stackMarker;
+		}
+
 		ArrayList<State> destinations = dpda.getStates();
 		State newDestination = destinations.get(Random.nextInt(destinations
 				.size()));

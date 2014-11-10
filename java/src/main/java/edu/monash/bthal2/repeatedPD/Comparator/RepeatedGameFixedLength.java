@@ -2,6 +2,7 @@ package edu.monash.bthal2.repeatedPD.Comparator;
 
 import java.util.ArrayList;
 
+import com.evolutionandgames.jevodyn.utils.Random;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGame;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
@@ -54,15 +55,39 @@ public class RepeatedGameFixedLength {
 
 		Action playerOneAction=playerOne.currentAction();
 		Action playerTwoAction=playerTwo.currentAction();
+		boolean randomize=true;
+		double mistakeProbability=0.00;
+		if (randomize) {
+			//Random.seed(System.nanoTime());
+			if (Random.bernoulliTrial(mistakeProbability)) {
+				if (playerOneAction==Action.COOPERATE) {
+					playerOneAction=Action.DEFECT;
+				} else {
+					playerOneAction=Action.COOPERATE;
+				}
+			}
+			if (Random.bernoulliTrial(mistakeProbability)) {
+				if (Random.bernoulliTrial(mistakeProbability)) {
+					if (playerTwoAction==Action.COOPERATE) {
+						playerTwoAction=Action.DEFECT;
+					} else {
+						playerTwoAction=Action.COOPERATE;
+					}
+				}
+			}
+		}
 		actionsPlayerOne.add(playerOneAction);
 		actionsPlayerTwo.add(playerTwoAction);
 		// move automata
+		//System.out.println(playerOneAction+","+playerTwoAction);
 		playerOne.next(playerOneAction, playerTwoAction);
 		playerTwo.next(playerTwoAction, playerOneAction);
 		//System.out.println(playerOneAction);
 		//System.out.println(playerTwoAction);
 		// payoff tracking
 		int playerOneMove=0;
+
+
 		switch (playerOneAction) {
 		case COOPERATE:
 			playerOneMove=0;
