@@ -6,8 +6,8 @@
 %%
 %% Preamble
 %%
-
-\documentclass[a4paper,11pt,bcshonoursthesis,singlespace,twoside,thesisdraft,pdflatex]{cssethesis}
+% changed to onsided
+\documentclass[a4paper,11pt,bcshonoursthesis,singlespace,oneside,thesisdraft,pdflatex]{cssethesis}
 % * Include the option "pdflatex" above if you want to use pdflatex rather than
 % standard latex to compile your document
 % * Include the option "litreview" above if this is a literature review.
@@ -881,26 +881,7 @@ Finally, the accepting/non-accepting parameter of a state can be flipped.
 
 This scheme can explore the entirety of the strategy space that can be represented by Deterministic Pushdown Automata which accept by final state, which includes all Finite State Automata.
 \section{Simulation}
-Simulations were created in Java, extending existing code for simulating repeated games \citep{jggit}. 
-The simulations accept a collection of parameters specifying the simulation, and output either a time series or an estimate of the payoff of the population. 
-The time series contains the state of the population in specified generations. 
-It reports the payoff of the population in that generation, the strategies present in the population, and the number of each strategy present. For example, a line of output may read:\\
-``2023340,500.0,"Strategy : S\#q0FIT\#q0-q0vC.\$--$>$\$\&, Count : 250;"''\\
-Meaning at generation 2023340 payoff was 500, and only one strategy was present (with a count of 250). 
-This strategy is shown in Figure \ref{fig:grim}. 
-
-\begin{figure}[h]
-\centering
-\includegraphics{grim}
-\caption{The Grim Strategy}
-\label{fig:grim}
-\end{figure}
-
-The ``S\#q0FI'' indicates one state, $q0$, which is accepting (final) and initial. 
-There is one transition -- when C is read and the top of the stack is empty (\$ is the stack marker), the stack remains the same and the state does not change. 
-This strategy is Grim--Trigger; it cooperates until its opponent defects, then never cooperates again. 
-
-These DPDA strategies compete with other DPDA strategies for survival. 
+In my simulation, DPDA strategies compete with other DPDA strategies for survival. 
 The simulation uses a Wright-Fisher process. Figure \ref{fig:wright} gives an overview of this process . 
 The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld} \footnote{In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''}. 
 Figure \ref{fig:wright} is started with a mixed population, to aid indicating how the process works. 
@@ -920,10 +901,10 @@ The mutation probability is low; ideally, an average of one mutant occurs per ge
 If it were too high, analysis of whether a strategy can invade must consider a group of strategies entering at once rather than a single mutant. 
 
 These steps repeat; with pairs competing again and so forth. 
-The simulation is continued for a time that can be specified. 
+The simulation is continued for a number of time steps that can be specified. 
 Several parameters, including population size; the assortment parameter; the continuity probability; and how often the state of the simulation is recorded can be specified. 
 
-A Wright-Fisher process is used as opposed to alternatives like a Moran process for less demanding computation. A Wright-Fisher process plays each player once against an opponent; a Moran process plays all players against all players. 
+A Wright-Fisher process is used as opposed to alternatives like a Moran process \citep{moran1962statistical} for less demanding computation. A Wright-Fisher process plays each player once against an opponent; a Moran process plays all players against all players. 
 
 \begin{figure}[h]
 \centering
@@ -938,49 +919,85 @@ A Wright-Fisher process is used as opposed to alternatives like a Moran process 
 \label{fig:wright}
 \end{figure}
 \pagebreak
+
+My simulation extends simulations used for simulating the evolution of Finite State Automata \citep{van-veelen:PNAS:2012, jggit}. 
+They accept a collection of parameters specifying the simulation, and output either a time series or an estimate of the payoff of the population. 
+The time series contains the state of the population in specified generations. 
+It reports the payoff of the population in that generation, the strategies present in the population, and the number of each strategy present. For example, a line of output may read:\\
+``2023340,500.0,"Strategy : S\#q0FIT\#q0-q0vC.\$--$>$\$\&, Count : 250;"''\\
+Meaning at generation 2023340 payoff was 500, and only one strategy was present (with a count of 250). 
+This strategy is shown in Figure \ref{fig:grim}. 
+
+\begin{figure}[h]
+\centering
+\includegraphics{grim}
+\caption{The Grim Strategy}
+\label{fig:grim}
+\end{figure}
+\pagebreak
 Simulations were run with parameters as follows:
 \lstinputlisting[frame=single]{Example.json}
 Add state through to flip state specify mutation probabilities. 
 In this case, all mutations are of similar probability; extra weight is given to transition changes as these transitions are small in comparison to others. 
+They cause a less significant change to the Automaton than adding or removing a state or transition would.  
 Other values could be argued for; a completely uniform probability, or a probability inversely proportional to the changes it causes, perhaps decided by the number of parameters that change. 
 
 Reward, Temptation, Sucker and Punishment are parameters for the payoff matrix for the Prisoner's Dilemma. 
-Population size, continuation probability, assortment r are also parameters-- with continuation probability and r the primary ones that are varied. 
+Population size, continuation probability $\delta$, assortment $r$ are also parameters -- with continuation probability and assortment the primary ones that are varied. 
 The mutation probability per state gives the chance of a mutation occuring. In a population of 250 players playing a strategy with a single state, there will be an average of one mutation per generation with the probability given in this example (1/250). The mapping can be either Linear or Exponential (and is linear in simulations given in this thesis). 
 Fitness is scored linearly in the first option, using an exponential function in the second. 
 The intensity of selection is also selectable, and was set at 1.0 for simulations. 
 If this is 0, there is no selection and likelihood of reproducing becomes entirely dependent on how populous a strategy is in the current generation (and an estimate of whether your mutation scheme is biasing defection or cooperation can be made). When this is 1.0, selection is strong. 
 
-The mistake probability parameter is for adding noise-- where players make a choice, but perform the opposite choice. For most simulation, this was set to 0 as the focus was on deterministic games. 
+The mistake probability parameter is for adding noise-- where players make a choice, but perform the opposite choice. For most of the simulations presented, this was set to $0$ as the focus was on deterministic games. 
 A generation limit, and how often to report is also specified. Additionally, the seed is recorded so simulations can be reproduced. This is also useful for running simulations with a smaller reporting interval, to see what is happening generation by generation in an interesting run. 
 
+In my simulation, parameters for the Prisoner's Dilemma were R=2.0, T=3.0, S=0.0, P=1.0. 
+All theoretical predictions are presented with this set of parameters. 
+If the parameters change, the graph will change (but each region will still exist, and have the behaviour expected in that region). 
 
-The Monash Campus Cluster \citep{cluster} was used for running simulations. 
+The Monash Campus Cluster \citep{cluster} was used for running simulations, due to the large amount of computation needed. 
 
 \section{Analysis}
-The primary output of the simulation is the time series. 
-This includes the total payoff at each reported generation, the strategies present at each generation, and the number of each strategy present. 
+The primary output of the simulation is a time series. 
+This includes the total payoff at each reported generation, the strategies present at each generation, and the number of each one of those strategies present. 
 Several factors need to be examined. The first is the average payoff; is the population cooperative when continuity probability and assortment is set to a certain number. 
 What strategies are common with theses parameters? 
-The number of times each strategy is found over an entire can be reported based on this time series, at which point the number of each strategy present when the strategy is common can be examined. Important factors to consider is how it enters the population, and how it exits if it does so. 
+The number of times each strategy is found over an entire run can be reported based on this time series, at which point the number of each strategy present when the strategy is common can be examined. Important factors to consider are how it enters the population, and how it exits if it does so. 
+
+Two primary runs were conducted. 
+The first run involved 882 simulations of time series; a 21$\times$21 grid of payoffs taken at data points spaced $0.05$ apart was taken (with $0.99$ instead of $1.0$ as the final point for the continuity parameter), twice. 
+The second run involved 1640 simulations of times series, in order to find the payoffs as continuity probability and assortment are varied -- this time in a grid spaced $0.25$ apart (40$\times$41, as continuity parameter being 1 was excluded). 
+
+These runs were processed using iPython notebook, finding the payoff for each time series, counting the strategies found in each run, and presenting the graph of payoff versus generation. 
+The graphs of cooperation as continuity probability and assortment are varied were produced using gnuPlot. 
+The results of these simulations are discussed in the next chapter.
+
+In addition to the time series simulations, I also created a function to compare the performance of strategies playing the Prisoner's Dilemma with varied continuity probability, assortment and noise. 
+This does not evolve strategies, or simulate in an evolutionary environment. 
+Instead it simply calculates expected payoff for each strategy. 
+Based on the parameters, the game is repeatedly played and the results averaged. 
+This gives an estimate, and not an exact value, of the payoff of each strategy. 
+This is useful when the dynamics of three strategies needs to be investigated. 
+The relative payoff for each strategy can be used with the replicator equation to estimate the rate of change for any proportion of each strategy; and so a phase diagram visualizing the dynamics can be plotted. 
 
 \chapter{Results and Discussion}
 In this chapter, the overall cooperation observed with varied levels of assortment and continuity probability will be presented and discussed. 
-The strategies present in points in each region of this graph-- individual time series-- will be examined. Lastly, new strategies that emerge will be discussed. 
+The strategies present in points in each region of this graph-- individual time series-- will be examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
 \section{Overall Cooperation}
-Figure \ref{fig:cooperation} shows the cooperation observed in each region of the graph. 
-Cooperation is measured by the payoff of the population; if all individuals are defecting, the average payoff will be lowest. If all individuals are cooperating, the average payoff will be highest. 
+Figure \ref{fig:cooperation} shows the cooperation observed in each region of the graph, for combinations of continuity parameter $\delta$ and assortment $r$. 
+Cooperation is measured by the average payoff in the population; if all individuals are defecting, the average payoff will be lowest. If all individuals are cooperating, the average payoff will be highest. 
+Behaviour in each region will be discussed in more detail in Section \ref{sec:regions}.  
 \begin{figure}[h]
 \center
 \includegraphics[width=0.6\textwidth]{cooperationOverall}
 \caption{Cooperation observed}
 \label{fig:cooperation}
 \end{figure}
-
-Behaviour in each region will be discussed in more detail in Section \ref{sec:regions}. 
-Figure \ref{fig:regions2} (adapted from \citet{van-veelen:PNAS:2012}) shows the regions expected. 
+ 
+Figure \ref{fig:regions2} (adapted from \citet{van-veelen:PNAS:2012}) shows the regions expected (see Section \ref{sec:pnas}). 
 Region 1 shows no cooperation, Region 2 shows a mixture of low cooperation, Region 3 shows a mixture of mostly cooperation, and Region 4 is fully cooperative. 
-Differences, notably the overwhelming cooperation found above $r=0.5$, will be discussed in section \ref{sec:regions:3}. 
+Differences, notably the larger levels of cooperation found above $r=0.5$, will be discussed in section \ref{sec:regions:3}. 
 
 The results of previous work by \citet{van-veelen:PNAS:2012} are shown in Figure \ref{fig:fsa} and the difference (measured as the relative error) is shown in Figure \ref{fig:difference}. 
 In Region 2, lighter/yellow areas of the difference graph indicate that my PDA simulation was up to 23\% less cooperative. 
@@ -1014,10 +1031,15 @@ The result mirrors my previous low-resolution result, and is shown in Figure \re
 
 More cooperation was observed in Region 3 with my simulation, and less cooperation in Region 2. 
 
-\section{Behaviour in Regions}
-The behaviour in each region can be predicted, with the only assumption being a low mutation rate; not any specific representation. Section \ref{sec:theory} discusses this. 
+\section{Behaviour for each Region}
+\label{sec:regions}
+The behaviour in each region can be predicted, with the only assumption being a low mutation rate; not any specific representation. Section \ref{sec:pnas} discusses this. 
 The cooperation over time for each part of the graph-- for each combination of assortment and continuation probability, will be examined. 
-\subsection{Region I}
+
+Note that the Regions shown are for the game used in the simulation. 
+If parameters are changed, the regions in the graph will shift (but the behaviour will still be defined). 
+So, $\delta=x$ and $\delta=y$ corresponds to the game presented, and is not a universal rule for all prisoners dilemma games. 
+\subsection{Region 1: Small $\delta$, Small $r$}
 In Region 1, full defection is the only equilibrium. 
 No strategy that plays cooperatively is expected to be successful. 
 Time series of this region are given in Figures \ref{fig:first1} to \ref{fig:last1}. 
@@ -1048,15 +1070,15 @@ On the right border, towards greater continuation probability, results are more 
 \label{fig:cycles1}
 \end{figure}
 
-In Region 1, variants of Always Defect are most common. 
+In Region 1, strategies that are mutually defecting are most common. 
 No strategy in the top 25 most common strategies found in these regions in my simulation has a cooperating states; all are variants on Always Defect.
-\subsection{Region II}
+\subsection{Region II: Varied $\delta$, Small $r$}
 In Region 2, some cooperators and some defectors are equilibria. 
 Essentially, anything goes in this region. 
 
 Figures \ref{fig:2-0.5-0.2} and \ref{fig:2-0.5-0.3}, and Figures \ref{fig:2-0.7-0.1} and \ref{fig:2-0.7-0.3} show the increase in cooperative behaviour as the combination of continuity probability and assortment increases, making the situation considered closer to the border with Region 3. 
 
-In these time series, except in the case of Figure \ref{fig:2-0.7-0.3} the most common strategies are variants upon Always Defect (behaving equivalently, but with a few representations).
+In these time series, except in the case of Figure \ref{fig:2-0.7-0.3} the most common strategies are mutually defecting.
 In Figure \ref{fig:2-0.7-0.3}, Grim and Defect are most common, making up 64\% and 36\% of the proportion of the top 20 strategies. 
 These strategies are all representable by FSA. 
 \begin{figure}[h!]
@@ -1108,6 +1130,18 @@ So, the new strategy wins the first move, but loses the next two.
 Thereafter defection is mutual. 
 A neutral mutant of the ancestor provided the means for Grim Trigger to invade-- an indirect invasion. 
 
+Figure \ref{fig:handshake} shows the approximate dynamics of this invasion. 
+This was estimated by using the strategy comparison feature of my program; payoffs are estimated playing each strategy. 
+Dynamo \citep{dynamo} uses the replicator equation to estimate evolutionary dynamics. 
+In reality, the bottom two strategies are neutral to each other, where the graph suggests drift towards either strategy, depending on starting conditions. 
+
+It does capture the invasion however; initially the population is Handshake. Handshake neutrally to Handshake-Child. Once Handshake-Child is the majority strategy, Grim is selected for (and invades once it appears via mutation). 
+\begin{figure}[h!]
+\includegraphics[width=0.6\textwidth]{{handshakeinvasion}.png}
+\caption{Dynamics of Handshake, Handshake-Child and Grim: An indirect invasion}
+\label{fig:handshake}
+\end{figure}
+
 \begin{figure}[h!]
 \includegraphics[width=0.8\textwidth]{{dataset2_0.95_0.0}.png}
 \caption{Time series when $\delta=0.95$, $r=0.0$}
@@ -1142,6 +1176,7 @@ It will prove relevant in Section \ref{sec:noise}, where I will discuss when DPD
 \end{figure}
 
 \subsection{Region 3}
+\label{sec:regions:3}
 In Region 3, full mutual defection is not an equilibria. 
 Non-zero cooperation is expected throughout this region, though not necessarily full cooperators. 
 \begin{figure}[h!]
