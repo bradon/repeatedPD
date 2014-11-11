@@ -26,6 +26,7 @@
 \usepackage{amssymb}
 \usepackage{subfig}
 \usepackage{tikz}
+\usepackage{mwe}
 \usepackage{listings}
 \usetikzlibrary{arrows,automata}
 \bibpunct{(}{)}{;}{a}{,}{,} % use more standard Harvard punctuation
@@ -963,23 +964,137 @@ What strategies are common with theses parameters?
 The number of times each strategy is found over an entire can be reported based on this time series, at which point the number of each strategy present when the strategy is common can be examined. Important factors to consider is how it enters the population, and how it exits if it does so. 
 
 \chapter{Results and Discussion}
+In this chapter, the overall cooperation observed with varied levels of assortment and continuity probability will be presented and discussed. 
+The strategies present in points in each region of this graph-- individual time series-- will be examined. Lastly, new strategies that emerge will be discussed. 
 \section{Overall Cooperation}
+Figure \ref{fig:cooperation} shows the cooperation observed in each region of the graph. 
+Cooperation is measured by the payoff of the population; if all individuals are defecting, the average payoff will be lowest. If all individuals are cooperating, the average payoff will be highest. 
 \begin{figure}[h]
 \center
-\includegraphics{cooperationOverall}
+\includegraphics[width=0.6\textwidth]{cooperationOverall}
 \caption{Cooperation observed}
 \label{fig:cooperation}
 \end{figure}
 
+Behaviour in each region will be discussed in more detail in Section \ref{sec:regions}. 
+Figure \ref{fig:regions2} (adapted from \citet{van-veelen:PNAS:2012}) shows the regions expected. 
+Region 1 shows no cooperation, Region 2 shows a mixture of low cooperation, Region 3 shows a mixture of mostly cooperation, and Region 4 is fully cooperative. 
+Differences, notably the overwhelming cooperation found above $r=0.5$, will be discussed in section \ref{sec:regions:3}. 
+
+The results of previous work by \citet{van-veelen:PNAS:2012} are shown in Figure \ref{fig:fsa} and the difference (measured as the relative error) is shown in Figure \ref{fig:difference}. 
+In Region 2, lighter/yellow areas of the difference graph indicate that my PDA simulation was up to 23\% less cooperative. 
+In Region 3, darker/purple areas of the difference graph indicate that my PDA simulation was up to 26\% more cooperative. 
+
+\begin{figure}[h]
+\center
+\includegraphics[width=0.45\textwidth]{regions}
+\caption{Regions of Expected Behaviour}
+\label{fig:regions2}
+\end{figure}
+
+\begin{figure}[h]
+\subfloat[FSA results from \citet{van-veelen:PNAS:2012}\label{fig:fsa}]{
+\includegraphics[width=0.45\textwidth]{fsa}}
+\subfloat[Difference to FSA Paper\label{fig:difference}]{
+\includegraphics[width=0.45\textwidth]{cooperation}}
+\caption{Comparison to FSA}
+\label{fig:comparison}
+\end{figure}
+%\pagebreak
+Another simulation was run, with reduced mutation probability (halved) and increased runtime (the time the simulation was run on the cluster was tripled). 
+More datapoints were sampled (at 0.025 intervals instead of 0.05). 
+The result mirrors my previous low-resolution result, and is shown in Figure \ref{fig:finalrun}. 
 \begin{figure}[h]
 \centering
-\includegraphics{cooperation}
-\caption{Difference to FSA Paper}
-\label{fig:difference}
+\includegraphics[width=0.6\textwidth]{final_run}
+\caption{Cooperation observed with higher resolution sampling}
+\label{fig:finalrun}
 \end{figure}
+
+More cooperation was observed in Region 3 with my simulation, and less cooperation in Region 2. 
+
 \section{Behaviour in Regions}
+The behaviour in each region can be predicted, with the only assumption being a low mutation rate; not any specific representation. Section \ref{sec:theory} discusses this. 
+The cooperation over time for each part of the graph-- for each combination of assortment and continuation probability, will be examined. 
 \subsection{Region I}
+In Region 1, full defection is the only equilibrium. 
+No strategy that plays cooperatively is expected to be successful. 
+Time series of this region are given in Figures \ref{fig:first1} to \ref{fig:last1}. 
+\begin{figure}[h!]
+\includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.0}.png}
+\caption{Time series when $\delta=0.0$, $r=0.0$}
+\label{fig:first1}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.9\textwidth]{{dataset1_0.2_0.2}.png}
+\caption{Time series when $\delta=0.2$, $r=0.2$}
+\label{fig:1-0.2-0.2}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.4}.png}
+\caption{Time series when $\delta=0.0$, $r=0.4$}
+\label{fig:last1}
+\end{figure}
+In these time series, cooperation does not survive long in the population, and do not come to be the most common strategy. 
+Closer to the border of this region (Figure \ref{fig:last1}), the environment becomes noisier. 
+The relation given by \citet{van-veelen:PNAS:2012} holds to the border, but selection against any cooperator is more extreme in regions close to 0,0. 
+
+On the upper border, towards greater assortment, (outsider Region 1), cyclic behaviour is observed (Figure \ref{fig:cycles1}, with time range limited to better visualize cycles). 
+On the right border, towards greater continuation probability, results are more noisy but still overwhelms any cooperative strategies. 
+\begin{figure}[h!]
+\includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.5}.png}
+\caption{Time series when $\delta=0.0$, $r=0.5$}
+\label{fig:cycles1}
+\end{figure}
+
+In Region 1, variants of Always Defect are most common. 
+No strategy in the top 25 most common strategies found in these regions in my simulation has a cooperating states; all are variants on Always Defect.
 \subsection{Region II}
+In Region 2, some cooperators and some defectors are equilibria. 
+Essentially, anything goes in this region. 
+
+Figures \ref{fig:2-0.5-0.2} and \ref{fig:2-0.5-0.3}, and Figures \ref{fig:2-0.7-0.1} and \ref{fig:2-0.7-0.3} show the increase in cooperative behaviour as the combination of continuity probability and assortment increases, making the situation considered closer to the border with Region 3. 
+
+In these time series, except in the case of Figure \ref{fig:2-0.7-0.3} the most common strategies are variants upon Always Defect (behaving equivalently, but with a few representations).
+In Figure \ref{fig:2-0.7-0.3}, Always Defect is most common, but Grim is also a common strategy. 
+These strategies are all representable by FSA. 
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset2_0.5_0.2}.png}
+\caption{Time series when $\delta=0.5$, $r=0.2$}
+\label{fig:2-0.5-0.2}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset2_0.5_0.3}.png}
+\caption{Time series when $\delta=0.5$, $r=0.3$}
+\label{fig:2-0.5-0.3}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset2_0.7_0.1}.png}
+\caption{Time series when $\delta=0.7$, $r=0.1$}
+\label{fig:2-0.7-0.1}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset2_0.7_0.3}.png}
+\caption{Time series when $\delta=0.7$, $r=0.3$}
+\label{fig:2-0.7-0.3}
+\end{figure}
+
+In Figure \ref{fig:2-0.7-0.3} a strategy that defects twice, then cooperates against itself appears. 
+Before this strategy appears, the population is a combination of Always Defect variants. 
+With non-zero assortment ($r=0.3$) this strategy is more likely to encounter itself. 
+So, when it appears, its lower payoff against Always Defect is offset by encounters with itself. 
+Eventually, a new strategy (child) that is neutral to it drifts in. 
+The strategy performs the `handshake' of two defects playing itself (or its ancestor with the same behaviour). 
+However, Grim Trigger, which cooperates until a defection happens, then never cooperates again eventually takes over. 
+The ancestor strategy would beat Grim-- it exploits it in the first move, and thereafter mutual defection occurs. 
+The child strategy however cooperates if the opponents first move is cooperation, then cooperates again if it follows up with a defection.
+So, the new strategy wins the first move, but loses the next two. 
+Thereafter defection is mutual. 
+A neutral mutant of the ancestor provided the means for Grim Trigger to invade-- an indirect invasion. 
+
+
+
+
 \subsection{Region III}
 \subsection{Region IV}
 \section{Successful DPDA Strategies}
