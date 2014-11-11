@@ -250,7 +250,7 @@ Instead of a number of strategies competing, let's consider a population that ch
 Players compete by playing the Prisoner's Dilemma. 
 The payoff results in a fitness, which determines the player's chance of reproducing. 
 In addition, new members can enter the population as mutations to a players strategy can occur when they reproduce. 
-In short, there will be random mutations and a selection condition (how well a player does in the population)-- it is an evolutionary environment. 
+In short, there will be random mutations and a selection condition (how well a player does in the population) -- it is an evolutionary environment. 
 
 In an environment where strategies evolve, an extra condition must be added to see what is the best performing strategy. 
 In addition to not gaining a benefit from switching strategies in the immediate game, an Evolutionary Stable Strategy must survive in a population. 
@@ -433,7 +433,7 @@ For example, if T=3, R=2, P=1, S=0, and the population is 50 ALLC and 50 ALLD:
 So ALLC has higher fitness if $r>101/200$. These cases demonstrate that structure can benefit cooperation. 
 \section{Representing Strategies}
 Previously discussed methods of analysing strategies for the repeated Prisoner's Dilemma have some limitations. 
-A notable one being that the specific strategies examined must be chosen some how. 
+To model with the replicator equation and plot a phase diagram to see the dynamics, a subset of strategies must be chosen. 
 If we know or can guess what strategies will be important, this is an effective tool. 
 One way to find what strategies will be important is through simulating an evolutionary environment. 
 
@@ -443,17 +443,18 @@ A strategy takes a History $\mathcal{H}$ of previous moves in an interaction, an
 f: \mathcal{H} \rightarrow \mathcal{A}
 \end{equation}
 The representation will be able to represent a subset of all possible strategies $f$ for the repeated Prisoner's Dilemma. 
-In the case of the simulation presented in this thesis, $\mathcal{H}$ contains previous moves of an opponent-- so a sequence of $\{C,D\}$. 
+In the case of the simulation presented in this thesis, $\mathcal{H}$ contains previous moves of an opponent -- so a sequence of $\{C,D\}$. 
 If instead the full history is recorded -- a combination of both what the opponent and the strategy itself did-- a sequence of pairs of $\{C,D\}$ or a sequence of results $\{R,T,S,P\}$ would be recorded. \citet{Axelrod1987} and \citet{fogel1993evolving} are two examples of work using this 'full-memory' representation that will be discussed in \ref{sec:relatedWork}.
 
 In addition to the method to map from a History to an Action, a mutation scheme is also needed; to take an existing strategy and create a new one. 
 This will allow the creation of strategies, without the researcher needing to design or pick any \citep{koza}. 
 
 Previous work has primarily used a Finite State Automata model for strategies. 
-An even simpler representation, is that of the Lookup Table. 
+An even simpler representation is that of the Lookup Table. 
 I will discuss both these methods in this section. 
 \subsection{Lookup Tables}
-One approach to represent strategies is to have a list of possible histories, and how to respond to that history. This is called a Lookup Table. 
+\label{sec:mutation}
+One approach to representing strategies is to have a list of possible histories, and how to respond to that history. This is called a Lookup Table. 
 
 For example, consider a representation that consists of a binary string of length 3 \citep{garcia:PLoSOne:2012}. A $0$ represents a choice to cooperate, a $1$ represents a choice to defect. 
 The first digit represents the move performed in the initial game, when no history exists between two players. 
@@ -483,7 +484,7 @@ STFT & Defect, then repeat opponents last move & 101\\
 \end{table}
 
 The length 3 binary string representation can explore a set of $2^3=8$ strategies. Increasing the size of the string can allow for longer histories. 
-If all except the last two moves are discarded, decisions are made based on the last 2 moves. 
+If all except the last two moves are discarded, decisions are made based on the last two moves. 
 With this representation $2^7=32$ strategies can be represented. 
 
 Part of what makes this a good example representation is that it allows for several example mutation schemes. 
@@ -502,9 +503,10 @@ Each term in the matrix could also have some other justification; it could be ba
 %The approach in this thesis is to design a scheme with minimal mutations, that can explore the entire strategy space representable by the computational model used. 
 
 \subsection{Finite State Automata}
+\label{sec:fsa}
 Another common representation is Finite State Automata. 
 A Finite State Automaton consists of a set of states, a set of transitions from state to state, and each state can be marked as an accepting state. 
-Based on the history between two players in the current interaction, the transitions are followed until the history has been read. 
+Based on the history between two players in the current interaction, the transitions are followed until the complete history has been read. 
 If the state the automaton ends up on is an accepting state, the individual represented by that automaton Cooperates, if not, they Defect. 
 
 More formally, an FSA consists of:\\
@@ -535,11 +537,11 @@ There are four transitions; $C$ to $C$ when C is read, $D$ to $C$ when C is read
 \end{figure}
 
 It is common that the transition function $\delta$ is a total function in Prisoner's Dilemma's- for every possible input (of a symbol from the input alphabet $\Sigma$) at any state a transition exists. 
-This is not a strict requirement; if no valid transition exists for an input the input is not in the language, but the FSA is still valid. 
+This is not a strict requirement; if no valid transition exists for an input the input is not in the language, but the FSA is still valid (and will defect, since the input is not in the language represented by the FSA). 
 
 FSA with multiple valid transitions for some input are Non-Deterministic FSA. 
 FSA with only one valid transition for any input are Deterministic FSA. 
-For every Non-Deterministic FSA, there is a Deterministic FSA that produces the same result for any valid input, equivalently; the two types of FSA can represent the same classes of languages/strategies \cite{Sipser2006chap1}. 
+For every Non-Deterministic FSA, there is a Deterministic FSA that produces the same result for any valid input, equivalently; the two types of FSA can represent the same classes of languages/strategies \citep{Sipser2006chap1}. 
 
 A number of mutation schemes for Finite State Automata could also be used. 
 These could involve adding states, deleting states, changing a transition, changing if a state is accepting, and changing the initial state. 
@@ -565,11 +567,11 @@ You transfer to state 1 (01) if you read D.
 So, an FSA can be represented by a string (in this case 0001000110101111) or number. 
 Mutation schemes discussed in Lookup Tables can also be applied to FSA. 
 
-Variants on these methods are used in the work discussed.
+Variants on these representations are used in the work discussed.
 \section{Related Work}
 \label{sec:relatedWork}
 Related simulation work focuses mostly on direct reciprocity; repeating the game being the basis for cooperation to evolve. 
-I will discuss seminal work into strategies for the Prisoner's Dilemma, giving examples of approaches used. Finally, I will discuss the work I have extended.
+I will discuss seminal work into strategies for the Prisoner's Dilemma, giving examples of approaches used. Finally, in Section \ref{sec:pnas} I will discuss the work I have extended.
 \subsection{Axelrod's Tournaments}
 \citet{axelrod:Science:1981} investigated the behaviour of strategies using computer tournaments, with repeated Prisoner's Dilemma games played between strategies submitted by people to the tournaments. 
 This study compared fitness (payoff of games) of submitted strategies playing each other. 
@@ -577,7 +579,7 @@ Strategies play each other probabilistically; the game is not a fixed size, inst
 This is a simple strategy that reciprocates the other player's behaviour, after initially cooperating. 
 Initially it cooperates, then it repeats the other player's last move. 
 When playing a strategy that always cooperates (ALLC), it performs identical to ALLC. 
-When playing a strategy that always defects (ALLD), it loses on the first turn, then performs identical to ALLD- given a long enough number of games played, the strategies have similar payoffs. 
+When playing a strategy that always defects (ALLD), it loses on the first turn, then performs identical to ALLD -- given a long enough number of games played, the strategies have similar payoffs. 
 
 Axelrod and Hamilton identified three criteria to determine if a strategy can be successful. The strategy must be robust- it must perform fairly well against a wide variety of strategies. TFT does so, including against the a population composed of the simple ALL* examples, but only if there is a sufficient chance of the game repeating. Secondly, the strategy must be stable- a mutant strategy must not be able to invade in the event the strategy becomes established. For example, ALLC is not stable against ALLD. 
 A single ALLD in a population of ALLC will gain better payoffs (fitness) and invade. 
@@ -663,6 +665,7 @@ Higher noise also negatively impacted rates of cooperation.
 Miller's work provides a clear technique for defining an FSA, a simple mutation method, and various features of FSA that may be worth studying- like the number of states, and number of terminal states (both transitions at this state are to itself). However, in limiting the number of states, the strategy space is limited. Games are also fixed length; if the number of states were unbounded, this simulation would eventually collapse to a population of full defectors \citep{aumann1995backward}. Probabilistic length games, as I have used, would avoid this issue.
 
 \subsection{Direct Reciprocity in Structured Populations}
+\label{sec:pnas}
 **REWORD ALL OF ME**
 \citet{bergstrom2003algebra} investigated the role Assortment can play in circumstances in which Direct Reciprocity does not enable cooperation- when games are one shot. 
 In previously discussed research, the probability of encountering an individual in a population was uniform (the population is well-mixed). 
@@ -794,17 +797,17 @@ Detailed behaviour can be discovered through simulation.
 The impact of variations in the simulation- such as changing how strategies are represented- can be compared quantitatively.
 By using both assortment and continuation probability, conditions not explored in previous literature (Region III for example in Figure~\ref{fig:regions}) can be investigated.
 
-\chapter{Research Method}
+\chapter{Research Methods}
 In this section I will discuss the representation and mutation scheme I decided on (Pushdown Automata), the simulation I have created and how analysis was carried out.
 \section{Representation}
-Previous representations discussed were Finite State Automata. The representation I have used in my work is the Pushdown Automata, which can be thought of as a minor extension to Finite State Automata. 
-Other representations may be worth exploring, in regard to the question of how changing the strategy space effects cooperation. These might include other models of computation such as a decision tree model, or FSA with mixed strategies; with transitions with probabilities attached. 
-In this thesis, the focus is on Pushdown Automata. 
+I have previously (Section \ref{sec:fsa} discussed Finite State Automata as a representations for strategies in repeated games. The representation I have used in my work is the Pushdown Automata, which can be thought of as an extension to Finite State Automata. 
+%Other representations may be worth exploring, in regard to the question of how changing the strategy %space effects cooperation. These might include other models of computation such as a decision tree %model, or FSA with mixed strategies; with transitions with probabilities attached. 
+%In this thesis, the focus is on Pushdown Automata. 
 \subsection{Pushdown Automata}
-Pushdown Automata can be briefly described as Finite State Automata that also interact with a stack. During each transition instead of simply reading from the history and checking what transitions are valid, the machine (optionally) reads the next point in the history, and what item is on the top of the stack. 
-Valid transitions are chosen based on what is read, and what is on the top of the stack \citep{Sipser2006chap2}. 
+Pushdown Automata can be briefly described as Finite State Automata that also interact with a stack memory. During each transition instead of simply reading from the input string (history of the game) and checking what transitions are valid, the machine (optionally)additionally checks what item is on the top of the stack. 
+Whether a transition is valid is based on what is read, and what is on the top of the stack \citep{Sipser2006chap2}. 
 
-Each transition can push a character to the stack. 
+Each transition can $push$ a symbol from the stack alphabet to the stack. 
 
 More formally, a PDA consists of:\\
 1. A finite, set of states $S \neq  \emptyset$\\
@@ -816,7 +819,7 @@ More formally, a PDA consists of:\\
 
 Initially, the stack contains only the stack marker ($\Gamma_0=\{Z_0\}$).\\
 
-A PDA is Non-Deterministic if more than one transition exists for any possible state and stack state.  If at most one transition exists for any possible state and stack state the Automaton is Deterministic. The language or set of strategies representable by a DPDA is a subset of strategies represented by PDAs. The strategies represented by FSA are a subset of both. FSAs can represent Regular strategies, DPDAs can represent Deterministic Context-Free strategies, and PDAs can represent Context-Free strategies.
+A PDA is Non-Deterministic if more than one transition exists for any possible state and stack state.  If at most one transition exists for any possible state and stack state the Automaton is Deterministic. The language or set of strategies representable by a DPDA is a subset of strategies represented by PDA. The strategies represented by FSA are a subset of both. FSA can represent Regular strategies, DPDA can represent Deterministic Context-Free strategies, and PDA can represent Context-Free strategies.
 
 \begin{figure}[h]
 \centering
@@ -829,52 +832,50 @@ Initially, I pursued simulating Non-Deterministic Pushdown Automata.
 This is a more complex task than simulating Deterministic Pushdown Automata, due to needing to maintain a set of valid configurations, since all possible paths must be followed to check if the input can leave the Automata in an accepting state. 
 This results in more complicated software to create, and more computation needed to determine if one of the configurations is an accepting configuration. \\
 
-Third party software was explored for use with this; specifically \citet{JFLAP}. 
-This was designed as a learning tool for Theory of Computation \cite{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported-- re-checking if the entirety of the current history instead of just iterating to the next item in the history-- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage. 
+I explored third party software for the task of implementing PDA; specifically \citet{JFLAP}. 
+This was designed as a learning tool for Theory of Computation \cite{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported -- re-checking if the entirety of the current history instead of just iterating to the next item in the history -- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage. 
 This reduced computation time, and simplified analysis. 
 
-An example of a Deterministic Pushdown Automata is given in Figure \ref{fig:dpda}. 
+Figure \ref{fig:dpda} shows an example of a Deterministic Pushdown Automata. 
 It should be familiar -- it is a variation of TFT. 
-The character $\lambda$ is the empty symbol; no change is made to the stack when it is popped or pushed. Following the operation of this Automaton, we start on $q0$. In all circumstances when a $C$ is read, and we are on state $q0$, $a$ is pushed to the stack. 
-If $D$ is read we do one of two things. If the stack is empty (indicted by \$), we move to state $q1$. 
-If the stack is non empty, and so has a symbol from the alphabet on it, we pop it and remain on $q0$. 
-If we have transferred to $q1$ and read $C$, we push $a$ and transfer back to the accepting/cooperating state. 
+The character $\lambda$ is the empty symbol; no change is made to the stack when it is popped or pushed. Following the operation of this Automaton, we start on state $q0$. In all circumstances when a $C$ is read, and we are on state $q0$, $a$ is pushed to the stack. 
+If $D$ is read, we do one of two things. If the stack is empty (indicted by \$ being on top of the stack), we move to state $q1$. 
+If the stack is non empty, and so has a symbol from the alphabet on it, we $pop$ it and remain on $q0$. 
+If we have transferred to $q1$ and read $C$, we $push$ $a$ and transfer back to the accepting/cooperating state. 
 If we read $D$, we remain on the non-accepting state.
 
 This example DPDA counts the number of times the opponent cooperates. 
 If they have cooperated recently, it does not retaliate until defection moves outnumber cooperation moves. 
-
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{pdatft}
 \caption{Counting-TFT: A DPDA modelled off TFT, which counts Cooperation and Defection actions}
 \label{fig:dpda}
 \end{figure}
-
 \subsection{Deterministic Pushdown Automata}
 The Automata used in my simulation are designed from a graph point of view. 
 Each state in a DPDA is an object inside that DPDA, and each transition from a DPDA is an object inside that state. 
-A DPDA is defined in the simulation by its initial state, its states (which include a boolean accepting/non-accepting marker) and its transitions (each belonging to a source state, and having a destination, pop instruction, push instruction and read instruction). 
+A DPDA is defined in the simulation by its initial state, its states (which include a boolean accepting/non-accepting marker) and its transitions (each belonging to a source state, and having a destination, $pop$ instruction, $push$ instruction and $read$ instruction). 
 \subsection{Mutations}
-As discussed previously *chap ref*, the mutation scheme matters. As long as it is a reasonable exploration of the strategy space we expect certain behaviour to hold, but much of the dynamics will be dependant on the mutation scheme chosen. Since I intend to extend work done with Finite State Automata, I have based my mutation scheme heavily on a mutation scheme for Finite State Automata.
+As discussed in \ref{sec:mutation}, the mutation scheme is important. As long as it is a reasonable exploration of the strategy space we expect certain behaviour to hold, but much of the dynamics will be dependant on the mutation scheme chosen. Since I intend to extend work done with Finite State Automata, I have based my mutation scheme heavily on a mutation scheme for Finite State Automata \citep{van-veelen:PNAS:2012}.
 
-The first mutation is the Add State mutation. A state is generated, which can be either an accepting state or a non-accepting state. Additionally, an outbound transitions is added with random Read, Pop, Push instructions and a random destination (with no bias towards 'nearby' states, or bias against the new state itself as the destination). One transition is rerouted with the new state as its destination, ensuring the new state is connected to the Automaton. 
+The first mutation is the Add State mutation. A state is generated, which can be either an accepting state or a non-accepting state. Additionally, an outbound transitions is added with random $read$, $pop$, $push$ instructions and a random destination (with no bias towards 'nearby' states, or bias against the new state itself as the destination). One transition is rerouted with the new state as its destination, ensuring the new state is connected to the Automaton. 
 
 Alternative mutation schemes could already be noted for just this first mechanism. 
 The requirement that the new state be connected could be dropped- perhaps with justification to biological systems. Inactive information may exist in a genome. 
 It could also be important- at some later stage it may be the subject of an advantageous mutation. 
 
-The connected requirement is made because after mutations, the Automaton is pruned of disconnected states in order to address bloat *a ref here*. 
-Another alternative would be to not add any transitions to the new state- or to add an inbound transition rather than reroute an existing one. The method chosen is used as it ensures connectedness and is a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted (Read, Pop, Push, Destination), whereas the single re-routing is only one parameter change.
+The connected requirement is made because after mutations, the Automaton is pruned of disconnected states in order to address bloat \citep{koza08}. 
+Another alternative would be to not add any transitions to the new state- or to add an inbound transition rather than reroute an existing one. My method was chosen as it ensures connectedness and results in a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted ($read$, $pop$, $push$, Destination), whereas the single re-routing is only one parameter change.
 
 Removing a state is the second method of mutation. Outbound transitions from the state are deleted. 
 Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. Rerouting is chosen over deleting all related transition to minimize the size of the mutation. If the initial state is removed, another randomly chosen state is assigned as the initial state.
 
-Adding a transition involves randomly selecting a source, destination, and Read Pop and Push instructions. All factors are uniformly selected, with the exception of only allowing a Stack interactions with a stack marker to both pop and push; not one or the other. 
+Adding a transition involves randomly selecting a source, destination, and $read$ $pop$ and $push$ instructions. All factors are uniformly selected, with the exception of only allowing a Stack interactions with a stack marker to both $pop$ and $push$; not one or the other. 
 
 The remove transition mutation removes a transition. As a result, this may trigger more substantial changes to the Automaton. For example, it may disconnect the Automaton, making part unreachable and causing it to be pruned. 
 
-Each parameter that a Transition contains can also change. It's destination state, read condition, pop condition and push instruction can all be changed. These are selected randomly, with the exception of stack markers (with the pop and push condition as before). Transitions that would make the Automaton Non-Deterministic are simply not added, so the Automaton does not change on this mutation event in that case.
+Each parameter that a Transition contains can also change. It's destination state, $read$ condition, $pop$ condition and $push$ instruction can all be changed. These are selected randomly, with the exception of stack markers (with the $pop$ and $push$ condition as before). Transitions that would make the Automaton Non-Deterministic are simply not added, so the Automaton does not change on this mutation event in that case.
 
 Finally, the accepting/non-accepting parameter of a state can be flipped.
 
@@ -895,8 +896,8 @@ This strategy is shown in Figure \ref{fig:grim}.
 \label{fig:grim}
 \end{figure}
 
-The "S\#q0FI" indicates one state, q0, which is accepting (final) and initial. 
-There is one transition-- when C is read and the top of the stack is empty (\$ is the stack marker), the stack remains the same and the state does not change. 
+The ``S\#q0FI'' indicates one state, $q0$, which is accepting (final) and initial. 
+There is one transition -- when C is read and the top of the stack is empty (\$ is the stack marker), the stack remains the same and the state does not change. 
 This strategy is Grim--Trigger; it cooperates until its opponent defects, then never cooperates again. 
 
 These DPDA strategies compete with other DPDA strategies for survival. 
@@ -904,13 +905,13 @@ The simulation uses a Wright-Fisher process. Figure \ref{fig:wright} gives an ov
 The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld} \footnote{In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''}. 
 Figure \ref{fig:wright} is started with a mixed population, to aid indicating how the process works. 
 The population in simulations is of a fixed size $N$, and $N$ is even. 
-Each player competes with a neighbour they are paired with, playing the repeated Prisoner's Dilemma, with the number of games they play dependent on the continuity probability $delta$. 
-Next, strategies reproduce. 
+Each player competes with a neighbour they are paired with, playing the repeated Prisoner's Dilemma, with the number of games they play dependent on the continuity probability $\delta$. 
+Next, strategies reproduce, proportionally to payoffs. 
 
 Strategies in an odd position reproduce by chance, based on fitness. 
 In my example, A does well playing against the population, and is selected for the next generation. 
 Not always however; since a lower fitness strategy still has a chance (a lower chance) of reproducing. 
-Strategies in an even position reproduce by chance with probability $1-r$, where r is the assortment parameter, determining population structure. 
+Strategies in an even position reproduce by chance with probability $1-r$, where r is the assortment parameter, determining population structure.  This follows from \citet{van-veelen:PNAS:2012}, and guarantees that selection is not biased by this method of adding structure. 
 
 Strategies in an even position have a probability $r$ of instead copying the neighbour strategy. 
 This is the means by which assortment is added. 
@@ -1250,20 +1251,35 @@ Further analysis of noisy environments may yield interesting results.
 I investigated the evolution of strategies representable by Deterministic Pushdown Automata. 
 My simulation allowed for varied continuity probability and assortment parameters, and reported behaviour that results and the strategies that appear. In this chapter, I will discuss the results in regards to my research questions.
 \section{Effect on Cooperation}
+In Section \ref{sec:overall} I discussed the observed differences in the amount of cooperation in each region to previous results. 
+In Region 2, the FSA simulation found higher cooperation \citep{van-veelen:PNAS:2012}. 
+In Region 3, my DPDA simulation found higher cooperation. 
+The non-appearance of DPDA in my simulation in Region 2 suggests that these differences are a result of the mutation scheme used for each model. 
+My simulation explored the strategy space differently, so different strategies with different levels of cooperation evolved. 
 \section{Comparison to Theory}
+Section \ref{sec:behaviour} examined the Time Series in each region. 
+My simulation gave results that did not violate the expected outcomes. 
+However, some differences in what you might expect (but not differences from the limits to behaviour \citep{van-veelen:PNAS:2012} defined) did appear. 
+
+When $r>0.5$ and $\delta>0.5$, so both assortment and continuity probability are high, no partially defecting strategies are successful. 
+This appears to be a result of the mutation scheme used; Grim entered the population too quickly for non-cooperative strategies to survive for long.
 \section{The Evolution of Successful Non-Regular Strategies}
+Non-Regular strategies, evolved in my simulation. One which appeared with high frequency when continuity was high, was Counting Grudge. 
+However, its success was limited. 
+Being neutral to Always Cooperate and Grim, it does not have an advantage over these in an environment without defectors or noise. 
+Adding noise, I showed that Grudge can be more successful than some other strategies expected to appear in regions of the graph with cooperation present. 
+\section{Future Work}
+I would like to extend the work I have conducted this year to further examine Non-Regular strategies in noisy environments. 
+The strategies that can be represented by Deterministic Pushdown Automata could be examined more thoroughly with theory, including in noisy environments. 
+
+Other strategy representations could be explored, such as decision trees, or Non-Deterministic Pushdown Automata. 
 \appendix % all \chapter{..} commands after this will generate appendices
 
 \chapter{Source Code Release}
 \label{app:code}
-The easiest method to get the simulation source code is to import the archive into eclipse.
+Here I will detail how to get the source code of my program. 
 
-The easiest method to run the simulation is to use the jar provided. 
-
-Please note that the archive file attached to my thesis is the version submitted for assessment. 
-
-The code for my simulation will be released on github at github.org/somewhere. 
-I intend to improve upon this work in the future here, perhaps with others interested in the area of research. 
+I will also state where I am going to post my code on git.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
