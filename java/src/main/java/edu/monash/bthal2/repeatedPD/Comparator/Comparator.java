@@ -85,7 +85,7 @@ public class Comparator {
 	}
 
 	public static double[][] compare(ArrayList<RepeatedStrategy> strategies) {
-		RepeatedGame pd = new RepeatedGame(2.0, 0.0, 3.0, 1.0, 0.8);
+		RepeatedGame pd = new RepeatedGame(2.0, 0.0, 3.0, 1.0, 0.6667);
 		RepeatedGameFixedLength pdfl = new RepeatedGameFixedLength();
 		double[][] payoffs = new double[strategies.size()][strategies.size()];
 
@@ -108,6 +108,8 @@ public class Comparator {
 		RepeatedGameFixedLength pdfl = new RepeatedGameFixedLength();
 		double[][] payoffs = new double[strategies.size()][strategies.size()];
 		int rounds=Random.simulateGeometricDistribution(1.0-continuity)+1;
+		//System.out.print(rounds+",");
+		//rounds=3;
 		for (int i = 0; i < strategies.size(); i++) {
 			for (int j = 0; j < strategies.size(); j++) {
 				double[] currentGame = pdfl.playOnceFixedLength(
@@ -117,8 +119,10 @@ public class Comparator {
 				} else {
 					payoffs[i][j] = currentGame[0];
 				}
-				payoffs[i][j] =payoffs[i][j] /rounds;
-				
+				if (rounds>1) {
+				payoffs[i][j] =payoffs[i][j] /(rounds-1);
+				} else{
+				payoffs[i][j] =payoffs[i][j] /(rounds);}
 				// /payoffs[j][i] = currentGame[1];
 			}
 		}
@@ -213,7 +217,7 @@ public class Comparator {
 		// strategies.add(three);
 
 		Random.seed(System.nanoTime());
-		double continuity=0.666;
+		double continuity=0.6667;
 		double assortment=0.0;
 		double[][] result = compare3(strategies,continuity, assortment);
 		for (int i = 0; i < 999; i++) {

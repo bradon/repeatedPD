@@ -104,7 +104,7 @@ public class CompareStrategies {
 
 	public static void printComparison(ArrayList<RepeatedStrategy> strategies,
 			double continuity, double assortment, double mistakeProbability) {
-		Random.seed(System.nanoTime());
+		//Random.seed(System.nanoTime());
 		double[][] result = compareStrategies(strategies, continuity,
 				assortment, mistakeProbability);
 		for (int i = 0; i < 99999; i++) {
@@ -120,7 +120,7 @@ public class CompareStrategies {
 		for (int i = 0; i < result.length; i++) {
 			System.out.print("{");
 			for (int j = 0; j < result.length; j++) {
-				System.out.print(result[j][i] / 100000);
+				System.out.print(result[i][j] / 100000);
 				if (j != result.length - 1) {
 					System.out.print(",");
 				} else {
@@ -132,7 +132,7 @@ public class CompareStrategies {
 				System.out.print(",");
 			}
 		}
-		System.out.print("}");
+		System.out.print("}\n");
 	}
 
 	public static void main(String[] args) {
@@ -141,17 +141,37 @@ public class CompareStrategies {
 		RepeatedStrategy tft = DPDAFactory.ExampleStrategies.tft();
 		RepeatedStrategy allc = DPDAFactory.ExampleStrategies.allC();
 		strategies.add(tft);
-		//strategies.add(allc);
-		strategies.add(alld);
-		
-		//DPDA grudge = parseStrategy("S#q0FIT#q0-q0vC.l->a&q0-q0vD.a->l&");
-		//strategies.add(grudge);
+		strategies.add(allc);
+		//strategies.add(alld);
+		RepeatedStrategy alternate=parseStrategy("S#q0FI&q1T#q0-q1vC.$->$&q0-q0vC.a->a&q1-q0vD.$->$&");
+		DPDA grudge = parseStrategy("S#q0FIT#q0-q0vC.l->a&q0-q0vD.a->l&");
+		strategies.add(grudge);
 		//strategies
-		//		.add(parseStrategy("S#q0FI&q1T#q0-q1vC.l->a&q0-q0vD.a->l&q1-q0vC.a->l&"));
-		//RepeatedStrategy grim = parseStrategy("S#q0FIT#q0-q0vC.$->$&");
+			//	.add(parseStrategy("S#q0FI&q1T#q0-q1vC.l->a&q0-q0vD.a->l&q1-q0vC.a->l&"));
+		RepeatedStrategy grim = parseStrategy("S#q0FIT#q0-q0vC.$->$&");
 		//strategies.add(grim);
-
-		printComparison(strategies, 0.6666, 0.0, 0.0);
-
+		//strategies.add(alternate);
+		//strategies.add(allc);
+		//strategies.add(alld);
+		//printComparison(strategies, 0.99, 0.0, 0.0);
+		testGrudge(89320234);
+	}
+	
+	public static void testGrudge(long seed) {
+		Random.seed(seed);
+		ArrayList<RepeatedStrategy> strategies = new ArrayList<RepeatedStrategy>();
+		DPDA grudge = parseStrategy("S#q0FIT#q0-q0vC.l->a&q0-q0vD.a->l&");
+		RepeatedStrategy tft = DPDAFactory.ExampleStrategies.tft();
+		RepeatedStrategy allc = DPDAFactory.ExampleStrategies.allC();
+		strategies.add(grudge);
+		strategies.add(tft);
+		strategies.add(allc);
+		printComparison(strategies,0.99,0.0,0.0);
+		printComparison(strategies,0.99,0.0,0.01);
+		printComparison(strategies,0.99,0.0,0.05);
+		printComparison(strategies,0.99,0.3,0.01);
+		
+		
+		
 	}
 }
