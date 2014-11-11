@@ -810,34 +810,34 @@ More formally, a PDA consists of:\\
 1. A finite, set of states $S \neq  \emptyset$\\
 2. An input alphabet, $\Sigma \neq  \emptyset$\\
 3. A stack alphabet, $\Gamma$, containing a stack marker $Z_0$, the empty character which indicates no changes to the stack, and other stack symbols\\
-4. The possible states of the stack, $\Gamma^\prime$\\
-5. A transition function $\delta : S \times \Sigma \time \Gamma \rightarrow \mathcal P(S,\Gamma^\prime)$\\
-6. A set of final/accepting states $F \subseteq S$ \\
-7. The initial state $q_0 \in S$\\
+4. A transition function $\delta : S \times \Sigma \time \Gamma \rightarrow \mathcal P(S \times \Gamma)$\\
+5. A set of final/accepting states $F \subseteq S$ \\
+6. The initial state $q_0 \in S$\\
 
-Initially, the stack contains only the stack marker ($\Gamma^\prime_0=\{Z_0\}$).\\
+Initially, the stack contains only the stack marker ($\Gamma_0=\{Z_0\}$).\\
 
-A PDA is Non-Deterministic if the power set $\mathcal P(S,\Gamma^\prime)$ can have more than one element. It is Deterministic if $\mathcal P(S,\Gamma^\prime)$ has at most one element. That is, if at most one transition exists for any possible state and stack state. The language or set of strategies representable by a DPDA is a subset of strategies represented by PDAs. The strategies represented by FSAs is a subset of both. FSAs can represent Regular strategies, DPDAs can represent Deterministic Context-Free strategies, and PDAs can represent Context-Free strategies.
+A PDA is Non-Deterministic if more than one transition exists for any possible state and stack state.  If at most one transition exists for any possible state and stack state the Automaton is Deterministic. The language or set of strategies representable by a DPDA is a subset of strategies represented by PDAs. The strategies represented by FSA are a subset of both. FSAs can represent Regular strategies, DPDAs can represent Deterministic Context-Free strategies, and PDAs can represent Context-Free strategies.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{languages}
-\caption{Strategy spaces discussed}
+\caption{Hierarchy of Strategy Spaces}
 \label{fig:languages}
 \end{figure}
 
 Initially, I pursued simulating Non-Deterministic Pushdown Automata. 
-This is a more complex task than Deterministic Pushdown Automata, due to needing to maintain a set of valid configurations, since any number of valid configurations can exist for a given input. 
+This is a more complex task than simulating Deterministic Pushdown Automata, due to needing to maintain a set of valid configurations, since all possible paths must be followed to check if the input can leave the Automata in an accepting state. 
 This results in more complicated software to create, and more computation needed to determine if one of the configurations is an accepting configuration. \\
 
 Third party software was explored for use with this; specifically \citet{JFLAP}. 
-This was designed as a learning tool for Theory of Computation \cite{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported- re-checking if the entirety of the current history instead of just iterating to the next item in the history- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage.
+This was designed as a learning tool for Theory of Computation \cite{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported-- re-checking if the entirety of the current history instead of just iterating to the next item in the history-- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage. 
+This reduced computation time, and simplified analysis. 
 
 An example of a Deterministic Pushdown Automata is given in Figure \ref{fig:dpda}. 
-It should be familiar-- it is a variation on TFT. 
-The character $\lambda$ is the empty character; no change is made to the stack when it is popped or pushed. Following the operation of this Automaton, we start on $q0$. In all circumstances when a $C$ is read, and we are on state $q0$, $a$ is pushed to the stack. 
-If $D$ is read we do one of two things. If the stack is empty, the stack marker $\$$ is on top, so we pop it and move to state $q1$. 
-If the stack has a marker on it, we pop it and remain on $q0$. 
+It should be familiar -- it is a variation of TFT. 
+The character $\lambda$ is the empty symbol; no change is made to the stack when it is popped or pushed. Following the operation of this Automaton, we start on $q0$. In all circumstances when a $C$ is read, and we are on state $q0$, $a$ is pushed to the stack. 
+If $D$ is read we do one of two things. If the stack is empty (indicted by \$), we move to state $q1$. 
+If the stack is non empty, and so has a symbol from the alphabet on it, we pop it and remain on $q0$. 
 If we have transferred to $q1$ and read $C$, we push $a$ and transfer back to the accepting/cooperating state. 
 If we read $D$, we remain on the non-accepting state.
 
@@ -847,7 +847,7 @@ If they have cooperated recently, it does not retaliate until defection moves ou
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{pdatft}
-\caption{A DPDA modelled off TFT}
+\caption{Counting-TFT: A DPDA modelled off TFT, which counts Cooperation and Defection actions}
 \label{fig:dpda}
 \end{figure}
 
@@ -861,7 +861,7 @@ As discussed previously *chap ref*, the mutation scheme matters. As long as it i
 The first mutation is the Add State mutation. A state is generated, which can be either an accepting state or a non-accepting state. Additionally, an outbound transitions is added with random Read, Pop, Push instructions and a random destination (with no bias towards 'nearby' states, or bias against the new state itself as the destination). One transition is rerouted with the new state as its destination, ensuring the new state is connected to the Automaton. 
 
 Alternative mutation schemes could already be noted for just this first mechanism. 
-The requirement that the new state be connected could be dropped- perhaps with justification to biologic systems. Inactive information may exist in a genome. 
+The requirement that the new state be connected could be dropped- perhaps with justification to biological systems. Inactive information may exist in a genome. 
 It could also be important- at some later stage it may be the subject of an advantageous mutation. 
 
 The connected requirement is made because after mutations, the Automaton is pruned of disconnected states in order to address bloat *a ref here*. 
@@ -1056,7 +1056,7 @@ Essentially, anything goes in this region.
 Figures \ref{fig:2-0.5-0.2} and \ref{fig:2-0.5-0.3}, and Figures \ref{fig:2-0.7-0.1} and \ref{fig:2-0.7-0.3} show the increase in cooperative behaviour as the combination of continuity probability and assortment increases, making the situation considered closer to the border with Region 3. 
 
 In these time series, except in the case of Figure \ref{fig:2-0.7-0.3} the most common strategies are variants upon Always Defect (behaving equivalently, but with a few representations).
-In Figure \ref{fig:2-0.7-0.3}, Always Defect is most common, but Grim is also a common strategy. 
+In Figure \ref{fig:2-0.7-0.3}, Grim and Defect are most common, making up 64\% and 36\% of the proportion of the top 20 strategies. 
 These strategies are all representable by FSA. 
 \begin{figure}[h!]
 \includegraphics[width=0.8\textwidth]{{dataset2_0.5_0.2}.png}
@@ -1079,7 +1079,22 @@ These strategies are all representable by FSA.
 \label{fig:2-0.7-0.3}
 \end{figure}
 
+\begin{figure}[h!]
+\centering
+\includegraphics{{handshakeparent}.png}
+\caption{A Strategy with a Handshake}
+\label{fig:handshakeparent}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics{{handshakechild}.png}
+\caption{Mutant of Figure \ref{fig:handshakeparent}}
+\label{fig:handshakechild}
+\end{figure}
+
 In Figure \ref{fig:2-0.7-0.3} a strategy that defects twice, then cooperates against itself appears. 
+This strategy is given in Figure \ref{fig:handshakeparent} 
 Before this strategy appears, the population is a combination of Always Defect variants. 
 With non-zero assortment ($r=0.3$) this strategy is more likely to encounter itself. 
 So, when it appears, its lower payoff against Always Defect is offset by encounters with itself. 
@@ -1092,15 +1107,151 @@ So, the new strategy wins the first move, but loses the next two.
 Thereafter defection is mutual. 
 A neutral mutant of the ancestor provided the means for Grim Trigger to invade-- an indirect invasion. 
 
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset2_0.95_0.0}.png}
+\caption{Time series when $\delta=0.95$, $r=0.0$}
+\label{fig:2-0.95-0.0}
+\end{figure}
 
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset2_0.99_0.00}.png}
+\caption{Time series when $\delta=0.99$, $r=0.0$}
+\label{fig:2-0.99-0.0}
+\end{figure}
 
+Figure \ref{fig:2-0.95-0.0} and \ref{fig:2-0.99-0.0} show the case of high continuity probability with no assortment. 
+As continuity probability increases, cooperation becomes more frequent. 
+In this region, both Grim, Always Defect and Always Cooperate appear. 
+Grim appears with highest frequency (94\% of the proportion of the 10 most frequent strategies). 
 
-\subsection{Region III}
+A Non-Regular strategy appears in this region. 
+This is shown in Figure \ref{fig:grudge}, and I have called Counting Grudge (or Grudge). 
+It pushes a symbol to the stack whenever the opponent cooperates. 
+It pulls from the stack whenever the opponent defects. 
+If at any point the number of defection actions outnumber cooperation actions, it stops cooperating. 
+There is no valid transition for an empty stack and reading a $D$ action, so any future moves are not in the language the DPDA describes; the strategy will always defect from this point. 
+Grudge only makes up 3\% of the top 10 most frequent strategies at this point. 
+However, it appears in other simulations in Region 2 and Region 3 too. 
+It will prove relevant in Section \ref{sec:noise}, where I will discuss when DPDA may be advantageous strategies.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{{grudge}.png}
+\caption{Counting Grudge: A DPDA Strategy that counts Cooperation and Defection actions}
+\label{fig:grudge}
+\end{figure}
+
+\subsection{Region 3}
+In Region 3, full mutual defection is not an equilibria. 
+Non-zero cooperation is expected throughout this region, though not necessarily full cooperators. 
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.4_0.45}.png}
+\caption{Time series when $\delta=0.4$, $r=0.45$}
+\label{fig:3-0.4-0.45}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.6_0.4}.png}
+\caption{Time series when $\delta=0.6$, $r=0.4$}
+\label{fig:3-0.6-0.4}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.6_0.5}.png}
+\caption{Time series when $\delta=0.6$, $r=0.5$}
+\label{fig:3-0.6-0.5}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.6_0.7}.png}
+\caption{Time series when $\delta=0.6$, $r=0.7$}
+\label{fig:3-0.6-0.7}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.95_0.2}.png}
+\caption{Time series when $\delta=0.95$, $r=0.2$}
+\label{fig:3-0.95-0.2}
+\end{figure}
+
+Below $r=0.5$, expected behaviour is observed. 
+Cycles between cooperation and defection occur, with cooperation being more prevalent as $\delta$ and/or $r$ increase. 
+In Figure \ref{fig:3-0.95-0.2} the previously discussed two-defection handshake, then cooperate strategy reappears when the payoff of the population is approximately 430 for over 100,000 generations. 
+
+In this region, Grim Trigger is the most common strategy. 
+Always Cooperate and Counting Grudge also appear. 
+Counting Grudge appears when continutity probability is high. 
+One difference from previous FSA simulations is the Region where $r>0.5$. 
+
+When $delta$ is small, some of Region 3 does have less than full cooperation. 
+As $delta$ increases, full cooperation is seen. 
+The rate at which Grim appears with my simulations mutation scheme explains this behaviour. 
+For high $delta$, Grim is able to resist defectors. 
+It plays well against itself, and when many games are played the payoff is near mutual defection for both parties -- only on the first round of an interaction does Grim do worse than a defector. 
+The population can drift away from Grim to other mutually cooperative strategies, like Always Cooperate. 
+But, the small number of mutations required for Grim to reappear make invasions by strategies that exploit highly cooperative strategies short lived; a strategy is likely to mutate to Grim, and Grim is likely to invade if that defector gains any ground.
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.4_0.6}.png}
+\caption{Time series when $\delta=0.4$, $r=0.6$}
+\label{fig:3-0.4-0.6}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset3_0.7_0.6}.png}
+\caption{Time series when $\delta=0.7$, $r=0.6$}
+\label{fig:3-0.7-0.6}
+\end{figure}
 \subsection{Region IV}
+In Region 4, mutual cooperators are the only equilibrium strategies. 
+In this region, Grim is again common. 
+When continuity probability is low, ($\delta<0.5$), and a single round is likely, Automata with a single accepting state and no transitions -- which cooperate on the first round, and defect on later rounds which are unlikely to occur -- also appear. 
+Mutual defection is observed, as seen in Figures \ref{fig:4-0.2-0.6} and \ref{fig:4-0.0-0.9}.
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset4_0.2_0.6}.png}
+\caption{Time series when $\delta=0.2$, $r=0.6$}
+\label{fig:4-0.2-0.6}
+\end{figure}
+\begin{figure}[h!]
+\includegraphics[width=0.8\textwidth]{{dataset4_0.0_0.9}.png}
+\caption{Time series when $\delta=0.0$, $r=0.9$}
+\label{fig:4-0.0-0.9}
+\end{figure}
+Data points closer to the boundary with Region 3 are noisier than those in the center of the region, but mutual cooperation remains the overwhelmingly most frequent strategy used. 
 \section{Successful DPDA Strategies}
+In Region 2 and 3, a DPDA was seen amongst the most common strategies. 
+It was not the most successful strategy; it is neutral to Grim and any mutually cooperative strategy. 
+In this section, I add noise to the simulation, and highlight where this DPDA becomes a successful strategy. 
 \subsection{Games with Noise}
-\chapter{Conclusions}
+The simulation was ran with noise of 0.01 and 0.05, all other parameters were held the same. 
+With noise 0.01, 1 percent of moves are inverted; the strategy cooperates when they meant to defect and vice-versa. 
+In this case, Grudge makes up 25\% of the strategies of the top ten most common. 
 
+Does Grudge do a good job against other strategies I expect in this region. 
+I pitted it against Tit-For-Tat (a strategy that did not appear commonly in my simulation, due to mutation distance) and Always Cooperate, instead of operating in an simulated evolutionary environment, I played them against each other in the environment and estimated the expected payoff against each other. 
+The expected payoff is then used to make a simplex of the dynamics; with the changing population estimated using the replicator equations. 
+The result is shown in Figure \ref{fig:noisesimplex}. 
+A stable point exists at all 3 points, but the interior of the phase diagram points to Grudge. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{{Noise001}.png}
+\caption{Grudge playing TFT and ALLC in an environment with 1\% noise}
+\label{fig:noisesimplex}
+\end{figure}
+
+The advantage of a stack in this case is the ability to do simple counting, without needing to have extra states. The number of cooperation -- and so if the opponent has been overall cooperative -- can be accomplished with a single state, two transitions and a stack. 
+Whereas Tit-For-Tat retaliates against a defection immediately, Grudge will wait until defections outnumber cooperative moves. 
+FSA can accomplish this; but again, require extra states for each level of `tolerance'. 
+In a noisy environment, it can pay to be forgiving of mistakes. 
+
+Grudge is still exploitable; for example, a strategy that cooperates a few times to establish some `leeway' -- some symbols on the stack. 
+The strategy can then alternate cooperate and defect fairly safely; it is unlikely that enough mistakes will be made (due to noise) that the number of defection moves outnumber cooperative moves. 
+So, for every second move this strategy gets the highest payoff possible for a round. 
+
+Successful DPDA do appear; one notable example was discussed. 
+Further analysis of noisy environments may yield interesting results.
+\chapter{Conclusions}
+I investigated the evolution of strategies representable by Deterministic Pushdown Automata. 
+My simulation allowed for varied continuity probability and assortment parameters, and reported behaviour that results and the strategies that appear. In this chapter, I will discuss the results in regards to my research questions.
+\section{Effect on Cooperation}
+\section{Comparison to Theory}
+\section{The Evolution of Successful Non-Regular Strategies}
 \appendix % all \chapter{..} commands after this will generate appendices
 
 \chapter{Source Code Release}
