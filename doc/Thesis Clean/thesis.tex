@@ -415,7 +415,7 @@ STFT & D & C&C&...\\
 \end{figure}
 
 Previously, the Replicator Equation was discussed. 
-What does the resulting 2-d simplex look like when ALLC, TFT and ALLD are compared? 
+What does the resulting simplex look like when ALLC, TFT and ALLD are compared? 
 For simplicity, I consider a case when the game is played 10 times. 
 The result is pictured in Figure \ref{fig:allcalldtft}. 
 Payoffs were calculated manually, and the dynamics graphed using Dynamo \citep{dynamo}.
@@ -428,9 +428,9 @@ Payoffs were calculated manually, and the dynamics graphed using Dynamo \citep{d
 \end{figure}
  
 These diagrams visualize the resulting dynamics -- what strategies will be selected for in a given population \citep{imhof:PNAS:2005}. 
-For example, a small number of ALLD players can quickly take over a population of ALLC players, since ALLD gains a better payoff. The arrows give the direction of selection, and the color indicates the speed.  ALLC moves towards ALLD. 
-TFT and ALLC are neutral. 
-When a mixture of strategies exists, TFT is favoured. 
+For example, a small number of ALLD players can quickly take over a population of ALLC players, since ALLD gains a better payoff. The arrows give the direction of selection, and the color indicates the speed. A population of ALLC moves towards ALLD. 
+TFT and ALLC are neutral -- so drift can occur in either direction. 
+When a mixture of strategies exists, in the interior of the simplex, TFT is favoured. 
 In a full ALLD environment, TFT cannot invade; the ALLD corner has a black dot, indicating it is asymptotically stable. 
 Likewise for ALLD invading TFT directly; however if the population drifts to ALLC, ALLD will invade. 
 
