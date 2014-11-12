@@ -1456,14 +1456,30 @@ A simple extension to my work would be to use Full-Memory Deterministic Pushdown
 \appendix % all \chapter{..} commands after this will generate appendices
 
 \chapter{Simulation}
-Here I will have a brief readme.
+My program takes an a few command line parameters, and a json file containing simulation parameters. 
+
+Usage as follows: \\
+\begin{verbatim}
+java -jar nonregularstrategies.jar -t TYPE -j
+java -jar nonregularstrategies.jar -t TYPE -f filename.json
+\end{verbatim}
+The type of simulation can be DPDATIMESERIES, DPDAPAYOFF, LOOKUPTIMESERIES or LOOKUPPAYOFF. 
+DPDA refers to the Deterministic Pushdown Automata strategy representation. 
+Lookup refers to a 3-bit lookup table representation. 
+
+The -j option generates an example json file. 
+
+The -f option specifies a json file to use as input. 
 \section{Source Code}
 \label{app:code}
-Here I will detail how to get the source code of my program. 
-\section{Design}
-Here I will add a class diagram
+I have included all source code in my thesis submission. 
+The Java simulation has been exported to an archive file, and can be imported into eclipse via File-Import-Existing Projects into Workspace.
+
+Files with the extenstion .ipynb are for processing data, and can be opened with IPython notebook. 
+%\section{Design}
 \section{Public Release}
-I will also state where I am going to post my code on git.
+The code produced for this thesis will also be made available at: \\
+https://github.com/bradonh/prisoners\_dilemma\_non\_regular
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
