@@ -275,9 +275,9 @@ For a strategy to be Evolutionarily Stable it must do better than any invader \c
 This is an extension to Nash:
 \begin{align*}
 \forall T \neq x, \{T,x\} \in S: \pi(x,T)&\geq \pi(x^\prime,T) \\ 
-\pi(x, T) &> \pi(T,T)
+\text{if } \pi(x,T)=\pi(x^\prime, T)\text{ then }\pi(x, T) &> \pi(T,T)
 \end{align*}
-In this example, I will call T an invader and x a candidate for ESS. 
+In this example, I will call $T$ an invader and $x$ a candidate for ESS. 
 The non-strict Nash condition is used in this definition. 
 The extra condition considers that any invader will at some point play itself. 
 If the Nash condition is met, the invader does as well as the candidate against other strategies. 
