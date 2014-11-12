@@ -101,13 +101,14 @@ I would like to thank my supervisor Julian Garcia, as well as my friends, family
 \label{sec:intro}
 In competitive environments, cooperation often emerges. 
 Biology in particular is an example, with members of a population often working together to survive. 
-I will consider cases where there is some benefit getting help, and some cost to giving help. 
+I will consider cases where there is some benefit of getting help, and some cost to giving help. 
 For example, consider two predators sharing the food they capture in their separate hunts equally. 
 The predator can choose to share half the spoils of their hunt with their partner (cooperate), or to deceive their partner and keep an uneven share. 
 For simplicity, the deception is either full or not at all. 
-There is a benefit to be had from mutual cooperation; assuming two equally adept hunters, a bad night hunting had by one will often be partially offset by the partners success. 
+There is a benefit to be had from mutual cooperation; assuming a pair of equally adept hunters, if one has a bad night hunting the failure will be partially offset by the success of their partner. 
 That is, risk is reduced, so there is a benefit of getting help. 
-On the other hand, there is a cost to helping the partner -- part of the food is shared. A risk exists of deception by the partner, depriving the hunter of the benefit.  
+On the other hand, there is a cost to helping the partner -- part of the food is shared. 
+Deception by their partner also poses a risk to the hunter; they might deprive the hunter of the benefit.  
 How does cooperation emerge when individuals can benefit from exploiting others? 
  
 We have some understanding of cooperation from experience and observation. 
@@ -116,24 +117,23 @@ It might be worth taking the risk of being exploited now, to secure cooperation 
 If reputation is part of the game, so other members of a population can observe how an individual behaves towards other members, cooperating could be a good idea in order to develop a reputation that you can be trusted. 
 If success is measured by your genes passing on to a new generation, then it can be beneficial to cooperate with kin so they pass on the genes you share with them. 
 These two ideas -- direct reciprocity and population structure (assortment) -- give mechanisms which could cause cooperation to be successful. 
-Success is not measured only by relative performance in a single interaction. 
-I will consider strategies that must interact in a changing environment. 
-Some of the individuals they interact will occasionally change (mutate), and successful ones will reproduce -- it will be an evolutionary environment. 
-A successful strategy must play the game well relative to others in the population to ensure its survival, but it must also perform well as that environment changes.
+Success is not measured only by relative performance in a single interaction; I will consider strategies that must interact in a changing environment. 
+Some of the individuals will occasionally change (mutate), and successful ones will reproduce -- it will be an evolutionary environment. 
+A successful strategy must play the game well, relative to others in the population, to ensure its survival, but it must also perform well as that environment changes.
 
 It is possible to investigate competition and cooperation mathematically -- Game Theory could be described as the mathematical study of competition and cooperation \citep{binmore2007playing}. 
 Consider the case of repeated interactions; for a given scenario, how high does the likelihood of repeating an interaction have to be for cooperating to be the best strategy? 
-In the case of cooperating with kin; how close should the relatives be for individuals to cooperate- should we cooperate fifth cousins, who share only a small number of genes? 
+In the case of cooperating with kin; how close should the relatives be for individuals to cooperate? Should we cooperate with fifth cousins, who share only a small number of genes? 
 
-The literature that studies cooperation is broad. Direct reciprocity, where cooperation appears because the chance of encountering the same individual is high enough, has been well studied. 
+The literature that studies cooperation is broad. Direct reciprocity, where cooperation appears because the chance of encountering the same individual is high enough, has received significant academic attention. 
 Assortment, or population structure (such as a likelihood to interact with kin) has also been well studied. 
 More recently, the interplay between reciprocity, structure, and resulting behaviour has been investigated \cite{van-veelen:PNAS:2012}. 
-To study cooperation, a simple representation is used for the individuals that interact. One standard method is to use Finite State Automata. 
+To study cooperation, a simple representation is used for the individuals that interact. One standard method is to use Finite State Automata (FSA). 
 These machines have a collection of states and transitions between states. 
-In a repeated game, the history is the series of moves that have occured so far in an interaction between two players. 
-Based on the input -- the history of actions-- the transitions in an FSA are followed, moving states. 
+In a repeated game, the history is the series of moves that have occurred so far in an interaction between two players. 
+Based on the input -- the history of actions -- the transitions in an FSA are followed, moving states. 
 How the individual behaves depends on what state it ends up on after following this history. 
-If it ends on a state that is a final state, it cooperates. If it ends on a state that is not a final state, it defects. An example is shown in figure \ref{fig:fsa.tft.lang}. This strategy, called Tit-For-Tat (TFT) starts where the arrow indicates; which is an accepting state (indicated by two circles).
+If it ends on a state that is a final state, it cooperates. If it ends on a state that is not a final state, it defects. An example is shown in Figure \ref{fig:fsa.tft.lang}. This strategy, called Tit-For-Tat (TFT) starts where the arrow indicates; which is an accepting state (indicated by two circles).
 
 \begin{figure}
 \center
@@ -149,7 +149,7 @@ If it ends on a state that is a final state, it cooperates. If it ends on a stat
 \label{fig:fsa.tft.lang}
 \end{figure}
 
-This representation does not cover all possible ways of choosing how to interact -- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata do. 
+This representation does not cover all possible ways of choosing how to interact (all strategies). In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata do. 
 %Finite State Automata define a class of strategies called Regular strategies. I will examine some strategies that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
 \section{Objectives and Research Questions}
 %I have produced a simulation that can simulate the evolution of strategies in the Prisoner's Dilemma using a previously unexplored representation for those strategies. 
@@ -210,7 +210,7 @@ Hawk & $\frac{{b}-{c}}{2}$, {$\boldsymbol{\frac{{b}-{c}}{2}}$} & $b$,$\boldsymbo
 Dove & $0$,$\boldsymbol{b}$ & $\frac{b}{2}$,$\boldsymbol{\frac{b}{2}}$ \\
 \hline
 \end{tabular}
-\caption{Payoff matrix for the Hawk-Dove game}
+\caption{Payoff matrix for the Hawk -- Dove game}
 \label{table:payoffHD}
 \end{table}
 
