@@ -105,9 +105,11 @@ public class CompareStrategies {
 	public static void printComparison(ArrayList<RepeatedStrategy> strategies,
 			double continuity, double assortment, double mistakeProbability) {
 		//Random.seed(System.nanoTime());
+		// Samples 100000 default
+		long samples=1000000;
 		double[][] result = compareStrategies(strategies, continuity,
 				assortment, mistakeProbability);
-		for (int i = 0; i < 99999; i++) {
+		for (int i = 0; i < samples-1; i++) {
 			double[][] newResult = compareStrategies(strategies, continuity,
 					assortment, mistakeProbability);
 			for (int j = 0; j < result.length; j++) {
@@ -120,7 +122,7 @@ public class CompareStrategies {
 		for (int i = 0; i < result.length; i++) {
 			System.out.print("{");
 			for (int j = 0; j < result.length; j++) {
-				System.out.print(result[i][j] / 100000);
+				System.out.print(result[i][j] / samples);
 				if (j != result.length - 1) {
 					System.out.print(",");
 				} else {
@@ -154,7 +156,8 @@ public class CompareStrategies {
 		//strategies.add(allc);
 		//strategies.add(alld);
 		//printComparison(strategies, 0.99, 0.0, 0.0);
-		testGrudge(89320234);
+		//testGrudge(89320234);
+		handshake(134962934);
 	}
 	
 	public static void testGrudge(long seed) {
@@ -170,8 +173,16 @@ public class CompareStrategies {
 		printComparison(strategies,0.99,0.0,0.01);
 		printComparison(strategies,0.99,0.0,0.05);
 		printComparison(strategies,0.99,0.3,0.01);
-		
-		
-		
+	}
+	
+	public static void handshake(long seed) {
+		Random.seed(seed);
+		ArrayList<RepeatedStrategy> strategies = new ArrayList<RepeatedStrategy>();
+		//RepeatedStrategy alld = LookupStrategyLengthOneFactory.allD();
+		RepeatedStrategy grim = parseStrategy("S#q0FIT#q0-q0vC.$->$&");
+		strategies.add(grim);
+		strategies.add(parseStrategy("S#q0I&q1&q2FT#q0-q1vD.l->a&q0-q0vC.$->$&q1-q2vD.l->l&q2-q2vC.l->a&q2-q0vD.$->$&"));
+		strategies.add(parseStrategy("S#q0I&q1&q2F&q3FT#q0-q3vC.$->$&q0-q1vD.$->$&q1-q2vD.$->l&q1-q0vC.l->a&q2-q2vC.l->l&q3-q2vD.$->$&"));
+		printComparison(strategies,0.7,0.3,0.0);
 	}
 }

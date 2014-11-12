@@ -134,7 +134,7 @@ In the case of cooperating with kin; how close should the relatives be for indiv
 
 The literature that studies cooperation is broad. Direct reciprocity, where cooperation appears because the chance of encountering the same individual is high enough, has received significant academic attention. 
 Assortment, or population structure (such as a likelihood to interact with kin) has also been well studied. 
-More recently, the interplay between reciprocity, structure, and resulting behaviour has been investigated \cite{van-veelen:PNAS:2012}. 
+More recently, the interplay between reciprocity, structure, and resulting behaviour has been investigated \citep{van-veelen:PNAS:2012}. 
 To study cooperation, a simple representation is used for the individuals that interact. One standard method is to use Finite State Automata (FSA). 
 These machines have a collection of states and transitions between states. 
 In a repeated game, the history is the series of moves that have occurred so far in an interaction between two players. 
@@ -259,7 +259,7 @@ Consider some strategy $p_1$ playing itself:
 \pi(p_1,p_1)&=\frac{b-c}{2}*p^2+\frac{b}{2}*(1-p)^2+0*(1-p)p+b*p(1-p) \nonumber
 \end{align}
 In a similar fashion, we can find the payoffs for all combinations of $p_1$ and $p_2$. 
-In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed strategies.\footnote{In this case, a strategy that has a p of $b/c$. See \cite{nowak2006evolutionary63}} Pure strategies are the focus of this thesis.
+In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed strategies.\footnote{In this case, a strategy that has a p of $b/c$. See \citet[][p 63]{nowak2006evolutionary63}} Pure strategies are the focus of this thesis.
 
 \subsection{Evolutionary Stable Strategies}
 Instead of a number of strategies competing, let's consider a population that changes over time. 
@@ -584,7 +584,7 @@ For every Non-Deterministic FSA, there is a Deterministic FSA that produces the 
 
 A number of mutation schemes for Finite State Automata could also be used. 
 These could involve adding states, deleting states, changing a transition, changing if a state is accepting, and changing the initial state. 
-This graph based view is used in \cite{van-veelen:PNAS:2012}. 
+This graph based view is used in \citet{van-veelen:PNAS:2012}. 
 
 Alternatively, we could set the number of states to a constant or upper limit and represent the FSA by a string; for example a 4 state machine could be given as in Table \ref{table:fsa4state}:
 \begin{figure}[h]
@@ -907,7 +907,7 @@ This is a more complex task than simulating Deterministic Pushdown Automata, due
 This results in more complicated software to create, and more computation needed to determine if one of the configurations is an accepting configuration. \\
 
 I explored third party software for the task of implementing PDA; specifically \citet{JFLAP}. 
-This was designed as a learning tool for Theory of Computation \cite{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported -- re-checking if the entirety of the current history instead of just iterating to the next item in the history -- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage. 
+This was designed as a learning tool for Theory of Computation \citep{rodger2009increasing}, and for my purpose needed to be significantly modified. For example, current possible configurations would need to be maintained while waiting for the next input. The alternative already supported -- re-checking if the entirety of the current history instead of just iterating to the next item in the history -- was computationally expensive.  I made the decision to instead implement my own version of the simpler Deterministic Pushdown Automata, with the intention of expanding representations at a later stage. 
 This reduced computation time, and simplified analysis. 
 
 Figure \ref{fig:dpda} shows an example of a Deterministic Pushdown Automata. 
@@ -1248,7 +1248,7 @@ A neutral mutant of the ancestor provided the means for Grim Trigger to invade--
 Figure \ref{fig:handshake} shows the approximate dynamics of this invasion. 
 This was estimated by using the strategy comparison feature of my program; payoffs are estimated playing each strategy. 
 Dynamo \citep{dynamo} uses the replicator equation to estimate evolutionary dynamics. 
-In reality, the bottom two strategies are neutral to each other, where the graph suggests drift towards either strategy, depending on starting conditions. 
+The bottom two strategies are neutral to each other, where the graph suggests drift towards either strategy, depending on starting conditions (as my expected payoffs are estimations, not exact values). 
 
 It does capture the invasion however; initially the population is Handshake. Handshake neutrally to Handshake-Child. Once Handshake-Child is the majority strategy, Grim is selected for (and invades once it appears via mutation). 
 \begin{figure}[h!]
