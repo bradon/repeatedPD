@@ -91,6 +91,7 @@ I would like to thank my supervisor Julian Garcia, as well as my friends, family
 \mainmatter						% start the thesis body.
 
 \chapter{Introduction}
+\label{sec:intro}
 In competitive environments, cooperation often emerges. 
 Most notably in biology, with members of the population often working together for survival. 
 I will consider cases where there is some benefit getting help, and some cost to giving help. 
@@ -100,19 +101,20 @@ For simplicity, the deception is either full or not at all.
 There is a benefit to be had from mutual cooperation; assuming two equally adept hunters, a bad night hunting had by one will often be partially offset by the partners success. 
 That is, risk is reduced, so there is a benefit being getting help. 
 On the other hand, there is a cost to helping the partner- part of the food is shared. A risk exists of deception by the partner, depriving the hunter of the benefit.  
+How does cooperation succeed when an individual can benefit from exploiting others? 
  
 We have some understanding of cooperation from experience and observation. 
 If an encounter between two individuals is likely to re-occur, establishing cooperative behaviour is likely to pay off in the future. 
 It might be worth taking the risk of being exploited now, to secure cooperation in the future (there is incentive to reciprocate). 
 If reputation exists, so other members of a population can observe how an individual behaves with other members, cooperating could be a good idea so as to develop a reputation that you can be trusted. 
 If success is measured by your genes passing on to a new generation, then it can be beneficial to cooperate with kin so they pass on the genes you share with them. 
-These two ideas-- direct reciprocity and population structure (assortment)-- give mechanisms which could cause cooperation to be beneficial. 
-Success is not measured only by relative performance in a game. 
+These two ideas -- direct reciprocity and population structure (assortment) -- give mechanisms which could cause cooperation to be beneficial. 
+Success is not measured only by relative performance in a single interaction. 
 I will consider strategies that must interact in a changing environment. 
-Some of the individuals they interact will occasionally change (mutate), and successful ones will reproduce-- it will be an evolutionary environment. 
+Some of the individuals they interact will occasionally change (mutate), and successful ones will reproduce -- it will be an evolutionary environment. 
 A successful strategy must play the game well relative to others in the population to ensure its survival, but it must also perform well as that environment changes.
 
-It is possible to investigate competition and cooperation mathematically-- Game Theory could be described as the mathematical study of competition and cooperation. 
+It is possible to investigate competition and cooperation mathematically -- Game Theory could be described as the mathematical study of competition and cooperation. 
 Consider the case of repeated interactions; for a given scenario, how high does the likelihood of repeating an interaction have to be for cooperating to be the best strategy? 
 In the case of cooperating with kin; how close should the relatives be for individuals to cooperate- should we cooperate fifth cousins, who share only a small number of genes? 
 
@@ -120,9 +122,9 @@ The literature that studies cooperation is broad. Direct reciprocity, where coop
 Assortment, or population structure (such as a likelihood to interact with kin) has also been well studied. 
 More recently, the interplay between reciprocity, structure, and resulting behaviour has been investigated \cite{van-veelen:PNAS:2012}. 
 To study cooperation, a simple representation is used for the individuals that interact. One popular method is to use Finite State Automata. 
-In short, these machines have a collection of states and transitions between states. 
+These machines have a collection of states and transitions between states. 
 In a repeated game, the history is the series of moves that have occured so far in an interaction between two players. 
-Based on history of actions, the transitions in an FSA are followed. 
+Based on the input -- the history of actions-- the transitions in an FSA are followed, moving states. 
 How the individual behaves depends on what state it ends up on after following this history. 
 If it ends on a state that is a final state, it cooperates. If it ends on a state that is not a final state, it defects. An example is shown in figure \ref{fig:fsa.tft.lang}. This strategy, called Tit-For-Tat (TFT) starts where the arrow indicates; which is an accepting state (indicated by two circles).
 
@@ -140,15 +142,16 @@ If it ends on a state that is a final state, it cooperates. If it ends on a stat
 \label{fig:fsa.tft.lang}
 \end{figure}
 
-This representation does not cover all possible ways of choosing how to interact-- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata. Finite State Automata define a class of strategies called Regular strategies. I will examine some strategies that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
+This representation does not cover all possible ways of choosing how to interact -- all strategies. In this thesis, I will examine the interplay between reciprocity and population structure, using a representation that examines a wider range of strategies than Finite State Automata do. 
+%Finite State Automata define a class of strategies called Regular strategies. I will examine some strategies that Fininite State Automata cannot represent: Non-Regular Strategies (specifically, Deterministic Context-Free Strategies).
 \section{Objectives and Research Questions}
 %I have produced a simulation that can simulate the evolution of strategies in the Prisoner's Dilemma using a previously unexplored representation for those strategies. 
 I aim to answer several questions by evolving strategies in simulation:
 \begin{itemize}
 \item How does changing the strategy space affect the cooperation that is seen? 
-Results are compared to a previous simulation that used an FSA representation. 
-\item Do theoretical results hold with the larger strategy space? In certain regions of the graph, a bound can be placed on the behaviour seen. 
-\item Do successful non-regular strategies evolve?
+Results are compared to a previous simulation that used an FSA representation (Section \ref{sec:overall}). 
+\item Do theoretical results hold with the larger strategy space? In certain regions of the graph, a bound can be placed on the behaviour seen (Section \ref{sec:pnas}). 
+\item Do successful non-regular strategies evolve? (Section \ref{sec:dpda})
 \end{itemize}
  
 By asking the last two questions in particular, I investigate the impact of the assumptions previous work has put on the capability of the strategies studied. 
@@ -158,8 +161,8 @@ The remainder of this thesis will be structured into several chapters.
 \begin{itemize}
 \item Research Context, in which I discuss fundamentals of game theory and previous studies of the repeated Prisoner's Dilemma.
 \item Research Methods, where I will discuss the details of my simulation and how results are analysed
-\item Results and Discussion, giving and discussing results of my work
-\item Conclusion, where I will summarise my work
+\item Results and Discussion, giving and discussing results of my work.
+\item Conclusion, where I will summarise my work, and discuss future work.
 \end{itemize}
 
 \chapter{Research Context}
@@ -200,19 +203,19 @@ Hawk & $\frac{{b}-{c}}{2}$, {$\boldsymbol{\frac{{b}-{c}}{2}}$} & $b$,$\boldsymbo
 Dove & $0$,$\boldsymbol{b}$ & $\frac{b}{2}$,$\boldsymbol{\frac{b}{2}}$ \\
 \hline
 \end{tabular}
-\caption{Payoff Matrix for the Hawk-Dove game}
+\caption{Payoff matrix for the Hawk-Dove game}
 \label{table:payoffHD}
 \end{table}
 
 What is the best strategy to play? 
-Assume that each individual has a strategy they are going to use. 
+Assume that each individual has a strategy they are going to use -- they do not change their strategy. 
 In a population of Doves, a lone Hawk will do well in comparison to the rest of the population, gaining the benefit (the food) without paying the cost (of injury). 
 The rest of the population (Doves) gains either $\frac{b}{2}$ or $0$. 
 
-In a population of Hawks, how well a Dove does depends on the parameters. 
+In a population of almost entirely Hawks, how well a Dove does depends on the parameters. 
 If the cost of injury is higher than benefit of winning the fight and getting the food, Hawks can be expected to get a negative payoff most of the time-- and so the lone Dove, with $0$ expected payoff may have the best expected payoff. In a population of 100 Hawks and 1 Dove, where each individual plays another individual randomly, a Hawk is expected to make $\frac{99}{100}\cdot\frac{b-c}{2}+\frac{1}{100}\cdot b$ and a Dove is expected to make $0$. If $c>b$, the Dove has the highest expected payoff. 
 
-Existing literature in Game Theory allows us to analyse scenarios like these, and answer what is the best strategy to play.
+Existing literature in Game Theory allows us to analyse scenarios like these, and find what is the best strategy to play.
 \subsection{Nash Equilibria}
 The Nash Equilibria for a game are the strategies from which individuals have no incentive to switch. 
 That is, they cannot get a higher payoff by choosing, on its own, to switch to a new strategy.  
@@ -234,7 +237,7 @@ When playing against a Dove (D), you would do better to switch to Hawk and gain 
 \pi(D,D)&\ngeq \pi(H,D)
 \end{align*}
 
-If instead of playing with a single strategy, we can change to a scenario where two players probabilistically select an action. So, $p_1$ plays Hawk with probability $p$ and Dove with probability $p-1$. Strategies that make decisions probabilistically are Mixed Strategies. 
+Instead of playing with a single strategy, consider a scenario where two players probabilistically select an action. So, $p_1$ plays Hawk with probability $p$ and Dove with probability $p-1$. Strategies that make decisions probabilistically are Mixed Strategies. 
 In this case, the expected payoff must be calculated based on  probabilities of each move. 
 Consider some strategy $p_1$ playing itself: 
 \begin{align}
@@ -247,12 +250,12 @@ In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed str
 
 \subsection{Evolutionary Stable Strategies}
 Instead of a number of strategies competing, let's consider a population that changes over time. 
-Players compete by playing the Prisoner's Dilemma. 
-The payoff results in a fitness, which determines the player's chance of reproducing. 
+Players compete by playing a game. 
+The payoff of that game results in a fitness, which determines the player's chance of reproducing. 
 In addition, new members can enter the population as mutations to a players strategy can occur when they reproduce. 
 In short, there will be random mutations and a selection condition (how well a player does in the population) -- it is an evolutionary environment. 
 
-In an environment where strategies evolve, an extra condition must be added to see what is the best performing strategy. 
+In an environment where strategies evolve, an extra condition must be added to see if a strategy will become most populous, and stay that way. 
 In addition to not gaining a benefit from switching strategies in the immediate game, an Evolutionary Stable Strategy must survive in a population. 
 For example, in the Hawk Dove game given earlier, a single Dove entering a population of Hawks can do quite well. 
 That is, the population of individuals all playing Hawk have a lower fitness than a Dove invader. 
@@ -271,11 +274,11 @@ In this example, I will call T an invader and x a candidate for ESS.
 The non-strict Nash condition is used in this definition. 
 The extra condition considers that any invader will at some point play itself. 
 If the Nash condition is met, the invader does as well as the candidate against other strategies. 
-If the second condition is instead equal, it performs equivalently and each invader individual will have the same chance of reproducing as every candidate individual. 
+If the second condition is not met and is instead equal (or less than), the invader performs equivalently to (or better than) each candidate. Each invader individual will have the same chance of reproducing as every candidate individual. 
 The candidate does not prevent invasion. 
+
 If the second condition is met, the invader cannot take over because sooner or later it plays itself, at which point it does worse than the candidate. 
 The candidate is able to prevent invasion, and is an Evolutionary Stable Strategy. 
-
 
 \subsection{Replicator Dynamics}
 How strategies perform can be analysed with the Replicator equation. 
@@ -303,10 +306,10 @@ Hawk & -1, \bf{-1} & 2, \bf{0}\\
 Dove & 0, \bf{2}  & 1, \bf{1} \\
 \hline
 \end{tabular}
-\caption{Payoff Matrix of Hawk--Dove with example values}
+\caption{Payoff matrix of Hawk -- Dove with example values}
 \label{table:hawkdove50}
 \end{table}
-
+**TODO** 1d simplex
 Figure X gives the diagram of the dynamics of the environment. An example with three strategies, giving a 2-d simplex, will be shown after I discuss repeating the Prisoner's Dilemma.
 
 \section{The Prisoner's Dilemma}
@@ -330,17 +333,17 @@ Cooperate & R, \bf{R} & S, \bf{T}\\
 Defect & T, \bf{S}  & P, \bf{P} \\
 \hline
 \end{tabular}
-\caption{Payoff Matrix for the Prisoner's Dilemma}
+\caption{Payoff matrix for the Prisoner's Dilemma}
 \label{table:payoffs}
 \end{table}
 
 Assuming both players are aware of the payoff table and both players act to maximise their personal payoff, defection is the strategy both players choose. 
 If the opponent defects, the best move is to defect too to avoid paying the cost. 
 If the opponent cooperates, the best move is to defect to avoid the cost, and gain the benefit. 
-That is, the player can only lessen the payoff by cooperating- mutual defection is a Nash equilibrium. 
-The dilemma arises from the fact that mutual cooperation would be a better result for both players than the equilibrium of mutual defection. 
+That is, the player can only lessen the payoff by cooperating -- mutual defection is a Nash equilibrium. 
+The dilemma arises from the fact that mutual cooperation (R) would be a better total payoff for the players than the equilibrium of mutual defection (P). 
 This game captures the essence of the problem of cooperation.
-
+%TOTO: Rename ?
 \subsection{Stuck in the Dilemma}
 When the Prisoner's Dilemma is played multiple times, all parties defecting is no longer the only successful strategy. 
 For the repeated Prisoner's Dilemma, the number of games played is not known by players in advance. 
@@ -362,7 +365,7 @@ Tit-For-Tat starts cooperating on the first round, then reciprocates the opponen
 Suspicious Tit-For-Tat defects on the first round, then reciprocates the opponents last move. 
 If ALLC plays TFT, in all rounds they are cooperative.  
 If TFT plays STFT they alternate defect and cooperate (Figure \ref{table:reciprocity}). 
-This behaviour is an example from another model for the evolution of cooperation; direct reciprocity. 
+This behaviour highlights an example of a mechanism for the evolution of cooperation; direct reciprocity. 
 
 \begin{figure}[h]
 \centering
@@ -395,11 +398,22 @@ STFT & D & C&C&...\\
 Previously, the Replicator Equation was discussed. 
 What does the resulting 2-d simplex look like when ALLC, TFT and ALLD are compared? 
 For simplicity, I consider a case when the game is played 10 times. 
+The result is pictured in Figure \ref{fig:allcalldtft}. 
+Payoffs were calculated manually, and the dynamics graphed using Dynamo \citep{dynamo}.
 
-FIGURE: TFT, ALLD, ALLC, maybe STFT
+\begin{figure}[h!]
+\center
+\includegraphics[width=0.6\textwidth]{allcalldtft}
+\caption{Dynamics of ALLC, ALLD and TFT with a game of length 10}
+\label{fig:allcalldtft}
+\end{figure}
  
-These diagrams visualize the dynamics seen-- what strategies will be selected for in a givne population\citep{imhof:PNAS:2005}. 
-For example, a small number of ALLD can quickly dominate a population of ALLC since ALLD gains a better payoff. ** More**
+These diagrams visualize the dynamics seen-- what strategies will be selected for in a given population \citep{imhof:PNAS:2005}. 
+For example, a small number of ALLD can quickly dominate a population of ALLC since ALLD gains a better payoff. The arrows give the rate of change of proportion of the population and direction in which it moves from that situation.  ALLC moves towards ALLD. 
+TFT and ALLC are neutral. 
+When a mixture of strategies exists, TFT is favoured. 
+In a full ALLD environment, TFT cannot invade; the ALLD corner has a black dot, indicating it is asymptotically stable. 
+Likewise for ALLD invading TFT directly; however if the population drifts to ALLC, ALLD will invade. 
 
 \subsection{Assortment}
 A mechanism to allow evolution of cooperative behaviour is to add structure to the population. 
@@ -444,8 +458,8 @@ f: \mathcal{H} \rightarrow \mathcal{A}
 \end{equation}
 The representation will be able to represent a subset of all possible strategies $f$ for the repeated Prisoner's Dilemma. 
 In the case of the simulation presented in this thesis, $\mathcal{H}$ contains previous moves of an opponent -- so a sequence of $\{C,D\}$. 
-If instead the full history is recorded -- a combination of both what the opponent and the strategy itself did-- a sequence of pairs of $\{C,D\}$ or a sequence of results $\{R,T,S,P\}$ would be recorded. \citet{Axelrod1987} and \citet{fogel1993evolving} are two examples of work using this 'full-memory' representation that will be discussed in \ref{sec:relatedWork}.
-
+If instead the full history is recorded -- a combination of both what the opponent and the strategy itself did-- a sequence of pairs of $\{C,D\}$ or a sequence of results $\{R,T,S,P\}$ would be recorded. \citet{axelrod1987evolution} and \citet{fogel1993evolving} are two examples of work using this 'full-memory' representation that will be discussed in \ref{sec:relatedWork}.
+%MARKME
 In addition to the method to map from a History to an Action, a mutation scheme is also needed; to take an existing strategy and create a new one. 
 This will allow the creation of strategies, without the researcher needing to design or pick any \citep{koza}. 
 
@@ -461,7 +475,7 @@ The first digit represents the move performed in the initial game, when no histo
 The next two digits determine the choice made, based on the previous choice made by the opponent and discarding all previous history. 
 The second digit in the three digit string describes what the strategy does in response to a cooperation. 
 The final digit describes what the strategy does in response to a defection. 
-Table \ref{table:binaryStrategy} describes some of the possible strategies.
+Table \ref{table:binaryStrategy} describes some of the possible strategies, selected for being simple and common (ALLD, ALLC), a successful strategy in previous studies (TFT), or as an example of a strategy that is nasty (defects at first), but will cooperate (STFT).
 
 \begin{table}[h]
 \centering
@@ -536,7 +550,7 @@ There are four transitions; $C$ to $C$ when C is read, $D$ to $C$ when C is read
 \label{fig:fsa.tft.lang2}
 \end{figure}
 
-It is common that the transition function $\delta$ is a total function in Prisoner's Dilemma's- for every possible input (of a symbol from the input alphabet $\Sigma$) at any state a transition exists. 
+It is common that the transition function $\delta$ is a total function in Prisoner's Dilemma's -- for every possible input (of a symbol from the input alphabet $\Sigma$) at any state a transition exists. 
 This is not a strict requirement; if no valid transition exists for an input the input is not in the language, but the FSA is still valid (and will defect, since the input is not in the language represented by the FSA). 
 
 FSA with multiple valid transitions for some input are Non-Deterministic FSA. 
@@ -573,23 +587,27 @@ Variants on these representations are used in the work discussed.
 Related simulation work focuses mostly on direct reciprocity; repeating the game being the basis for cooperation to evolve. 
 I will discuss seminal work into strategies for the Prisoner's Dilemma, giving examples of approaches used. Finally, in Section \ref{sec:pnas} I will discuss the work I have extended.
 \subsection{Axelrod's Tournaments}
-\citet{axelrod:Science:1981} investigated the behaviour of strategies using computer tournaments, with repeated Prisoner's Dilemma games played between strategies submitted by people to the tournaments. 
+\citet{axelrod:Science:1981} investigated the behaviour of strategies using computer tournaments, with the repeated Prisoner's Dilemma played between strategies submitted by people to the tournaments. 
 This study compared fitness (payoff of games) of submitted strategies playing each other. 
 Strategies play each other probabilistically; the game is not a fixed size, instead a continuation probability determines if they continue to play. Out of the 14 submitted strategies, Tit-For-Tat (TFT) performed best. 
-This is a simple strategy that reciprocates the other player's behaviour, after initially cooperating. 
+Introduced in Section \ref{sec:intro}, this is a simple strategy that reciprocates the other player's behaviour, after initially cooperating. 
 Initially it cooperates, then it repeats the other player's last move. 
 When playing a strategy that always cooperates (ALLC), it performs identical to ALLC. 
 When playing a strategy that always defects (ALLD), it loses on the first turn, then performs identical to ALLD -- given a long enough number of games played, the strategies have similar payoffs. 
 
-Axelrod and Hamilton identified three criteria to determine if a strategy can be successful. The strategy must be robust- it must perform fairly well against a wide variety of strategies. TFT does so, including against the a population composed of the simple ALL* examples, but only if there is a sufficient chance of the game repeating. Secondly, the strategy must be stable- a mutant strategy must not be able to invade in the event the strategy becomes established. For example, ALLC is not stable against ALLD. 
+Axelrod and Hamilton identified three criteria to determine if a strategy can be successful. The strategy must be robust- it must perform fairly well against a wide variety of strategies. TFT does so, including against the a population composed of the simple ALLC and ALLD examples, but only if there is a sufficient chance of the game repeating. Secondly, the strategy must be stable- a mutant strategy must not be able to invade in the event the strategy becomes established. For example, ALLC is not stable against ALLD. 
 A single ALLD in a population of ALLC will gain better payoffs (fitness) and invade. 
-Lastly, the strategy must be initially viable- it must be able to gain a foothold. 
+Lastly, the strategy must be initially viable -- it must be able to gain a foothold. 
 
 The Tournaments provide insight into the role Direct Reciprocity can play as a mechanism for the success of cooperation. 
 A desirable extension is to allow evolution of the strategies, rather than just allowing the example strategies to compete. 
-From the outcome of the tournaments one might initially suspect Tit-For-Tat might emerge and always dominate. However, \citet{boyd1987no} showed this might not be the case; Tit-For-Tat is not (and indeed no strategy is) evolutionary stable in the repeated dilemma game \citep{boyd1987no, van2010and}. 
+From the outcome of the tournaments one might initially suspect Tit-For-Tat might emerge and always dominate. However, \citet{boyd1987no} showed this might not be the case; Tit-For-Tat is not (and indeed no strategy is) evolutionary stable in the repeated dilemma game \citep{boyd1987no}. 
+%van2010and
 %Axelrod also let the players compete in an evolutionary environment. 
 %*Axelrod population vs population 1987 might be worth it here*
+
+A limitation of this method is the requirement for strategies to be designed rather than evolved. 
+Naturally, this limits the strategies investigated to those the submitters or researchers could design.
 
 \subsection{Evolving Strategies in Simulations}
 \label{sec:axelrodEvolving}
@@ -604,7 +622,7 @@ A total of 70 bits were used by Axelrod's simulation, allowing for moves to be d
 This allows for any of $2^{70}$ different strategies to appear- analysis using a matrix of payoff of every strategy against every other strategy would be a square matrix with $2^{70}$ elements on each side. 
 This is why explicit analysis selects notable examples from the population, and demonstrates why simulation will be useful. 
 
-Strategies were evolved using Genetic Algorithms. Strategies are generated in a population, and then they compete with 8 strategies from the original tournaments to determine their fitness. A new population is determined by reproducing from the population, with fitness determining what strategies reproduce. They then compete with the 8 representatives again. 
+Strategies are generated in a population, and then they compete with 8 strategies from the original tournaments to determine their fitness. A new population is determined by reproducing from the population, with fitness determining what strategies reproduce. They then compete with the 8 representatives again. 
 Reproduction involves a small chance of random mutation, and a crossover from each parent. 
 The string representing the strategy is the chromosome, and the new child is produced from parts of each parent's chromosome. A population of 20 strategies competed in games 151 moves long, competing with 8 other members of the population in each round, for 50 generations. 
 Technology of the time limited the size of simulations; today we have the luxury of being able to throw far more computing power at the problem, allowing for much longer (and with larger population) simulations. 
@@ -615,7 +633,10 @@ This only applies to the environment of this simulation.
 In an environment where the competing strategies is not fixed, for example when the competition is picked from the population, those exploited strategies might be expected to die off and remove the advantage the exploiter gains. 
 
 Axelrod also performed simulations in which reproduction only involved the chromosome of one parent; reproduction was asexual, involving no crossover, so new strategies only appeared from random mutations. 
-Again, Tit-For-Tat-like strategies evolved. However, strategies that exploited one of the 8 representatives did not appear as often. Reproduction mechanism affects results of this simulation- in this case, crossover explored the strategies differently to only mutating, and as will be discussed further how strategies mutate from one to another is important. 
+Again, Tit-For-Tat-like strategies evolved. However, strategies that exploited one of the 8 representatives did not appear as often. Reproduction mechanism affects results of this simulation -- in this case, crossover explored the strategies differently to only mutating. 
+
+If the goal of a study is to explore a strategy space, crossover may add complexity to simulation and analysis where it is not needed. Allowing for full exploration of the strategy space by small mutations should be sufficient -- so long as the entire strategy space can be explored by the mutation scheme chosen. 
+If the goal is different; for example to simulate some behaviour in biology; crossover may be useful.
 
 \subsection{Fogel's Automata}
 \citet{fogel1993evolving} studied the evolution of strategies using Finite State Automata (FSA). 
@@ -625,18 +646,19 @@ Based on some input sequence, transitions are followed from one state to the nex
 When the machine has read all input, the final state may be an accept or reject state. 
 So, it can compute whether a sequence meets or does not meet a criterion. 
 
-The sequence of \{C,D\} choices (the history) in a game of Prisoner's Dilemma lends itself to this method; view the strategy as a language defined by an FSA. When a history is a word in that language (when its FSA ends in an accept state) the strategy cooperates, when it is not it defects. Fogel used FSA with a maximum of 8 states, to simplify analysis of evolved strategies. The strategies were full-memory, knowing both their opponent's history of moves and their own. 
+Fogel used FSA with a maximum of 8 states, to simplify analysis of evolved strategies. The strategies were full-memory, knowing both their opponent's history of moves and their own. 
 A population of size 50 to 1000 was used, 151 games were played for each interaction, and there were at most 200 generations. 
-Number of generations and repetitions of experiments were limited by hardware. As in Axelrod, new strategies are created by mutations of parents, and what strategies reproduce are decided by fitness. 
+Number of generations and repetitions of experiments were limited by hardware. As in \citet{axelrod1987evolution}, new strategies are created by mutations of parents, and what strategies reproduce are decided by fitness. 
 
-Results were similar to those found by \citep{Axelrod1997}- strategies developed that would establish mutual cooperation if possible. Fogel suggests initial sequences of symbols form patterns, which other machines can recognise to establish cooperation- a `handshake'. 
+Results were similar to those found by \citep{Axelrod1997} -- strategies developed that would establish mutual cooperation if possible. Fogel suggests initial sequences of symbols form patterns, which other machines can recognise to establish cooperation- a `handshake'. 
 Interestingly, size of the population was not observed to affect the evolution of cooperative behaviour, nor the time taken for it to evolve. The best machines produced in the 50 population example did have lower fitness compared to best machines from larger populations, though any effect of population size appeared to diminish after sufficient population size was reached. 
 
 When payoff for exploiting the opponent is increased, it is expected that mutual cooperation should decrease. For example, if the payoff for alternating Exploiter (payoff T), Exploited (payoff S) is larger than continuous mutual cooperation, this behaviour should be selected for. Indeed, transitions to long-term mutual cooperation is not seen in the structure of the best performing strategies in these circumstances. Fogel identified the impact of the payoffs in the PD matrix; when mutual cooperation results in the highest overall payoff it can be expected to evolve, when the payoff from alternating defection and cooperation exceeds the payoff for cooperating, mutual cooperation does not evolve. When either alternating or mutually cooperating has equal reward, initial population state determines the outcome. 
 
 This approach limits the strategies that can evolve to those representable by Automata with 8 nodes. 
-It also uses fixed length games; with an expanded strategy space, cooperation would not be expected with this simulation.
-
+It also uses fixed length games; with an expanded strategy space, cooperation would not be expected with this simulation. 
+On the last move, the best payoff is given by defection; there is no incentive to maintain cooperation since no more moves will be made \citep{aumann1995backward}. Backwards induction from this base case leads to the conclusion that full defection is the best strategy when the game length is set, and knowable (so, strategies can enough nodes to count to that length). 
+%MARKME
 \subsection{Miller's Automata}
 \citet{miller1996coevolution} used FSA, of a size of 16 states, to perform Prisoner's Dilemma simulations.  
 Each FSA is represented by a string of bits. 
@@ -666,9 +688,9 @@ Miller's work provides a clear technique for defining an FSA, a simple mutation 
 
 \subsection{Direct Reciprocity in Structured Populations}
 \label{sec:pnas}
-**REWORD ALL OF ME**
-\citet{bergstrom2003algebra} investigated the role Assortment can play in circumstances in which Direct Reciprocity does not enable cooperation- when games are one shot. 
+\citet{bergstrom2003algebra} investigated the role Assortment can play in circumstances in which Direct Reciprocity does not enable cooperation -- when games are one shot rather than repeated. 
 In previously discussed research, the probability of encountering an individual in a population was uniform (the population is well-mixed). 
+
 \citet{bergstrom2003algebra} instead considers a scenario where the probability of encountering a cooperator, given the individual is a cooperator, is p. The probability of encountering a defector, given the individual is a defector, is q. 
 The population consists of just cooperators and defectors. The likelihood of meeting an alike player is therefore increased (for p, q $>$ 0). The assortivity index is a function of q and p, where x denotes the proportion of the population that are cooperators:
 \begin{equation*}
@@ -766,7 +788,7 @@ In Region III, there are again a variety of strategies that are equilibria, but 
 In Region IV, ALLC is an equilibrium. All other equilibria always cooperate when playing against ALLC or themselves. Fully cooperative behaviour is expected to dominate. More regions are defined, but these are the ones of primary concern.
 
 These general regions are expected to hold regardless of representation (I and II are particularly well defined, and not expected to vary).
-The simulations van Veelen et. al. conducted were of FSA with an unbounded number of states and half-memory (of unbounded length). The simulation is initialized with simple individuals: ALLD. Every member plays one other member of the population for a number of rounds determined stochastically, based on the continuation probability. With probability $r$ a member will play against an identical strategy. With probability $1-r$ a member will play against another player from the population. 
+The simulations \citet{van-veelen:PNAS:2012} conducted were of FSA with an unbounded number of states and half-memory (of unbounded length). The simulation is initialized with simple individuals: ALLD. Every member plays one other member of the population for a number of rounds determined stochastically, based on the continuation probability. With probability $r$ a member will play against an identical strategy. With probability $1-r$ a member will play against another player from the population. 
 
 This payoff was used to calculate the probability for the individual to reproduce into the next generation. Stochastically, members of the population are selected for the new generation, so unfit individuals tend to be removed. 
 During reproduction, mutation could also occur, resulting in new strategies. 
@@ -790,15 +812,19 @@ Other representations have their own strategy space.
 The choice of representation will exclude some, and enable some that were not possible in other representations. 
 Representation also affects the chance of a strategy appearing, or the route by which it appears, since the mutation process may differ.
  
-The model described in \citet{van-veelen:PNAS:2012} was chosen as the basis of my project. 
+The model described in \citet{van-veelen:PNAS:2012} is the basis of my project. 
 Both varied assortment and varied chance of a game continuing are modelled. 
 Broad behaviour (such as whether strategies that always cooperate can dominate, or can be somewhat successful) can be predicted for ranges of assortment and continuation probability. This provides bounds for what behaviour is expected. 
 Detailed behaviour can be discovered through simulation. 
 The impact of variations in the simulation- such as changing how strategies are represented- can be compared quantitatively.
-By using both assortment and continuation probability, conditions not explored in previous literature (Region III for example in Figure~\ref{fig:regions}) can be investigated.
+By using both assortment and continuation probability, conditions not explored in previous literature (with both assortment and reciprocity playing varied roles) can be investigated.
 
 \chapter{Research Methods}
 In this section I will discuss the representation and mutation scheme I decided on (Pushdown Automata), the simulation I have created and how analysis was carried out.
+
+I focus on two mechanisms for the evolution of cooperation; direct reciprocity and assortment. 
+These mechanisms can be simulated with differing lengths of games, and differing likelihood of meeting  a strategy meeting an alike strategy. 
+Other mechanisms, such as strategies having access to reputation (an opponents past with other strategies)
 \section{Representation}
 I have previously (Section \ref{sec:fsa} discussed Finite State Automata as a representations for strategies in repeated games. The representation I have used in my work is the Pushdown Automata, which can be thought of as an extension to Finite State Automata. 
 %Other representations may be worth exploring, in regard to the question of how changing the strategy %space effects cooperation. These might include other models of computation such as a decision tree %model, or FSA with mixed strategies; with transitions with probabilities attached. 
@@ -852,10 +878,17 @@ If they have cooperated recently, it does not retaliate until defection moves ou
 \caption{Counting-TFT: A DPDA modelled off TFT, which counts Cooperation and Defection actions}
 \label{fig:dpda}
 \end{figure}
-\subsection{Deterministic Pushdown Automata}
+%\subsection{Deterministic Pushdown Automata}
 The Automata used in my simulation are designed from a graph point of view. 
 Each state in a DPDA is an object inside that DPDA, and each transition from a DPDA is an object inside that state. 
 A DPDA is defined in the simulation by its initial state, its states (which include a boolean accepting/non-accepting marker) and its transitions (each belonging to a source state, and having a destination, $pop$ instruction, $push$ instruction and $read$ instruction). 
+
+In my simulation, the strategies are given half-memory. 
+This means they remember their opponents moves and not their own. 
+So, a strategy cannot remember that its opponent defected in response to its own defection; the strategies that can appear are limited by this decision. 
+The decision to use half-memory allows for direct comparison to previous work with FSA with half-memory \citep{van-veelen:PNAS:2012}, and simplifies analysis. 
+The framework I have developed and will discuss further in this chapter will aid in extending this work to full-memory (remembering both the strategy and the strategies opponents histories) strategies. 
+
 \subsection{Mutations}
 As discussed in \ref{sec:mutation}, the mutation scheme is important. As long as it is a reasonable exploration of the strategy space we expect certain behaviour to hold, but much of the dynamics will be dependant on the mutation scheme chosen. Since I intend to extend work done with Finite State Automata, I have based my mutation scheme heavily on a mutation scheme for Finite State Automata \citep{van-veelen:PNAS:2012}.
 
@@ -882,7 +915,7 @@ Finally, the accepting/non-accepting parameter of a state can be flipped.
 This scheme can explore the entirety of the strategy space that can be represented by Deterministic Pushdown Automata which accept by final state, which includes all Finite State Automata.
 \section{Simulation}
 In my simulation, DPDA strategies compete with other DPDA strategies for survival. 
-The simulation uses a Wright-Fisher process. Figure \ref{fig:wright} gives an overview of this process . 
+The simulation uses a Wright-Fisher process. Figure \ref{fig:wright} gives an overview of this process. 
 The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld} \footnote{In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''}. 
 Figure \ref{fig:wright} is started with a mixed population, to aid indicating how the process works. 
 The population in simulations is of a fixed size $N$, and $N$ is even. 
@@ -985,6 +1018,7 @@ The relative payoff for each strategy can be used with the replicator equation t
 In this chapter, the overall cooperation observed with varied levels of assortment and continuity probability will be presented and discussed. 
 The strategies present in points in each region of this graph-- individual time series-- will be examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
 \section{Overall Cooperation}
+\label{sec:overall}
 Figure \ref{fig:cooperation} shows the cooperation observed in each region of the graph, for combinations of continuity parameter $\delta$ and assortment $r$. 
 Cooperation is measured by the average payoff in the population; if all individuals are defecting, the average payoff will be lowest. If all individuals are cooperating, the average payoff will be highest. 
 Behaviour in each region will be discussed in more detail in Section \ref{sec:regions}.  
@@ -996,12 +1030,12 @@ Behaviour in each region will be discussed in more detail in Section \ref{sec:re
 \end{figure}
  
 Figure \ref{fig:regions2} (adapted from \citet{van-veelen:PNAS:2012}) shows the regions expected (see Section \ref{sec:pnas}). 
-Region 1 shows no cooperation, Region 2 shows a mixture of low cooperation, Region 3 shows a mixture of mostly cooperation, and Region 4 is fully cooperative. 
+Region I shows no cooperation, Region II shows a mixture of low cooperation, Region III shows a mixture of mostly cooperation, and Region IV is fully cooperative. 
 Differences, notably the larger levels of cooperation found above $r=0.5$, will be discussed in section \ref{sec:regions:3}. 
 
 The results of previous work by \citet{van-veelen:PNAS:2012} are shown in Figure \ref{fig:fsa} and the difference (measured as the relative error) is shown in Figure \ref{fig:difference}. 
-In Region 2, lighter/yellow areas of the difference graph indicate that my PDA simulation was up to 23\% less cooperative. 
-In Region 3, darker/purple areas of the difference graph indicate that my PDA simulation was up to 26\% more cooperative. 
+In Region II, lighter/yellow areas of the difference graph indicate that my PDA simulation was up to 23\% less cooperative. 
+In Region III, darker/purple areas of the difference graph indicate that my PDA simulation was up to 26\% more cooperative. 
 
 \begin{figure}[h]
 \center
@@ -1029,7 +1063,7 @@ The result mirrors my previous low-resolution result, and is shown in Figure \re
 \label{fig:finalrun}
 \end{figure}
 
-More cooperation was observed in Region 3 with my simulation, and less cooperation in Region 2. 
+More cooperation was observed in Region III with my simulation, and less cooperation in Region II. 
 
 \section{Behaviour for each Region}
 \label{sec:regions}
@@ -1039,21 +1073,24 @@ The cooperation over time for each part of the graph-- for each combination of a
 Note that the Regions shown are for the game used in the simulation. 
 If parameters are changed, the regions in the graph will shift (but the behaviour will still be defined). 
 So, $\delta=x$ and $\delta=y$ corresponds to the game presented, and is not a universal rule for all prisoners dilemma games. 
-\subsection{Region 1: Small $\delta$, Small $r$}
-In Region 1, full defection is the only equilibrium. 
+\subsection{Region I: Small $\delta$, Small $r$}
+In Region I, full defection is the only equilibrium. 
 No strategy that plays cooperatively is expected to be successful. 
 Time series of this region are given in Figures \ref{fig:first1} to \ref{fig:last1}. 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.0}.png}
 \caption{Time series when $\delta=0.0$, $r=0.0$}
 \label{fig:first1}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.9\textwidth]{{dataset1_0.2_0.2}.png}
 \caption{Time series when $\delta=0.2$, $r=0.2$}
 \label{fig:1-0.2-0.2}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.4}.png}
 \caption{Time series when $\delta=0.0$, $r=0.4$}
 \label{fig:last1}
@@ -1062,41 +1099,46 @@ In these time series, cooperation does not survive long in the population, and d
 Closer to the border of this region (Figure \ref{fig:last1}), the environment becomes noisier. 
 The relation given by \citet{van-veelen:PNAS:2012} holds to the border, but selection against any cooperator is more extreme in regions close to 0,0. 
 
-On the upper border, towards greater assortment, (outsider Region 1), cyclic behaviour is observed (Figure \ref{fig:cycles1}, with time range limited to better visualize cycles). 
+On the upper border, towards greater assortment, (outside Region I), cyclic behaviour is observed (Figure \ref{fig:cycles1}, with time range limited to better visualize cycles). 
 On the right border, towards greater continuation probability, results are more noisy but still overwhelms any cooperative strategies. 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.5}.png}
 \caption{Time series when $\delta=0.0$, $r=0.5$}
 \label{fig:cycles1}
 \end{figure}
 
-In Region 1, strategies that are mutually defecting are most common. 
+In Region I, strategies that are mutually defecting are most common. 
 No strategy in the top 25 most common strategies found in these regions in my simulation has a cooperating states; all are variants on Always Defect.
 \subsection{Region II: Varied $\delta$, Small $r$}
-In Region 2, some cooperators and some defectors are equilibria. 
+In Region II, some cooperators and some defectors are equilibria. 
 Essentially, anything goes in this region. 
 
-Figures \ref{fig:2-0.5-0.2} and \ref{fig:2-0.5-0.3}, and Figures \ref{fig:2-0.7-0.1} and \ref{fig:2-0.7-0.3} show the increase in cooperative behaviour as the combination of continuity probability and assortment increases, making the situation considered closer to the border with Region 3. 
+Figures \ref{fig:2-0.5-0.2} and \ref{fig:2-0.5-0.3}, and Figures \ref{fig:2-0.7-0.1} and \ref{fig:2-0.7-0.3} show the increase in cooperative behaviour as the combination of continuity probability and assortment increases, making the situation considered closer to the border with Region III. 
 
 In these time series, except in the case of Figure \ref{fig:2-0.7-0.3} the most common strategies are mutually defecting.
 In Figure \ref{fig:2-0.7-0.3}, Grim and Defect are most common, making up 64\% and 36\% of the proportion of the top 20 strategies. 
 These strategies are all representable by FSA. 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset2_0.5_0.2}.png}
 \caption{Time series when $\delta=0.5$, $r=0.2$}
 \label{fig:2-0.5-0.2}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset2_0.5_0.3}.png}
 \caption{Time series when $\delta=0.5$, $r=0.3$}
 \label{fig:2-0.5-0.3}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset2_0.7_0.1}.png}
 \caption{Time series when $\delta=0.7$, $r=0.1$}
 \label{fig:2-0.7-0.1}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset2_0.7_0.3}.png}
 \caption{Time series when $\delta=0.7$, $r=0.3$}
 \label{fig:2-0.7-0.3}
@@ -1137,18 +1179,21 @@ In reality, the bottom two strategies are neutral to each other, where the graph
 
 It does capture the invasion however; initially the population is Handshake. Handshake neutrally to Handshake-Child. Once Handshake-Child is the majority strategy, Grim is selected for (and invades once it appears via mutation). 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.6\textwidth]{{handshakeinvasion}.png}
 \caption{Dynamics of Handshake, Handshake-Child and Grim: An indirect invasion}
 \label{fig:handshake}
 \end{figure}
 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset2_0.95_0.0}.png}
 \caption{Time series when $\delta=0.95$, $r=0.0$}
 \label{fig:2-0.95-0.0}
 \end{figure}
 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset2_0.99_0.00}.png}
 \caption{Time series when $\delta=0.99$, $r=0.0$}
 \label{fig:2-0.99-0.0}
@@ -1166,7 +1211,7 @@ It pulls from the stack whenever the opponent defects.
 If at any point the number of defection actions outnumber cooperation actions, it stops cooperating. 
 There is no valid transition for an empty stack and reading a $D$ action, so any future moves are not in the language the DPDA describes; the strategy will always defect from this point. 
 Grudge only makes up 3\% of the top 10 most frequent strategies at this point. 
-However, it appears in other simulations in Region 2 and Region 3 too. 
+However, it appears in other simulations in Region II and Region III too. 
 It will prove relevant in Section \ref{sec:noise}, where I will discuss when DPDA may be advantageous strategies.
 \begin{figure}[h!]
 \centering
@@ -1175,31 +1220,36 @@ It will prove relevant in Section \ref{sec:noise}, where I will discuss when DPD
 \label{fig:grudge}
 \end{figure}
 
-\subsection{Region 3}
+\subsection{Region III: Varied $\delta$, Varied $r$}
 \label{sec:regions:3}
-In Region 3, full mutual defection is not an equilibria. 
+In Region III, full mutual defection is not an equilibria. 
 Non-zero cooperation is expected throughout this region, though not necessarily full cooperators. 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.4_0.45}.png}
 \caption{Time series when $\delta=0.4$, $r=0.45$}
 \label{fig:3-0.4-0.45}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.6_0.4}.png}
 \caption{Time series when $\delta=0.6$, $r=0.4$}
 \label{fig:3-0.6-0.4}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.6_0.5}.png}
 \caption{Time series when $\delta=0.6$, $r=0.5$}
 \label{fig:3-0.6-0.5}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.6_0.7}.png}
 \caption{Time series when $\delta=0.6$, $r=0.7$}
 \label{fig:3-0.6-0.7}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.95_0.2}.png}
 \caption{Time series when $\delta=0.95$, $r=0.2$}
 \label{fig:3-0.95-0.2}
@@ -1214,7 +1264,7 @@ Always Cooperate and Counting Grudge also appear.
 Counting Grudge appears when continutity probability is high. 
 One difference from previous FSA simulations is the Region where $r>0.5$. 
 
-When $delta$ is small, some of Region 3 does have less than full cooperation. 
+When $delta$ is small, some of Region III does have less than full cooperation. 
 As $delta$ increases, full cooperation is seen. 
 The rate at which Grim appears with my simulations mutation scheme explains this behaviour. 
 For high $delta$, Grim is able to resist defectors. 
@@ -1223,34 +1273,38 @@ The population can drift away from Grim to other mutually cooperative strategies
 But, the small number of mutations required for Grim to reappear make invasions by strategies that exploit highly cooperative strategies short lived; a strategy is likely to mutate to Grim, and Grim is likely to invade if that defector gains any ground.
 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.4_0.6}.png}
 \caption{Time series when $\delta=0.4$, $r=0.6$}
 \label{fig:3-0.4-0.6}
 \end{figure}
 
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset3_0.7_0.6}.png}
 \caption{Time series when $\delta=0.7$, $r=0.6$}
 \label{fig:3-0.7-0.6}
 \end{figure}
-\subsection{Region IV}
-In Region 4, mutual cooperators are the only equilibrium strategies. 
+\subsection{Region IV: Varied $\delta$, Large $r$}
+In Region IV, mutual cooperators are the only equilibrium strategies. 
 In this region, Grim is again common. 
 When continuity probability is low, ($\delta<0.5$), and a single round is likely, Automata with a single accepting state and no transitions -- which cooperate on the first round, and defect on later rounds which are unlikely to occur -- also appear. 
 Mutual defection is observed, as seen in Figures \ref{fig:4-0.2-0.6} and \ref{fig:4-0.0-0.9}.
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset4_0.2_0.6}.png}
 \caption{Time series when $\delta=0.2$, $r=0.6$}
 \label{fig:4-0.2-0.6}
 \end{figure}
 \begin{figure}[h!]
+\centering
 \includegraphics[width=0.8\textwidth]{{dataset4_0.0_0.9}.png}
 \caption{Time series when $\delta=0.0$, $r=0.9$}
 \label{fig:4-0.0-0.9}
 \end{figure}
-Data points closer to the boundary with Region 3 are noisier than those in the center of the region, but mutual cooperation remains the overwhelmingly most frequent strategy used. 
+Data points closer to the boundary with Region III are noisier than those in the center of the region, but mutual cooperation remains the overwhelmingly most frequent strategy used. 
 \section{Successful DPDA Strategies}
-In Region 2 and 3, a DPDA was seen amongst the most common strategies. 
+In Region II and III, a DPDA was seen amongst the most common strategies. 
 It was not the most successful strategy; it is neutral to Grim and any mutually cooperative strategy. 
 In this section, I add noise to the simulation, and highlight where this DPDA becomes a successful strategy. 
 \subsection{Games with Noise}
@@ -1287,18 +1341,19 @@ I investigated the evolution of strategies representable by Deterministic Pushdo
 My simulation allowed for varied continuity probability and assortment parameters, and reported behaviour that results and the strategies that appear. In this chapter, I will discuss the results in regards to my research questions.
 \section{Effect on Cooperation}
 In Section \ref{sec:overall} I discussed the observed differences in the amount of cooperation in each region to previous results. 
-In Region 2, the FSA simulation found higher cooperation \citep{van-veelen:PNAS:2012}. 
-In Region 3, my DPDA simulation found higher cooperation. 
-The non-appearance of DPDA in my simulation in Region 2 suggests that these differences are a result of the mutation scheme used for each model. 
+In Region II, the FSA simulation found higher cooperation \citep{van-veelen:PNAS:2012}. 
+In Region III, my DPDA simulation found higher cooperation. 
+The non-appearance of DPDA in my simulation in Region II suggests that these differences are a result of the mutation scheme used for each model. 
 My simulation explored the strategy space differently, so different strategies with different levels of cooperation evolved. 
 \section{Comparison to Theory}
-Section \ref{sec:behaviour} examined the Time Series in each region. 
+Section \ref{sec:regions} examined the Time Series in each region. 
 My simulation gave results that did not violate the expected outcomes. 
 However, some differences in what you might expect (but not differences from the limits to behaviour \citep{van-veelen:PNAS:2012} defined) did appear. 
 
 When $r>0.5$ and $\delta>0.5$, so both assortment and continuity probability are high, no partially defecting strategies are successful. 
 This appears to be a result of the mutation scheme used; Grim entered the population too quickly for non-cooperative strategies to survive for long.
 \section{The Evolution of Successful Non-Regular Strategies}
+\label{sec:dpda}
 Non-Regular strategies, evolved in my simulation. One which appeared with high frequency when continuity was high, was Counting Grudge. 
 However, its success was limited. 
 Being neutral to Always Cooperate and Grim, it does not have an advantage over these in an environment without defectors or noise. 
