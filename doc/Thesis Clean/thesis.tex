@@ -842,9 +842,9 @@ By using both assortment and continuation probability, conditions not explored i
 \label{chap:researchmethods}
 In this section I will discuss the representation and mutation scheme I decided on (Pushdown Automata), the simulation I have created and how the analysis was carried out.
 
-I focus on two mechanisms for the evolution of cooperation; direct reciprocity and assortment. 
+I focus on two mechanisms for the evolution of cooperation: direct reciprocity and assortment. 
 These mechanisms can be simulated with differing lengths of games, and differing likelihoods of strategies meeting other alike strategies. 
-Other mechanisms, such as strategies having access to reputation (an opponents past with other strategies), require extra levels of complexity to enable this behaviour. 
+Other mechanisms, such as strategies having access to reputation (an opponent's past with other strategies), require extra levels of complexity to enable this behaviour. 
 The choice of these methods provides a simple starting point to investigate the interplay between mechanisms for cooperation. 
 
 The Prisoner's Dilemma, as discussed in \ref{sec:prisoners} can be defined with a variety of payoffs so long as the hierarchy of payoffs is followed. 
@@ -867,16 +867,16 @@ Defect & 3, \bf{0}  & 1, \bf{1} \\
 \end{table}
 %PAYOFFMARK
 \section{Representation}
-I have previously (Section \ref{sec:fsa} discussed Finite State Automata as a representations for strategies in repeated games. The representation I have used in my work is the Pushdown Automata, which can be thought of as an extension to Finite State Automata. 
+In Section \ref{sec:fsa} I discussed Finite State Automata as a representations for strategies in repeated games. The representation I have used in my work is the Pushdown Automata, which can be thought of as an extension to Finite State Automata. 
 %Other representations may be worth exploring, in regard to the question of how changing the strategy %space effects cooperation. These might include other models of computation such as a decision tree %model, or FSA with mixed strategies; with transitions with probabilities attached. 
 %In this thesis, the focus is on Pushdown Automata. 
 \subsection{Pushdown Automata}
-Pushdown Automata can be briefly described as Finite State Automata that also interact with a stack memory. During each transition instead of simply reading from the input string (history of the game) and checking what transitions are valid, the machine (optionally)additionally checks what item is on the top of the stack. 
-Whether a transition is valid is based on what is read, and what is on the top of the stack \citep[][pp 99 -- 122]{Sipser2006}. 
+Pushdown Automata (PDA) can be briefly described as Finite State Automata that also interact with a stack memory. During each transition, instead of simply reading from the input string (history of the game) and checking what transitions are valid, the machine (optionally)additionally checks what item is on the top of the stack. 
+A transitions validity is determined by what is read, what the transition pops from the stack, and what is on the top of the stack \citep[][pp 99 -- 122]{Sipser2006}. 
 
 Each transition can $push$ a symbol from the stack alphabet to the stack. 
 
-More formally, a PDA consists of:\\
+More formally, a Pushdown Automaton consists of:\\
 1. A finite, set of states $S \neq  \emptyset$\\
 2. An input alphabet, $\Sigma \neq  \emptyset$\\
 3. A stack alphabet, $\Gamma$, containing a stack marker $Z_0$, the empty character which indicates no changes to the stack, and other stack symbols\\
@@ -886,7 +886,7 @@ More formally, a PDA consists of:\\
 
 Initially, the stack contains only the stack marker ($\Gamma_0=\{Z_0\}$).\\
 
-A PDA is Non-Deterministic if more than one transition exists for any possible state and stack state.  If at most one transition exists for any possible state and stack state the Automaton is Deterministic. The language or set of strategies representable by a DPDA is a subset of strategies represented by PDA. The strategies represented by FSA are a subset of both. FSA can represent Regular strategies, DPDA can represent Deterministic Context-Free strategies, and PDA can represent Context-Free strategies.
+A PDA is Non-Deterministic if more than one transition exists for any possible state and stack state.  If at most one transition exists for any possible state and stack state, the Automaton is Deterministic. The language or set of strategies representable by a DPDA is a subset of strategies represented by PDA. The strategies represented by FSA are a subset of both. FSA can represent Regular strategies, DPDA can represent Deterministic Context-Free strategies, and PDA can represent Context-Free strategies (Figure \ref{fig:languages}).
 
 \begin{figure}[h]
 \centering
@@ -925,35 +925,36 @@ Each state in a DPDA is an object inside that DPDA, and each transition from a D
 A DPDA is defined in the simulation by its initial state, its states (which include a boolean accepting/non-accepting marker) and its transitions (each belonging to a source state, and having a destination, $pop$ instruction, $push$ instruction and $read$ instruction). 
 
 In my simulation, the strategies are given half-memory. 
-This means they remember their opponents moves and not their own. 
+This means they remember their opponent's moves and not their own. 
 So, a strategy cannot remember that its opponent defected in response to its own defection; the strategies that can appear are limited by this decision. 
 The decision to use half-memory allows for direct comparison to previous work with FSA with half-memory \citep{van-veelen:PNAS:2012}, and simplifies analysis. 
-The framework I have developed and will discuss further in this chapter will aid in extending this work to full-memory (remembering both the strategy and the strategies opponents histories) strategies. 
+The framework I have developed and will discuss further in this chapter will aid in extending this work to full-memory (remembering both the strategy and the strategies opponent's histories) strategies. 
 
 \subsection{Mutations}
-As discussed in \ref{sec:mutation}, the mutation scheme is important. As long as it is a reasonable exploration of the strategy space we expect certain behaviour to hold, but much of the dynamics will be dependant on the mutation scheme chosen. Since I intend to extend work done with Finite State Automata, I have based my mutation scheme heavily on a mutation scheme for Finite State Automata \citep{van-veelen:PNAS:2012}.
+As discussed in \ref{sec:mutation}, the mutation scheme is important. As long as it is a reasonable exploration of the strategy space we expect certain behaviour to hold, but much of the dynamics will be dependent on the mutation scheme chosen. Since I intend to extend work done with Finite State Automata, I have based my mutation scheme heavily on a mutation scheme for Finite State Automata \citep{van-veelen:PNAS:2012}.
 
-The first mutation is the Add State mutation. A state is generated, which can be either an accepting state or a non-accepting state. Additionally, an outbound transitions is added with random $read$, $pop$, $push$ instructions and a random destination (with no bias towards 'nearby' states, or bias against the new state itself as the destination). One transition is rerouted with the new state as its destination, ensuring the new state is connected to the Automaton. 
+The first mutation is the Add State mutation. A state is generated, which can be either an accepting state or a non-accepting state. Additionally, an outbound transitions is added with random $read$, $pop$, $push$ instructions and a random destination (with no bias towards `nearby' states, or bias against the new state itself as the destination). One transition is rerouted with the new state as its destination, ensuring the new state is connected to the Automaton. 
 
 Alternative mutation schemes could already be noted for just this first mechanism. 
-The requirement that the new state be connected could be dropped- perhaps with justification to biological systems. Inactive information may exist in a genome. 
-It could also be important- at some later stage it may be the subject of an advantageous mutation. 
+The requirement that the new state be connected could be dropped, perhaps with justification to biological systems. Inactive information may exist in a genome. 
+It could also be important as at some later stage it may be the subject of an advantageous mutation. 
 
 The connected requirement is made because after mutations, the Automaton is pruned of disconnected states in order to address bloat \citep[][p 139]{koza}. 
-Another alternative would be to not add any transitions to the new state- or to add an inbound transition rather than reroute an existing one. My method was chosen as it ensures connectedness and results in a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted ($read$, $pop$, $push$, Destination), whereas the single re-routing is only one parameter change.
+Another alternative would be to not add any transitions to the new state or to add an inbound transition rather than reroute an existing one. My method was chosen as it ensures connectedness and results in a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted ($read$, $pop$, $push$, Destination), whereas the single re-routing is only one parameter change.
 
 Removing a state is the second method of mutation. Outbound transitions from the state are deleted. 
 Inbound states are randomly rerouted. When the re-routing results in an invalid automaton, the transition is deleted instead. Rerouting is chosen over deleting all related transition to minimize the size of the mutation. If the initial state is removed, another randomly chosen state is assigned as the initial state.
 
-Adding a transition involves randomly selecting a source, destination, and $read$ $pop$ and $push$ instructions. All factors are uniformly selected, with the exception of only allowing a Stack interactions with a stack marker to both $pop$ and $push$; not one or the other. 
+Adding a transition involves randomly selecting a source, destination, and $read$, $pop$, and $push$ instructions. All factors are uniformly selected, with the exception of only allowing a Stack interactions with a stack marker to both $pop$ and $push$; not one or the other. 
 
 The remove transition mutation removes a transition. As a result, this may trigger more substantial changes to the Automaton. For example, it may disconnect the Automaton, making part unreachable and causing it to be pruned. 
 
-Each parameter that a Transition contains can also change. It's destination state, $read$ condition, $pop$ condition and $push$ instruction can all be changed. These are selected randomly, with the exception of stack markers (with the $pop$ and $push$ condition as before). Transitions that would make the Automaton Non-Deterministic are simply not added, so the Automaton does not change on this mutation event in that case.
+Each parameter that a Transition contains can also change. Its destination state, $read$ condition, $pop$ condition and $push$ instruction can all be changed. These are selected randomly, with the exception of stack markers (with the $pop$ and $push$ condition as before). Transitions that would make the Automaton Non-Deterministic are simply not added, so the Automaton does not change on this mutation event in that case.
 
 Finally, the accepting/non-accepting parameter of a state can be flipped.
 
-This scheme can explore the entirety of the strategy space that can be represented by Deterministic Pushdown Automata which accept by final state, which includes all Finite State Automata.
+This scheme can explore the entirety of the strategy space that can be represented by Deterministic Pushdown Automata which accept by final state. 
+This strategy space includes all Finite State Automata (Figure \ref{fig:languages}).
 \section{Simulation}
 In my simulation, DPDA strategies compete with other DPDA strategies for survival and evolve \citep{fogel2006evolutionary}. 
 The simulation uses a Wright-Fisher process \citep{hartl1997principles}. Figure \ref{fig:wright} gives an overview of this process. 
@@ -967,7 +968,7 @@ Next, strategies reproduce, proportionally to payoffs.
 
 Strategies in an odd position reproduce by chance, based on fitness. 
 In my example, A does well playing against the population, and is selected for the next generation. 
-Not always however; since a lower fitness strategy still has a chance (a lower chance) of reproducing. 
+This is not always the case since a lower fitness strategy still has a chance (a lower chance) of reproducing. 
 Strategies in an even position reproduce by chance with probability $1-r$, where r is the assortment parameter, determining population structure.  This follows from \citet{van-veelen:PNAS:2012}, and guarantees that selection is not biased by this method of adding structure. 
 
 Strategies in an even position have a probability $r$ of instead copying the neighbour strategy. 
@@ -976,7 +977,7 @@ Next, the population mutates.
 The mutation probability is low; ideally, an average of one mutant occurs per generation. 
 If it were too high, analysis of whether a strategy can invade must consider a group of strategies entering at once rather than a single mutant. 
 
-These steps repeat; with pairs competing again and so forth. 
+These steps repeat, with pairs competing again and so forth. 
 The simulation is continued for a number of time steps that can be specified. 
 Several parameters, including population size; the assortment parameter; the continuity probability; and how often the state of the simulation is recorded can be specified. 
 
@@ -991,7 +992,7 @@ A Wright-Fisher process is used as opposed to alternatives like a Moran process 
 \begin{figure}[h]
 \centering
 \includegraphics{wrightfischer}
-\caption{Wright-Fischer Process}
+\caption{Wright-Fisher Process}
 \label{fig:wright}
 \end{figure}
 \pagebreak
@@ -1036,12 +1037,13 @@ Simulations were run with parameters as follows:
 \item numberOfTimeSteps specifies how long to run the simulation before halting.
 \item seed seeds the random number generator, so runs can be reproduced
 \end{itemize}
- 
+Assortment $r$ and continuity probability $\delta$ are the primary parameters that are varied, to sample a region of the parameter space. 
+
 In this case, all mutations are of similar probability; extra weight is given to transition changes as these transitions are small in comparison to others. 
 They cause a less significant change to the Automaton than adding or removing a state or transition would.  
 Other values could be argued for; a completely uniform probability, or a probability inversely proportional to the changes it causes, perhaps decided by the number of parameters that change. 
 
-The intensity of selection was set at 1.0 for simulations. 
+The intensity of selection was set to 1.0 for simulations. 
 If this is 0, there is no selection and likelihood of reproducing becomes entirely dependent on how populous a strategy is in the current generation (and an estimate of whether your mutation scheme is biasing defection or cooperation can be made). When this is 1.0, selection is strong. 
 
 The mistake probability parameter is for adding noise -- where players make a choice, but perform the opposite choice. For most of the simulations presented, this was set to $0$ as the focus was on deterministic games. 
@@ -1057,8 +1059,8 @@ The Monash Campus Cluster \citep{cluster} was used for running simulations, due 
 \section{Analysis}
 The primary output of the simulation is a time series. 
 This includes the total payoff at each reported generation, the strategies present at each generation, and the number of each one of those strategies present. 
-Several factors need to be examined. The first is the average payoff; is the population cooperative when continuity probability and assortment is set to a certain number. 
-What strategies are common with theses parameters? 
+Several factors need to be examined. The first is the average payoff. Is the population cooperative when continuity probability and assortment is set to a certain number? 
+What strategies commonly appear with these parameters? 
 The number of times each strategy is found over an entire run can be reported based on this time series, at which point the number of each strategy present when the strategy is common can be examined. Important factors to consider are how it enters the population, and how it exits if it does so. 
 
 Two primary runs were conducted. 
@@ -1075,12 +1077,12 @@ Instead it simply calculates expected payoff for each strategy.
 Based on the parameters, the game is repeatedly played and the results averaged. 
 This gives an estimate, and not an exact value, of the payoff of each strategy. 
 This is useful when the dynamics of three strategies needs to be investigated. 
-The relative payoff for each strategy can be used with the replicator equation to estimate the rate of change for any proportion of each strategy; and so a phase diagram visualizing the dynamics can be plotted. 
+The relative payoff for each strategy can be used with the replicator equation to estimate the rate of change for any proportion of each strategy, so a phase diagram visualizing the dynamics can be plotted. 
 
 \chapter{Results and Discussion}
 \label{chap:results}
 In this chapter, I present and discuss the overall cooperation observed with varied levels of assortment and continuation probability.  
-The strategies present in points in each region of this graph-- individual time series-- are examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
+The strategies present in points in each region of this graph -- individual time series -- are examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
 \section{Overall Cooperation}
 \label{sec:overall}
 Figure \ref{fig:cooperation} shows the cooperation observed in each region of the graph, for combinations of continuity parameter $\delta$ and assortment $r$. 
