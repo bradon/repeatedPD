@@ -94,7 +94,7 @@ I would like to thank my supervisor Julian Garcia, as well as my friends, family
 \chapter{Introduction}
 \label{sec:intro}
 In competitive environments, cooperation often emerges. 
-Most notably in biology, with members of the population often working together for survival. 
+Biology in particular is an example, with members of a population often working together to survive. 
 I will consider cases where there is some benefit getting help, and some cost to giving help. 
 For example, consider two predators sharing the food they capture in their separate hunts equally. 
 The predator can choose to share half the spoils of their hunt with their partner (cooperate), or to deceive their partner and keep an uneven share. 
@@ -149,21 +149,20 @@ This representation does not cover all possible ways of choosing how to interact
 %I have produced a simulation that can simulate the evolution of strategies in the Prisoner's Dilemma using a previously unexplored representation for those strategies. 
 I aim to answer several questions by evolving strategies in simulation:
 \begin{itemize}
-\item How does changing the strategy space affect the cooperation that is seen? 
-Results are compared to a previous simulation that used an FSA representation (Section \ref{sec:overall}). 
-\item Do theoretical results hold with the larger strategy space? In certain regions of the graph, a bound can be placed on the behaviour seen (Section \ref{sec:pnas}). 
+\item How does enlarging the strategy space affect the level of cooperation that evolves? (Section \ref{sec:overall}). 
+\item Do theoretical results (Section \ref{sec:pnas}) hold with the larger strategy space? (Section \ref{sec:regions}).
 \item Do successful non-regular strategies evolve? (Section \ref{sec:dpda})
 \end{itemize}
  
-By asking the last two questions in particular, I investigate the impact of the assumptions previous work has put on the capability of the strategies studied. 
+By asking the last two questions in particular, I investigate the impact of the assumptions previous work has put on the computational capability of the strategies studied. 
 
 \section{Thesis Structure}
-The remainder of this thesis will be structured into several chapters.
+The remainder of this thesis will be structured as follows:
 \begin{itemize}
-\item Research Context, in which I discuss fundamentals of game theory and previous studies of the repeated Prisoner's Dilemma.
-\item Research Methods, where I will discuss the details of my simulation and how results are analysed
-\item Results and Discussion, giving and discussing results of my work.
-\item Conclusion, where I will summarise my work, and discuss future work.
+\item Chapter : Research Context, in which I discuss fundamentals of game theory and previous studies of the repeated Prisoner's Dilemma.
+\item Chapter : Research Methods, where I will discuss the details of my simulation and how results are analysed
+\item Chapter : Results and Discussion, giving and discussing results of my work.
+\item Chapter : Conclusion, where I will summarise my work, and discuss future work.
 \end{itemize}
 
 \chapter{Research Context}
@@ -283,9 +282,9 @@ The candidate is able to prevent invasion, and is an Evolutionary Stable Strateg
 
 \subsection{Replicator Dynamics}
 How strategies perform can be analysed with the Replicator equation. 
-The average fitness ($\phi(x)$) of a population ($x$, where $x_i$ is the proportion of strategy $i$ present) is found by summing total fitness of all members ($f_i(x)$, determined from payoffs) and dividing by the population size ($N$), with $n$ unique members:
+The average fitness ($\phi(x)$) of a population ($x$, where $x_i$ is the proportion of strategy $i$ present) is found by summing total fitness of all unique members ($f_i(x)$, determined from payoffs) and multiplying by the proportion of each member. $N$ is the number of unique members:
 \begin{equation}
-\phi(x)=\sum_{i=1}^n x_i f_i(x)
+\phi(x)=\sum_{i=1}^N x_i f_i(x)
 \end{equation}
 The rate of change of the number of $i$ in a population is dependent on the proportion of $i$ in the population, and the fitness in relation to the rest of the population:
 \begin{equation}
@@ -307,7 +306,7 @@ Hawk & -1, \bf{-1} & 2, \bf{0}\\
 Dove & 0, \bf{2}  & 1, \bf{1} \\
 \hline
 \end{tabular}
-\caption{Payoff matrix of Hawk -- Dove with example values}
+\caption{Example Payoff matrix for the Hawk -- Dove game}
 \label{table:hawkdove50}
 \end{table}
 
@@ -318,10 +317,11 @@ Dove & 0, \bf{2}  & 1, \bf{1} \\
 \label{fig:hawkdove}
 \end{figure}
 
-Figure \ref{fig:hawkdove} gives the diagram of the dynamics of the environment. 
+Figure \ref{fig:hawkdove} shows the diagram of the dynamics for the Hawk -- Dove game. 
 When Hawks outnumber Doves, Doves are selected for. 
 When Doves outnumber Hawks, Hawks are selected for. 
-An example with three strategies, giving a 2-d simplex, will be shown after I discuss repeating the Prisoner's Dilemma.
+Therefore, the population settles on a mixture that includes both strategies. 
+%An example with three strategies, giving a 2-d simplex, will be shown after I discuss repeating the Prisoner's Dilemma.
 
 \section{The Prisoner's Dilemma}
 \label{sec:prisoners}
@@ -356,7 +356,7 @@ That is, the player can only lessen the payoff by cooperating -- mutual defectio
 The dilemma arises from the fact that mutual cooperation (R) would be a better total payoff for the players than the equilibrium of mutual defection (P). 
 This game captures the essence of the problem of cooperation.
 %TOTO: Rename ?
-\subsection{Stuck in the Dilemma}
+\subsection{Repetition: Stuck in the Dilemma}
 When the Prisoner's Dilemma is played multiple times, all parties defecting is no longer the only successful strategy. 
 For the repeated Prisoner's Dilemma, the number of games played is not known by players in advance. 
 If both players knew how many rounds were to be played, the best move in the last round is defection. 
@@ -420,15 +420,15 @@ Payoffs were calculated manually, and the dynamics graphed using Dynamo \citep{d
 \label{fig:allcalldtft}
 \end{figure}
  
-These diagrams visualize the dynamics seen-- what strategies will be selected for in a given population \citep{imhof:PNAS:2005}. 
-For example, a small number of ALLD can quickly dominate a population of ALLC since ALLD gains a better payoff. The arrows give the rate of change of proportion of the population and direction in which it moves from that situation.  ALLC moves towards ALLD. 
+These diagrams visualize the resulting dynamics -- what strategies will be selected for in a given population \citep{imhof:PNAS:2005}. 
+For example, a small number of ALLD players can quickly take over a population of ALLC players, since ALLD gains a better payoff. The arrows give the direction of selection, and the color indicates the speed.  ALLC moves towards ALLD. 
 TFT and ALLC are neutral. 
 When a mixture of strategies exists, TFT is favoured. 
 In a full ALLD environment, TFT cannot invade; the ALLD corner has a black dot, indicating it is asymptotically stable. 
 Likewise for ALLD invading TFT directly; however if the population drifts to ALLC, ALLD will invade. 
 
 \subsection{Assortment}
-A mechanism to allow evolution of cooperative behaviour is to add structure to the population. 
+Another mechanism to allow evolution of cooperative behaviour is to add structure to the population. 
 This also better reflects many situations that can be modelled with evolutionary simulations \citep{eshel:PNAS:1982}. 
 In nature, interaction between members of a population is not likely to be randomly distributed; interaction is more likely between kin, or social peers. 
 Structure can be added by changing the probability of interactions- a subset of a population is more likely to interact with that subset. 
@@ -459,8 +459,8 @@ For example, if T=3, R=2, P=1, S=0, and the population is 50 ALLC and 50 ALLD:
 So ALLC has higher fitness if $r>101/200$. These cases demonstrate that structure can benefit cooperation. 
 \section{Representing Strategies}
 Previously discussed methods of analysing strategies for the repeated Prisoner's Dilemma have some limitations. 
-To model with the replicator equation and plot a phase diagram to see the dynamics, a subset of strategies must be chosen. 
-If we know or can guess what strategies will be important, this is an effective tool. 
+To model with the replicator equation and plot a phase diagram to see the dynamics, a very small subset of strategies must be chosen. 
+If we know or can guess what strategies will be important, this might be an effective tool. 
 One way to find what strategies will be important is through simulating an evolutionary environment. 
 
 Instead of picking the strategy, we pick a representation. 
@@ -477,7 +477,7 @@ This will allow the creation of strategies, without the researcher needing to de
 
 Previous work has primarily used a Finite State Automata model for strategies. 
 An even simpler representation is that of the Lookup Table. 
-I will discuss both these methods in this section. 
+I will discuss both these methods in the next section. 
 \subsection{Lookup Tables}
 \label{sec:mutation}
 One approach to representing strategies is to have a list of possible histories, and how to respond to that history. This is called a Lookup Table. 
@@ -567,7 +567,7 @@ This is not a strict requirement; if no valid transition exists for an input the
 
 FSA with multiple valid transitions for some input are Non-Deterministic FSA. 
 FSA with only one valid transition for any input are Deterministic FSA. 
-For every Non-Deterministic FSA, there is a Deterministic FSA that produces the same result for any valid input, equivalently; the two types of FSA can represent the same classes of languages/strategies \citep{Sipser2006chap1}. 
+For every Non-Deterministic FSA, there is a Deterministic FSA that produces the same result for any valid input, equivalently; the two types of FSA can represent the same classes of languages/strategies \citep[][pp 35 -- 63]{Sipser2006}. 
 
 A number of mutation schemes for Finite State Automata could also be used. 
 These could involve adding states, deleting states, changing a transition, changing if a state is accepting, and changing the initial state. 
@@ -597,7 +597,7 @@ Variants on these representations are used in the work discussed.
 \section{Related Work}
 \label{sec:relatedWork}
 Related simulation work focuses mostly on direct reciprocity; repeating the game being the basis for cooperation to evolve. 
-I will discuss seminal work into strategies for the Prisoner's Dilemma, giving examples of approaches used. Finally, in Section \ref{sec:pnas} I will discuss the work I have extended.
+I will discuss seminal work into strategies for the Prisoner's Dilemma, giving examples of different approaches in the literature. Finally, in Section \ref{sec:pnas} I will discuss the work I have extended.
 \subsection{Axelrod's Tournaments}
 \citet{axelrod:Science:1981} investigated the behaviour of strategies using computer tournaments, with the repeated Prisoner's Dilemma played between strategies submitted by people to the tournaments. 
 This study compared fitness (payoff of games) of submitted strategies playing each other. 
@@ -832,10 +832,10 @@ The impact of variations in the simulation- such as changing how strategies are 
 By using both assortment and continuation probability, conditions not explored in previous literature (with both assortment and reciprocity playing varied roles) can be investigated.
 
 \chapter{Research Methods}
-In this section I will discuss the representation and mutation scheme I decided on (Pushdown Automata), the simulation I have created and how analysis was carried out.
+In this section I will discuss the representation and mutation scheme I decided on (Pushdown Automata), the simulation I have created and how the analysis was carried out.
 
 I focus on two mechanisms for the evolution of cooperation; direct reciprocity and assortment. 
-These mechanisms can be simulated with differing lengths of games, and differing likelihood of meeting  a strategy meeting an alike strategy. 
+These mechanisms can be simulated with differing lengths of games, and differing likelihood of strategies meeting other alike strategies. 
 Other mechanisms, such as strategies having access to reputation (an opponents past with other strategies), require extra levels of complexity to enable this behaviour. 
 The choice of these methods provides a simple starting point to investigate the interplay between mechanisms for cooperation. 
 
@@ -864,7 +864,7 @@ I have previously (Section \ref{sec:fsa} discussed Finite State Automata as a re
 %In this thesis, the focus is on Pushdown Automata. 
 \subsection{Pushdown Automata}
 Pushdown Automata can be briefly described as Finite State Automata that also interact with a stack memory. During each transition instead of simply reading from the input string (history of the game) and checking what transitions are valid, the machine (optionally)additionally checks what item is on the top of the stack. 
-Whether a transition is valid is based on what is read, and what is on the top of the stack \citep{Sipser2006chap2}. 
+Whether a transition is valid is based on what is read, and what is on the top of the stack \citep[][pp 99 -- 122]{Sipser2006}. 
 
 Each transition can $push$ a symbol from the stack alphabet to the stack. 
 
@@ -931,7 +931,7 @@ Alternative mutation schemes could already be noted for just this first mechanis
 The requirement that the new state be connected could be dropped- perhaps with justification to biological systems. Inactive information may exist in a genome. 
 It could also be important- at some later stage it may be the subject of an advantageous mutation. 
 
-The connected requirement is made because after mutations, the Automaton is pruned of disconnected states in order to address bloat \citep{koza08}. 
+The connected requirement is made because after mutations, the Automaton is pruned of disconnected states in order to address bloat \citep[][p 139]{koza}. 
 Another alternative would be to not add any transitions to the new state- or to add an inbound transition rather than reroute an existing one. My method was chosen as it ensures connectedness and results in a smaller edit, when we define the size of an edit as the number of parameters changed. Four parameters must be added if a transition is inserted ($read$, $pop$, $push$, Destination), whereas the single re-routing is only one parameter change.
 
 Removing a state is the second method of mutation. Outbound transitions from the state are deleted. 
