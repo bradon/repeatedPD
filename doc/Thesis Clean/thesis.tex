@@ -174,7 +174,7 @@ The remainder of this thesis will be structured as follows:
 \chapter{Research Context}
 \label{chap:researchcontext}
 In this chapter, I will discuss several aspects of Game Theory that my work uses, as well as specific work into the Repeated Prisoner's Dilemma. 
-Concepts from Game Theory will be discussed first, followed by as previous work into the simulated evolution of strategies for the repeated Prisoner's Dilemma. 
+Concepts from Game Theory will be discussed first, followed by previous work into the simulated evolution of strategies for the repeated Prisoner's Dilemma. 
 Finally, I will discuss work that investigates when reciprocity (repeating the game) is combined with assortment (population structure).
 \section{Game Theory}
 A game is a formalization of an interaction between two or more individuals who make choices. 
@@ -183,20 +183,19 @@ I consider games where two players compete at once in particular, with any numbe
 Each player plays using a strategy, which we might represent explicitly, or we might simply state the payoff that the strategies gain against each other. 
 Game Theory is the study of what strategies will be successful in a given scenario. 
 
-The general approach in game theory is to consider a scenario, and simplify it. 
+The general approach in Game Theory is to consider a scenario, and simplify it. 
 By doing this we examine the general dynamics of a situation. 
 Each individual playing a game is assumed to try to maximize their personal payoff. 
 
-For example; let us look circumstances where aggression or non-aggression are possible strategies. 
+For example, let us look circumstances where aggression or non-aggression are possible strategies. 
 Two birds compete for a benefit; they fight for some food. 
 A Hawk strategy escalates the fight. A Dove strategy fights with normal intensity against other Doves, avoiding injury, or retreats in response to escalation. 
-A cost is assigned to escalating a fight (due to injury); call it $c$. 
+A cost is assigned to escalating a fight (due to injury), call it $c$. 
 A benefit is assigned to winning a fight, call it $b$. 
 So, if an individual plays a Hawk strategy against a Hawk strategy, they have a 50/50 chance of winning since they are equivalent. Hawk-Hawk results in an expected payoff of $\frac{{b}-{c}}{2}$. 
 When two Doves encounter each other, they don't get injured. 
 They have a 50/50 chance of winning the non-escalated fight, so the expected payoff is $\frac{b}{2}$. 
-A Dove retreats from a Hawk, avoiding injury but also losing any chance of getting the benefit. 
-So, they get a payoff of $0$. A Hawk wins by default since the Dove retreats, avoids injury, and gets all the benefit; they recieve a payoff $b$. 
+A Dove retreats from a Hawk, avoiding injury but also losing any chance of getting the benefit, resulting in a payoff of $0$. A Hawk wins by default since the Dove retreats, avoids injury, and gets all the benefit; they recieve a payoff $b$. 
 
 The payoff matrix for this scenario is given in Table \ref{table:payoffHD}.
 \begin{table}[h]\centering
@@ -220,9 +219,9 @@ In a population of Doves, a lone Hawk will do well in comparison to the rest of 
 The rest of the population (Doves) gains either $\frac{b}{2}$ or $0$. 
 
 In a population of almost entirely Hawks, how well a Dove does depends on the parameters. 
-If the cost of injury is higher than benefit of winning the fight and getting the food, Hawks can be expected to get a negative payoff most of the time-- and so the lone Dove, with $0$ expected payoff may have the best expected payoff. In a population of 100 Hawks and 1 Dove, where each individual plays another individual randomly, a Hawk is expected to make $\frac{99}{100}\cdot\frac{b-c}{2}+\frac{1}{100}\cdot b$ and a Dove is expected to make $0$. If $c>b$, the Dove has the highest expected payoff. 
+If the cost of injury is higher than benefit of winning the fight and getting the food, Hawks can be expected to receive a negative payoff most of the time -- and so the lone Dove, with $0$ expected payoff, may have the best expected payoff. In a population of 100 Hawks and 1 Dove, where each individual plays another individual randomly, a Hawk is expected to make $\frac{99}{100}\cdot\frac{b-c}{2}+\frac{1}{100}\cdot b$ and a Dove is expected to make $0$. If $c>b$, the Dove has the highest expected payoff. 
 
-Existing literature in Game Theory allows us to analyse scenarios like these, and find what is the best strategy to play.
+Existing literature on Game Theory allows us to analyse scenarios like these, and find which is the best strategy to play.
 \subsection{Nash Equilibria}
 The Nash Equilibria for a game are the strategies from which individuals have no incentive to switch. 
 That is, they cannot get a higher payoff by choosing, on its own, to switch to a new strategy.  
@@ -233,8 +232,8 @@ A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing an
 \end{equation}
 Where $\pi(A,B)$ is the payoff for $A$ when it plays against $B$. 
 Alternatively stated, a Nash Equilibrium is found when a strategy is the best reply to itself. 
-If the relation is greater than, it is a Strict Nash equilibrium. 
-If it is greater than or equal to, it is a Nash equilibrium.
+If the relation is greater than, it is a Strict Nash Equilibrium. 
+If it is greater than or equal to, it is a Nash Equilibrium.
 
 In the Hawk-Dove game for $c>b$, analysing the payoff for a Pure strategy (which always plays a stated strategy; in this one-shot version of the game, either Hawk or Dove) shows that neither is Nash. 
 When playing against a Hawk (H), you would do better to switch to Dove and avoid the cost. 
@@ -253,7 +252,7 @@ Consider some strategy $p_1$ playing itself:
 \pi(p_1,p_1)&=\frac{b-c}{2}*p^2+\frac{b}{2}*(1-p)^2+0*(1-p)p+b*p(1-p) \nonumber
 \end{align}
 In a similar fashion, we can find the payoffs for all combinations of $p_1$ and $p_2$. 
-In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed strategies \footnote{In this case, a strategy that has a p of $b/c$. See \cite{nowak2006evolutionary63}}. Pure strategies are the focus of this thesis.
+In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed strategies.\footnote{In this case, a strategy that has a p of $b/c$. See \cite{nowak2006evolutionary63}} Pure strategies are the focus of this thesis.
 
 \subsection{Evolutionary Stable Strategies}
 Instead of a number of strategies competing, let's consider a population that changes over time. 
