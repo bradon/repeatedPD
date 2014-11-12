@@ -1225,15 +1225,15 @@ These strategies are all representable by FSA.
 \end{figure}
 
 In Figure \ref{fig:2-0.7-0.3} a strategy that defects twice, then cooperates against itself appears. 
-This strategy is given in Figure \ref{fig:handshakeparent} 
+This strategy is given in Figure \ref{fig:handshakeparent}, and I will call `handshake'. 
 Before this strategy appears, the population is a combination of Always Defect variants. 
 With non-zero assortment ($r=0.3$) this strategy is more likely to encounter itself. 
 So, when it appears, its lower payoff against Always Defect is offset by encounters with itself. 
 Eventually, a new strategy (child) that is neutral to it drifts in. 
 The strategy performs the `handshake' of two defects playing itself (or its ancestor with the same behaviour). 
 However, Grim Trigger, which cooperates until a defection happens, then never cooperates again eventually takes over. 
-The ancestor strategy would beat Grim-- it exploits it in the first move, and thereafter mutual defection occurs. 
-The child strategy however cooperates if the opponents first move is cooperation, then cooperates again if it follows up with a defection.
+The ancestor strategy would beat Grim; it exploits it in the first move, and thereafter mutual defection occurs. 
+The child strategy, however, cooperates if the opponents first move is cooperation, then cooperates again if it follows up with a defection.
 So, the new strategy wins the first move, but loses the next two. 
 Thereafter defection is mutual. 
 A neutral mutant of the ancestor provided the means for Grim Trigger to invade-- an indirect invasion. 
@@ -1337,9 +1337,9 @@ When $\delta$ is small, some of Region III does have less than full cooperation.
 As $\delta$ increases, full cooperation is seen. 
 The rate at which Grim appears with my simulations mutation scheme explains this behaviour. 
 For high $\delta$, Grim is able to resist defectors. 
-It plays well against itself, and when many games are played the payoff is near mutual defection for both parties -- only on the first round of an interaction does Grim do worse than a defector. 
+It plays well against itself, and when many games are played, the payoff is near mutual defection for both parties -- only on the first round of an interaction does Grim do worse than a defector. 
 The population can drift away from Grim to other mutually cooperative strategies, like Always Cooperate. 
-But, the small number of mutations required for Grim to reappear make invasions by strategies that exploit highly cooperative strategies short lived; a strategy is likely to mutate to Grim, and Grim is likely to invade if that defector gains any ground.
+The small number of mutations required for Grim to reappear make invasions by strategies that exploit highly cooperative strategies short lived; a strategy is likely to mutate to Grim, and Grim is likely to invade if that defector gains any ground.
 
 \begin{figure}[h!]
 \centering
@@ -1387,9 +1387,9 @@ The simulation was ran with noise of 0.01 and 0.05, all other parameters were he
 With noise 0.01, 1 percent of moves are inverted; the strategy cooperates when they meant to defect and vice-versa. 
 In this case, Counting Grudge makes up 25\% of the strategies of the top ten most common. 
 
-Does Counting Grudge do a good job against other strategies I expect in this region. 
-I pitted it against Tit-For-Tat (a strategy that did not appear commonly in my simulation, due to mutation distance) and Always Cooperate, instead of operating in an simulated evolutionary environment, I played them against each other in the environment and estimated the expected payoff against each other. 
-The expected payoff is then used to make a simplex of the dynamics; with the changing population estimated using the replicator equations. 
+Does Counting Grudge do a good job against other strategies I expect in this region? 
+I pitted it against Tit-For-Tat (a strategy that did not appear commonly in my simulation, due to mutation distance) and Always Cooperate; instead of operating in an simulated evolutionary environment, I played them against each other in the environment and estimated the expected payoff against each other. 
+The expected payoff is then used to make a simplex of the dynamics, with the changing population estimated using the replicator equations. 
 The result is shown in Figure \ref{fig:noisesimplex}. 
 A stable point exists at all 3 points, but the interior of the phase diagram points to Counting Grudge, showing that in these circumstance it is relatively successful. 
 
@@ -1405,7 +1405,7 @@ Whereas Tit-For-Tat retaliates against a defection immediately, Counting Grudge 
 FSA can accomplish this; but again, require extra states for each level of `tolerance'. 
 In a noisy environment, it can pay to be forgiving of mistakes. 
 
-Counting Grudge is still exploitable; for example, a strategy that cooperates a few times to establish some `leeway' -- some symbols on the stack. 
+Counting Grudge is still exploitable; for example, a strategy that cooperates a few times to establish some `leeway' -- to put some symbols on the stack. 
 The strategy can then alternate cooperate and defect fairly safely; it is unlikely that enough mistakes will be made (due to noise) that the number of defection moves outnumber cooperative moves. 
 So, for every second move this strategy gets the highest payoff possible for a round. 
 
@@ -1426,14 +1426,13 @@ My simulation explored the strategy space differently, so different strategies w
 \section{Comparison to Theory}
 Section \ref{sec:regions} examined the Time Series in each region. 
 My simulation gave results that did not violate the expected outcomes. 
-However, some differences in what you might expect (but not differences from the limits to behaviour \citep{van-veelen:PNAS:2012} defined) did appear. 
+However, some differences in what was expected (but not differences from the limits to behaviour \citep{van-veelen:PNAS:2012} defined) did appear. 
 
 When $r>0.5$ and $\delta>0.5$, so both assortment and continuity probability are high, no partially defecting strategies are successful. 
 This appears to be a result of the mutation scheme used; Grim entered the population too quickly for non-cooperative strategies to survive for long.
 \section{The Evolution of Successful Non-Regular Strategies}
 \label{sec:dpda}
-Non-Regular strategies, evolved in my simulation. One which appeared with high frequency when continuity was high, was Counting Grudge. 
-However, its success was limited. 
+Non-Regular strategies, evolved in my simulation. One which appeared with high frequency when continuity was high, was Counting Grudge; however, its success was limited. 
 Being neutral to Always Cooperate and Grim, it does not have an advantage over these in an environment without defectors or noise. 
 Adding noise, I showed that Counting Grudge can be more successful than some other strategies expected to appear in regions of the graph with cooperation present. 
 
