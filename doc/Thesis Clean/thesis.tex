@@ -72,14 +72,21 @@
 \listoffigures					% Generate a list of figures (optional).
 
 \begin{thesisabstract}			% generate the abstract page.
-The evolution of strategies with varied conditions is investigated. 
+The Repeated Prisoner's Dilemma and other repeated games have been widely used to investigate the mechanisms behind the emergence of cooperation. 
+Simulating strategies allows for a wider exploration of the possible strategies than a theoretical analysis of known strategies does. 
+
+
+In this thesis, the evolution of strategies and cooperative behaviour is investigated. 
 Two mechanisms for cooperation are used; direct reciprocity and assortment. 
-Strategies are represented by Deterministic Pushdown Automata. 
-Strategies evolve in an evolutionary simulation. 
-The cooperation that appears across the parameter space is recorded. 
-I find varied levels of cooperation to previous simulations. 
+Strategies are represented by Deterministic Pushdown Automata, which allows for a larger strategy space to be explored than in previous literature that used Finite State Automata. 
+
+Strategies compete in an evolutionary simulation. 
+The cooperation that appears across the parameter space is recorded, along with the strategies that evolve. 
+The level of cooperation across the parameter space is examined and compared to previous results and theory. 
 The results in specified regions of the parameter space meet qualitative predictions in the literature.
-A strategy not representable by past methods using Finite State Automata is found to evolve in the simulation. 
+Strategies not representable by past methods using Finite State Automata is found to evolve in the simulation. 
+
+The success of these strategies is investigated. In deterministic games, they are not found to be advantageous. In games with noise, these strategies may have an advantage over strategies representable by Finite State Automata. 
 \end{thesisabstract}                 
 
 \thesisdeclarationpage			% generate the declaration page (optional).
@@ -1391,12 +1398,14 @@ Does Counting Grudge do a good job against other strategies I expect in this reg
 I pitted it against Tit-For-Tat (a strategy that did not appear commonly in my simulation, due to mutation distance) and Always Cooperate; instead of operating in an simulated evolutionary environment, I played them against each other in the environment and estimated the expected payoff against each other. 
 The expected payoff is then used to make a simplex of the dynamics, with the changing population estimated using the replicator equations. 
 The result is shown in Figure \ref{fig:noisesimplex}. 
-A stable point exists at all 3 points, but the interior of the phase diagram points to Counting Grudge, showing that in these circumstance it is relatively successful. 
+A stable point exists at all 3 points, but the interior of the phase diagram points to Counting Grudge, showing that in these circumstance it is relatively successful. Increasing the noise to 5\% increases its success. 
 
 \begin{figure}[h!]
-\centering
-\includegraphics[width=0.5\textwidth]{{Noise001}.png}
-\caption{Counting Grudge playing TFT and ALLC in an environment with 1\% noise}
+\subfloat[1\% Noise\label{fig:noisesimplex01}]{
+\includegraphics[width=0.49\textwidth]{Noise001}}
+\subfloat[5\% Noise\label{fig:noisesimplex05}]{
+\includegraphics[width=0.49\textwidth]{Noise005}}
+\caption{Counting Grudge playing TFT and ALLC in noisy environments}
 \label{fig:noisesimplex}
 \end{figure}
 
