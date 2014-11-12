@@ -309,10 +309,21 @@ Dove & 0, \bf{2}  & 1, \bf{1} \\
 \caption{Payoff matrix of Hawk -- Dove with example values}
 \label{table:hawkdove50}
 \end{table}
-**TODO** 1d simplex
-Figure X gives the diagram of the dynamics of the environment. An example with three strategies, giving a 2-d simplex, will be shown after I discuss repeating the Prisoner's Dilemma.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.4\textwidth]{{hawkdove}.png}
+\caption{Dynamics of Hawk -- Dove game with $b=2$ and $c=4$}
+\label{fig:hawkdove}
+\end{figure}
+
+Figure \ref{fig:hawkdove} gives the diagram of the dynamics of the environment. 
+When Hawks outnumber Doves, Doves are selected for. 
+When Doves outnumber Hawks, Hawks are selected for. 
+An example with three strategies, giving a 2-d simplex, will be shown after I discuss repeating the Prisoner's Dilemma.
 
 \section{The Prisoner's Dilemma}
+\label{sec:prisoners}
 The Prisoner's Dilemma is a simple model that has been widely used to study cooperation in repeated games \citep{Axelrod1997}. 
 In the one-shot version of the Prisoner's Dilemma, cooperation is not the expected outcome. 
 In this game, two players play a single game, choosing between two options; cooperate or defect. 
@@ -824,7 +835,28 @@ In this section I will discuss the representation and mutation scheme I decided 
 
 I focus on two mechanisms for the evolution of cooperation; direct reciprocity and assortment. 
 These mechanisms can be simulated with differing lengths of games, and differing likelihood of meeting  a strategy meeting an alike strategy. 
-Other mechanisms, such as strategies having access to reputation (an opponents past with other strategies)
+Other mechanisms, such as strategies having access to reputation (an opponents past with other strategies), require extra levels of complexity to enable this behaviour. 
+The choice of these methods provides a simple starting point to investigate the interplay between mechanisms for cooperation. 
+
+The Prisoner's Dilemma, as discussed in \ref{sec:prisoners} can be defined with a variety of payoffs so long as the heirarchy of payoffs is followed. 
+To allow direct comparison to previous work (with no adjusting for Regions with a different payoff matrix), the same payoffs are used as \citet{van-veelen:PNAS:2012}. 
+This is given in Table \ref{table:simpayoffs}.
+ 
+\begin{table}[h]\centering
+\captionsetup{justification=centering}
+\begin{tabular}{|l|c|c|}
+\hline
+ & \bf{Cooperate} & \bf{Defect}\\
+\hline
+Cooperate & 2, \bf{2} & 0, \bf{3}\\
+\hline
+Defect & 3, \bf{0}  & 1, \bf{1} \\
+\hline
+\end{tabular}
+\caption{Payoff matrix used in my simulations}
+\label{table:simpayoffs}
+\end{table}
+%PAYOFFMARK
 \section{Representation}
 I have previously (Section \ref{sec:fsa} discussed Finite State Automata as a representations for strategies in repeated games. The representation I have used in my work is the Pushdown Automata, which can be thought of as an extension to Finite State Automata. 
 %Other representations may be worth exploring, in regard to the question of how changing the strategy %space effects cooperation. These might include other models of computation such as a decision tree %model, or FSA with mixed strategies; with transitions with probabilities attached. 
@@ -1308,6 +1340,7 @@ In Region II and III, a DPDA was seen amongst the most common strategies.
 It was not the most successful strategy; it is neutral to Grim and any mutually cooperative strategy. 
 In this section, I add noise to the simulation, and highlight where this DPDA becomes a successful strategy. 
 \subsection{Games with Noise}
+\label{sec:noise}
 The simulation was ran with noise of 0.01 and 0.05, all other parameters were held the same. 
 With noise 0.01, 1 percent of moves are inverted; the strategy cooperates when they meant to defect and vice-versa. 
 In this case, Grudge makes up 25\% of the strategies of the top ten most common. 
@@ -1363,12 +1396,16 @@ I would like to extend the work I have conducted this year to further examine No
 The strategies that can be represented by Deterministic Pushdown Automata could be examined more thoroughly with theory, including in noisy environments. 
 
 Other strategy representations could be explored, such as decision trees, or Non-Deterministic Pushdown Automata. 
+A simple extension to my work would be to use Full-Memory Deterministic Pushdown Automata.
 \appendix % all \chapter{..} commands after this will generate appendices
 
-\chapter{Source Code Release}
+\chapter{Simulation}
+\section{Source Code}
 \label{app:code}
 Here I will detail how to get the source code of my program. 
-
+\section{Design}
+Here I will add a class diagram
+\section{Public Release}
 I will also state where I am going to post my code on git.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
