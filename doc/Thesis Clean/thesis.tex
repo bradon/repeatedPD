@@ -115,7 +115,7 @@ I will consider strategies that must interact in a changing environment.
 Some of the individuals they interact will occasionally change (mutate), and successful ones will reproduce -- it will be an evolutionary environment. 
 A successful strategy must play the game well relative to others in the population to ensure its survival, but it must also perform well as that environment changes.
 
-It is possible to investigate competition and cooperation mathematically -- Game Theory could be described as the mathematical study of competition and cooperation. 
+It is possible to investigate competition and cooperation mathematically -- Game Theory could be described as the mathematical study of competition and cooperation \citep{binmore2007playing}. 
 Consider the case of repeated interactions; for a given scenario, how high does the likelihood of repeating an interaction have to be for cooperating to be the best strategy? 
 In the case of cooperating with kin; how close should the relatives be for individuals to cooperate- should we cooperate fifth cousins, who share only a small number of genes? 
 
@@ -220,7 +220,7 @@ Existing literature in Game Theory allows us to analyse scenarios like these, an
 The Nash Equilibria for a game are the strategies from which individuals have no incentive to switch. 
 That is, they cannot get a higher payoff by choosing, on its own, to switch to a new strategy.  
 
-A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing any other strategy ($T$) in the set of possible strategies ($S$) by changing to another strategy ($x^\prime$):
+A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing any other strategy ($T$) in the set of possible strategies ($S$) by changing to another strategy ($x^\prime$) \citep[][ch. 1]{robert1992primer}:
 \begin{equation}
 \forall T \neq x, \{T,x\} \in S: \pi(x,T)\geq \pi(x^\prime,T)
 \end{equation}
@@ -238,7 +238,7 @@ When playing against a Dove (D), you would do better to switch to Hawk and gain 
 \end{align*}
 
 Instead of playing with a single strategy, consider a scenario where two players probabilistically select an action. So, $p_1$ plays Hawk with probability $p$ and Dove with probability $p-1$. Strategies that make decisions probabilistically are Mixed Strategies. 
-In this case, the expected payoff must be calculated based on  probabilities of each move. 
+In this case, the expected payoff must be calculated based on probabilities of each move. 
 Consider some strategy $p_1$ playing itself: 
 \begin{align}
 \label{eqn:probabilities}
@@ -264,7 +264,7 @@ So, as its proportion rises its payoff falls.
 Will the population settle on some point? This will be discussed in Replicator Dynamics. 
 For now, I discuss the circumstance under which a strategy will stay the most common strategy used in a population. 
 
-For a strategy to be Evolutionarily Stable it must do better than any invader. 
+For a strategy to be Evolutionarily Stable it must do better than any invader \citep[][ch. 2]{weibull1997evolutionary}. 
 This is an extension to Nash:
 \begin{align*}
 \forall T \neq x, \{T,x\} \in S: \pi(x,T)&\geq \pi(x^\prime,T) \\ 
@@ -281,7 +281,7 @@ If the second condition is met, the invader cannot take over because sooner or l
 The candidate is able to prevent invasion, and is an Evolutionary Stable Strategy. 
 
 \subsection{Replicator Dynamics}
-How strategies perform can be analysed with the Replicator equation. 
+How strategies perform can be analysed with the Replicator equation \citep{hofbauer1998evolutionary}. 
 The average fitness ($\phi(x)$) of a population ($x$, where $x_i$ is the proportion of strategy $i$ present) is found by summing total fitness of all unique members ($f_i(x)$, determined from payoffs) and multiplying by the proportion of each member. $N$ is the number of unique members:
 \begin{equation}
 \phi(x)=\sum_{i=1}^N x_i f_i(x)
@@ -947,9 +947,10 @@ Finally, the accepting/non-accepting parameter of a state can be flipped.
 
 This scheme can explore the entirety of the strategy space that can be represented by Deterministic Pushdown Automata which accept by final state, which includes all Finite State Automata.
 \section{Simulation}
-In my simulation, DPDA strategies compete with other DPDA strategies for survival. 
+In my simulation, DPDA strategies compete with other DPDA strategies for survival and evolve \citep{fogel2006evolutionary}. 
 The simulation uses a Wright-Fisher process. Figure \ref{fig:wright} gives an overview of this process. 
-The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld} \footnote{In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''}. 
+The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld}. In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''. 
+Each state is listed in the first section of this string, along with whether it is an inital $I$ and/or final $F$ state. $\#$ delimits sections. Transitions are given by {$stateFrom$-$stateTo$ }
 Figure \ref{fig:wright} is started with a mixed population, to aid indicating how the process works. 
 The population in simulations is of a fixed size $N$, and $N$ is even. 
 Each player competes with a neighbour they are paired with, playing the repeated Prisoner's Dilemma, with the number of games they play dependent on the continuity probability $\delta$. 
@@ -1035,8 +1036,8 @@ Two primary runs were conducted.
 The first run involved 882 simulations of time series; a 21$\times$21 grid of payoffs taken at data points spaced $0.05$ apart was taken (with $0.99$ instead of $1.0$ as the final point for the continuity parameter), twice. 
 The second run involved 1640 simulations of times series, in order to find the payoffs as continuity probability and assortment are varied -- this time in a grid spaced $0.25$ apart (40$\times$41, as continuity parameter being 1 was excluded). 
 
-These runs were processed using iPython notebook, finding the payoff for each time series, counting the strategies found in each run, and presenting the graph of payoff versus generation. 
-The graphs of cooperation as continuity probability and assortment are varied were produced using gnuPlot. 
+These runs were processed using IPython notebook \citep{PER-GRA:2007}, finding the payoff for each time series, counting the strategies found in each run, and presenting the graph of payoff versus generation. 
+The graphs of cooperation as continuity probability and assortment are varied were produced using gnuPlot \citep{Gnuplot_4.4}. 
 The results of these simulations are discussed in the next chapter.
 
 In addition to the time series simulations, I also created a function to compare the performance of strategies playing the Prisoner's Dilemma with varied continuity probability, assortment and noise. 
@@ -1048,25 +1049,28 @@ This is useful when the dynamics of three strategies needs to be investigated.
 The relative payoff for each strategy can be used with the replicator equation to estimate the rate of change for any proportion of each strategy; and so a phase diagram visualizing the dynamics can be plotted. 
 
 \chapter{Results and Discussion}
-In this chapter, the overall cooperation observed with varied levels of assortment and continuity probability will be presented and discussed. 
-The strategies present in points in each region of this graph-- individual time series-- will be examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
+In this chapter, I present and discuss the overall cooperation observed with varied levels of assortment and continuation probability.  
+The strategies present in points in each region of this graph-- individual time series-- are examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
 \section{Overall Cooperation}
 \label{sec:overall}
 Figure \ref{fig:cooperation} shows the cooperation observed in each region of the graph, for combinations of continuity parameter $\delta$ and assortment $r$. 
-Cooperation is measured by the average payoff in the population; if all individuals are defecting, the average payoff will be lowest. If all individuals are cooperating, the average payoff will be highest. 
-Behaviour in each region will be discussed in more detail in Section \ref{sec:regions}.  
+Cooperation is measured by the average payoff in the population; if all individuals are defecting all the time, the average payoff will be lowest (and equal to $P$). If all individuals are cooperating all the time, the average payoff will be highest (and equal to $R$). 
+%Behaviour in each region will be discussed in more detail in Section \ref{sec:regions}.  
 \begin{figure}[h]
 \center
-\includegraphics[width=0.6\textwidth]{cooperationOverall}
+\includegraphics[width=0.6\textwidth]{{final_run.png}}
 \caption{Cooperation observed}
 \label{fig:cooperation}
 \end{figure}
  
-Figure \ref{fig:regions2} (adapted from \citet{van-veelen:PNAS:2012}) shows the regions expected (see Section \ref{sec:pnas}). 
-Region I shows no cooperation, Region II shows a mixture of low cooperation, Region III shows a mixture of mostly cooperation, and Region IV is fully cooperative. 
+Figure \ref{fig:regions2}  \citep[adapted from][]{van-veelen:PNAS:2012} shows theoretical results describing how cooperation should vary across different regions of the parameter space (see Section \ref{sec:pnas}). 
+Region I shows no cooperation. Region II shows a mixture of low cooperation with mostly defection.  Region III displays a mixture of mostly cooperation, with some defection. Region IV is fully cooperative. 
+Notice the simulation results reported in Figure \ref{fig:cooperation} qualitatively match the theoretical prediction of Figure \ref{fig:regions2}. 
 Differences, notably the larger levels of cooperation found above $r=0.5$, will be discussed in section \ref{sec:regions:3}. 
 
-The results of previous work by \citet{van-veelen:PNAS:2012} are shown in Figure \ref{fig:fsa} and the difference (measured as the relative error) is shown in Figure \ref{fig:difference}. 
+To assess the change in cooperative behaviour displayed in my simulations with previous work, I compare my graph of cooperation to that found by \citet{van-veelen:PNAS:2012}. 
+Data from a separate simulation with sampled points matching points sampled from the previous work was used. 
+The results of previous work  are shown in Figure \ref{fig:fsa} and the difference (measured as the relative error) is shown in Figure \ref{fig:difference}. 
 In Region II, lighter/yellow areas of the difference graph indicate that my PDA simulation was up to 23\% less cooperative. 
 In Region III, darker/purple areas of the difference graph indicate that my PDA simulation was up to 26\% more cooperative. 
 
@@ -1086,30 +1090,25 @@ In Region III, darker/purple areas of the difference graph indicate that my PDA 
 \label{fig:comparison}
 \end{figure}
 %\pagebreak
-Another simulation was run, with reduced mutation probability (halved) and increased runtime (the time the simulation was run on the cluster was tripled). 
-More datapoints were sampled (at 0.025 intervals instead of 0.05). 
-The result mirrors my previous low-resolution result, and is shown in Figure \ref{fig:finalrun}. 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{final_run}
-\caption{Cooperation observed with higher resolution sampling}
-\label{fig:finalrun}
-\end{figure}
 
 More cooperation was observed in Region III with my simulation, and less cooperation in Region II. 
+The overall differences were minor, but may warrant further attention. 
 
-\section{Behaviour for each Region}
+\section{Behaviour in each Region}
 \label{sec:regions}
-The behaviour in each region can be predicted, with the only assumption being a low mutation rate; not any specific representation. Section \ref{sec:pnas} discusses this. 
-The cooperation over time for each part of the graph-- for each combination of assortment and continuation probability, will be examined. 
+The behaviour in each region can be predicted qualitatively, without assuming any specific representation (see Section \ref{sec:pnas}). 
+The cooperation over time for each part of the graph -- for each combination of assortment and continuation probability, will be examined. 
 
 Note that the Regions shown are for the game used in the simulation. 
-If parameters are changed, the regions in the graph will shift (but the behaviour will still be defined). 
-So, $\delta=x$ and $\delta=y$ corresponds to the game presented, and is not a universal rule for all prisoners dilemma games. 
+If parameters are changed, the regions in the graph will shift (but the behaviour will still be qualitatively defined). 
+
 \subsection{Region I: Small $\delta$, Small $r$}
 In Region I, full defection is the only equilibrium. 
 No strategy that plays cooperatively is expected to be successful. 
 Time series of this region are given in Figures \ref{fig:first1} to \ref{fig:last1}. 
+The x-axis corresponds to the generation, and the y-axis corresponds to the total population payoff. 
+Larger payoffs indicate more cooperation. 
+
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.9\textwidth]{{dataset1_0.0_0.0}.png}
@@ -1129,8 +1128,8 @@ Time series of this region are given in Figures \ref{fig:first1} to \ref{fig:las
 \label{fig:last1}
 \end{figure}
 In these time series, cooperation does not survive long in the population, and do not come to be the most common strategy. 
-Closer to the border of this region (Figure \ref{fig:last1}), the environment becomes noisier. 
-The relation given by \citet{van-veelen:PNAS:2012} holds to the border, but selection against any cooperator is more extreme in regions close to 0,0. 
+Closer to the border of this region (with larger $r$, Figure \ref{fig:last1}), the environment becomes noisier. 
+The qualitative prediction given by \citet{van-veelen:PNAS:2012} holds close to the border, but selection against any cooperator is more extreme in regions close to $r=0$,$\delta=0$. 
 
 On the upper border, towards greater assortment, (outside Region I), cyclic behaviour is observed (Figure \ref{fig:cycles1}, with time range limited to better visualize cycles). 
 On the right border, towards greater continuation probability, results are more noisy but still overwhelms any cooperative strategies. 
@@ -1142,8 +1141,9 @@ On the right border, towards greater continuation probability, results are more 
 \end{figure}
 
 In Region I, strategies that are mutually defecting are most common. 
-No strategy in the top 25 most common strategies found in these regions in my simulation has a cooperating states; all are variants on Always Defect.
-\subsection{Region II: Varied $\delta$, Small $r$}
+No strategy in the top 25 most common strategies found in these regions in my simulation has a cooperating states; all are variants of Always Defect. 
+This is the expected behaviour in this region of the parameter space. 
+\subsection{Region II: Small $r$}
 In Region II, some cooperators and some defectors are equilibria. 
 Essentially, anything goes in this region. 
 
@@ -1237,13 +1237,13 @@ As continuity probability increases, cooperation becomes more frequent.
 In this region, both Grim, Always Defect and Always Cooperate appear. 
 Grim appears with highest frequency (94\% of the proportion of the 10 most frequent strategies). 
 
-A Non-Regular strategy appears in this region. 
-This is shown in Figure \ref{fig:grudge}, and I have called Counting Grudge (or Grudge). 
+A Non-Regular strategy appears regularly in this region. 
+This is shown in Figure \ref{fig:grudge}, and I have called Counting Grudge. 
 It pushes a symbol to the stack whenever the opponent cooperates. 
 It pulls from the stack whenever the opponent defects. 
 If at any point the number of defection actions outnumber cooperation actions, it stops cooperating. 
 There is no valid transition for an empty stack and reading a $D$ action, so any future moves are not in the language the DPDA describes; the strategy will always defect from this point. 
-Grudge only makes up 3\% of the top 10 most frequent strategies at this point. 
+Counting Grudge only makes up 3\% of the top 10 most frequent strategies at this point. 
 However, it appears in other simulations in Region II and Region III too. 
 It will prove relevant in Section \ref{sec:noise}, where I will discuss when DPDA may be advantageous strategies.
 \begin{figure}[h!]
@@ -1296,11 +1296,12 @@ In this region, Grim Trigger is the most common strategy.
 Always Cooperate and Counting Grudge also appear. 
 Counting Grudge appears when continutity probability is high. 
 One difference from previous FSA simulations is the Region where $r>0.5$. 
+Full cooperation is observed, where defectors are predicted to invade with limited success. 
 
-When $delta$ is small, some of Region III does have less than full cooperation. 
-As $delta$ increases, full cooperation is seen. 
+When $\delta$ is small, some of Region III does have less than full cooperation. 
+As $\delta$ increases, full cooperation is seen. 
 The rate at which Grim appears with my simulations mutation scheme explains this behaviour. 
-For high $delta$, Grim is able to resist defectors. 
+For high $\delta$, Grim is able to resist defectors. 
 It plays well against itself, and when many games are played the payoff is near mutual defection for both parties -- only on the first round of an interaction does Grim do worse than a defector. 
 The population can drift away from Grim to other mutually cooperative strategies, like Always Cooperate. 
 But, the small number of mutations required for Grim to reappear make invasions by strategies that exploit highly cooperative strategies short lived; a strategy is likely to mutate to Grim, and Grim is likely to invade if that defector gains any ground.
@@ -1339,32 +1340,36 @@ Data points closer to the boundary with Region III are noisier than those in the
 \section{Successful DPDA Strategies}
 In Region II and III, a DPDA was seen amongst the most common strategies. 
 It was not the most successful strategy; it is neutral to Grim and any mutually cooperative strategy. 
+Intuitively, we may expect DPDA to do relatively well in a noisy environment. 
+In a noisy environment, actions chosen by players are occasionaly reversed. 
+In this environment, Grim would immediately retaliate to defection, that could have been performed accidentally. 
+Counting Grudge will not retaliate so quickly once cooperation is established. 
 In this section, I add noise to the simulation, and highlight where this DPDA becomes a successful strategy. 
 \subsection{Games with Noise}
 \label{sec:noise}
 The simulation was ran with noise of 0.01 and 0.05, all other parameters were held the same. 
 With noise 0.01, 1 percent of moves are inverted; the strategy cooperates when they meant to defect and vice-versa. 
-In this case, Grudge makes up 25\% of the strategies of the top ten most common. 
+In this case, Counting Grudge makes up 25\% of the strategies of the top ten most common. 
 
-Does Grudge do a good job against other strategies I expect in this region. 
+Does Counting Grudge do a good job against other strategies I expect in this region. 
 I pitted it against Tit-For-Tat (a strategy that did not appear commonly in my simulation, due to mutation distance) and Always Cooperate, instead of operating in an simulated evolutionary environment, I played them against each other in the environment and estimated the expected payoff against each other. 
 The expected payoff is then used to make a simplex of the dynamics; with the changing population estimated using the replicator equations. 
 The result is shown in Figure \ref{fig:noisesimplex}. 
-A stable point exists at all 3 points, but the interior of the phase diagram points to Grudge. 
+A stable point exists at all 3 points, but the interior of the phase diagram points to Counting Grudge. 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.5\textwidth]{{Noise001}.png}
-\caption{Grudge playing TFT and ALLC in an environment with 1\% noise}
+\caption{Counting Grudge playing TFT and ALLC in an environment with 1\% noise}
 \label{fig:noisesimplex}
 \end{figure}
 
 The advantage of a stack in this case is the ability to do simple counting, without needing to have extra states. The number of cooperation -- and so if the opponent has been overall cooperative -- can be accomplished with a single state, two transitions and a stack. 
-Whereas Tit-For-Tat retaliates against a defection immediately, Grudge will wait until defections outnumber cooperative moves. 
+Whereas Tit-For-Tat retaliates against a defection immediately, Counting Grudge will wait until defections outnumber cooperative moves. 
 FSA can accomplish this; but again, require extra states for each level of `tolerance'. 
 In a noisy environment, it can pay to be forgiving of mistakes. 
 
-Grudge is still exploitable; for example, a strategy that cooperates a few times to establish some `leeway' -- some symbols on the stack. 
+Counting Grudge is still exploitable; for example, a strategy that cooperates a few times to establish some `leeway' -- some symbols on the stack. 
 The strategy can then alternate cooperate and defect fairly safely; it is unlikely that enough mistakes will be made (due to noise) that the number of defection moves outnumber cooperative moves. 
 So, for every second move this strategy gets the highest payoff possible for a round. 
 
@@ -1391,7 +1396,7 @@ This appears to be a result of the mutation scheme used; Grim entered the popula
 Non-Regular strategies, evolved in my simulation. One which appeared with high frequency when continuity was high, was Counting Grudge. 
 However, its success was limited. 
 Being neutral to Always Cooperate and Grim, it does not have an advantage over these in an environment without defectors or noise. 
-Adding noise, I showed that Grudge can be more successful than some other strategies expected to appear in regions of the graph with cooperation present. 
+Adding noise, I showed that Counting Grudge can be more successful than some other strategies expected to appear in regions of the graph with cooperation present. 
 \section{Future Work}
 I would like to extend the work I have conducted this year to further examine Non-Regular strategies in noisy environments. 
 The strategies that can be represented by Deterministic Pushdown Automata could be examined more thoroughly with theory, including in noisy environments. 
