@@ -159,13 +159,14 @@ By asking the last two questions in particular, I investigate the impact of the 
 \section{Thesis Structure}
 The remainder of this thesis will be structured as follows:
 \begin{itemize}
-\item Chapter : Research Context, in which I discuss fundamentals of game theory and previous studies of the repeated Prisoner's Dilemma.
-\item Chapter : Research Methods, where I will discuss the details of my simulation and how results are analysed
-\item Chapter : Results and Discussion, giving and discussing results of my work.
-\item Chapter : Conclusion, where I will summarise my work, and discuss future work.
+\item Chapter \ref{chap:researchcontext}: Research Context, in which I discuss fundamentals of game theory and previous studies of the repeated Prisoner's Dilemma.
+\item Chapter \ref{chap:researchmethods}: Research Methods, where I will discuss the details of my simulation and how results are analysed
+\item Chapter \ref{chap:results}: Results and Discussion, giving and discussing results of my work.
+\item Chapter \ref{chap:conclusions}: Conclusion, where I will summarise my work, and discuss future work.
 \end{itemize}
 
 \chapter{Research Context}
+\label{chap:researchcontext}
 In this chapter, I will discuss several aspects of Game Theory my work uses, as well as specific work into the Repeated Prisoner's Dilemma. 
 Concepts from Game Theory will be discussed first, followed by as previous work into the simulated evolution of strategies for the repeated Prisoner's Dilemma. 
 Finally, I will discuss work that investigates when reciprocity (repeating the game) is combined with assortment (population structure).
@@ -832,6 +833,7 @@ The impact of variations in the simulation- such as changing how strategies are 
 By using both assortment and continuation probability, conditions not explored in previous literature (with both assortment and reciprocity playing varied roles) can be investigated.
 
 \chapter{Research Methods}
+\label{chap:researchmethods}
 In this section I will discuss the representation and mutation scheme I decided on (Pushdown Automata), the simulation I have created and how the analysis was carried out.
 
 I focus on two mechanisms for the evolution of cooperation; direct reciprocity and assortment. 
@@ -1049,6 +1051,7 @@ This is useful when the dynamics of three strategies needs to be investigated.
 The relative payoff for each strategy can be used with the replicator equation to estimate the rate of change for any proportion of each strategy; and so a phase diagram visualizing the dynamics can be plotted. 
 
 \chapter{Results and Discussion}
+\label{chap:results}
 In this chapter, I present and discuss the overall cooperation observed with varied levels of assortment and continuation probability.  
 The strategies present in points in each region of this graph-- individual time series-- are examined. Finally, new strategies that emerge and have not been previously reported in literature will be discussed. 
 \section{Overall Cooperation}
@@ -1376,6 +1379,7 @@ So, for every second move this strategy gets the highest payoff possible for a r
 Successful DPDA do appear; one notable example was discussed. 
 Further analysis of noisy environments may yield interesting results.
 \chapter{Conclusions}
+\label{chap:conclusions}
 I investigated the evolution of strategies representable by Deterministic Pushdown Automata. 
 My simulation allowed for varied continuity probability and assortment parameters, and reported behaviour that results and the strategies that appear. In this chapter, I will discuss the results in regards to my research questions.
 \section{Effect on Cooperation}
