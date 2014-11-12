@@ -256,14 +256,14 @@ In the example of the Hawk-Dove game, a Nash Equilibria does exist for mixed str
 
 \subsection{Evolutionary Stable Strategies}
 Instead of a number of strategies competing, let's consider a population that changes over time. 
-Players compete by playing a game. 
-The payoff of that game results in a fitness, which determines the player's chance of reproducing. 
-In addition, new members can enter the population as mutations to a players strategy can occur when they reproduce. 
+Players compete by playing a game; 
+the payoff of that game results in a fitness, which determines the player's chance of reproducing. 
+In addition, new members can enter the population as mutations to a player's strategy can occur when they reproduce. 
 In short, there will be random mutations and a selection condition (how well a player does in the population) -- it is an evolutionary environment. 
 
 In an environment where strategies evolve, an extra condition must be added to see if a strategy will become most populous, and stay that way. 
 In addition to not gaining a benefit from switching strategies in the immediate game, an Evolutionary Stable Strategy must survive in a population. 
-For example, in the Hawk Dove game given earlier, a single Dove entering a population of Hawks can do quite well. 
+For example, in the Hawk -- Dove game given earlier, a single Dove entering a population of Hawks can do quite well. 
 That is, the population of individuals all playing Hawk have a lower fitness than a Dove invader. 
 Its proportion in the population will grow; but Hawk gets a low payoff against itself. 
 So, as its proportion rises its payoff falls. 
@@ -333,8 +333,8 @@ Therefore, the population settles on a mixture that includes both strategies.
 \label{sec:prisoners}
 The Prisoner's Dilemma is a simple model that has been widely used to study cooperation in repeated games \citep{Axelrod1997}. 
 In the one-shot version of the Prisoner's Dilemma, cooperation is not the expected outcome. 
-In this game, two players play a single game, choosing between two options; cooperate or defect. 
-Players choose simultaneously, and have no information on the opponents choice before their own decision is made. 
+In this game, two players play a single game, choosing between two options: cooperate or defect. 
+Players choose simultaneously, and have no information about the opponents choice before their own decision is made. 
 If they both cooperate they receive a score of R (Reward for cooperation). 
 If they both defect, they receive a score of P (Punishment for defection). 
 If one player defects, and their opponent cooperates, the defector is rewarded with T (Temptation to defect). 
@@ -366,7 +366,7 @@ This game captures the essence of the problem of cooperation.
 When the Prisoner's Dilemma is played multiple times, all parties defecting is no longer the only successful strategy. 
 For the repeated Prisoner's Dilemma, the number of games played is not known by players in advance. 
 If both players knew how many rounds were to be played, the best move in the last round is defection. 
-The same logic causes the second last round to be a defection, and the problem reduces to the Nash equilibrium of the one-shot version. 
+The same logic causes the second last round to be a defection, and the problem reduces to the Nash Equilibrium of the one-shot version. 
 A way to accomplish having an unknown number of rounds is to make future encounters probabilistic, the chance of another encounter between two players is given by the continuation probability $\delta$.
 
 \citet{garcia:PLoSOne:2012} calculate the payoff for strategy A from repeated games with strategy B as
@@ -379,10 +379,10 @@ The sum represents the diminishing likelihood of another game between the two pl
 The term $(1-\delta)$ is for convenience, normalising the payoffs.
  
 Two simple strategies possible in the repeated version are Tit-For-Tat (TFT) and Suspicious Tit-For-Tat (STFT). 
-Tit-For-Tat starts cooperating on the first round, then reciprocates the opponents last move. 
-Suspicious Tit-For-Tat defects on the first round, then reciprocates the opponents last move. 
+Tit-For-Tat starts cooperating on the first round, then reciprocates the opponent's last move. 
+Suspicious Tit-For-Tat defects on the first round, then reciprocates the opponent's last move. 
 If ALLC plays TFT, in all rounds they are cooperative.  
-If TFT plays STFT they alternate defect and cooperate (Figure \ref{table:reciprocity}). 
+If TFT plays STFT they alternate between defect and cooperate (Figure \ref{table:reciprocity}). 
 This behaviour highlights an example of a mechanism for the evolution of cooperation; direct reciprocity. 
 
 \begin{figure}[h]
@@ -422,7 +422,7 @@ Payoffs were calculated manually, and the dynamics graphed using Dynamo \citep{d
 \begin{figure}[h!]
 \center
 \includegraphics[width=0.6\textwidth]{allcalldtft}
-\caption{Dynamics of ALLC, ALLD and TFT with a game of length 10}
+\caption{Dynamics of ALLC, ALLD and TFT playing a game of length 10}
 \label{fig:allcalldtft}
 \end{figure}
  
@@ -448,14 +448,14 @@ The potential payoff ($\Pi$) for each strategy can be calculated by the probabil
 \end{align*}
 
 In the case of an unstructured population, since $T>R$ and $P>S$, $\Pi_D$ always has a better payoff (excluding the case when $N_{ALLD}=0$). 
-Instead take the case when the population is structured, and chance of meeting an alike player is r (structure parameter):
+Instead, take the case when the population is structured, and chance of meeting an alike player is r (structure parameter):
 \begin{align*}
 \Pi^{(r)}_{ALLC}&=(1-r)\Pi_{ALLC}+ rR\\
 \Pi^{(r)}_{ALLD}&=(1-r)\Pi_{ALLD}+ rP
 \end{align*}
 
 Sufficiently higher probability of meeting an alike player allows cooperativity to have the greater payoff. 
-Trivially, if probability of meeting like is 1, $\Pi^{(S)}_{ALLC}=R>\Pi^{(S)}_{ALLD}=P$, so cooperation has higher fitness.  
+Trivially, if probability of meeting like is 1, $\Pi^{(S)}_{ALLC}=R>\Pi^{(S)}_{ALLD}=P$, cooperation has higher fitness.  
 Substitution of values shows it holds for other cases. 
 For example, if T=3, R=2, P=1, S=0, and the population is 50 ALLC and 50 ALLD:
 \begin{align*}
@@ -476,9 +476,9 @@ f: \mathcal{H} \rightarrow \mathcal{A}
 \end{equation}
 The representation will be able to represent a subset of all possible strategies $f$ for the repeated Prisoner's Dilemma. 
 In the case of the simulation presented in this thesis, $\mathcal{H}$ contains previous moves of an opponent -- so a sequence of $\{C,D\}$. 
-If instead the full history is recorded -- a combination of both what the opponent and the strategy itself did-- a sequence of pairs of $\{C,D\}$ or a sequence of results $\{R,T,S,P\}$ would be recorded. \citet{axelrod1987evolution} and \citet{fogel1993evolving} are two examples of work using this 'full-memory' representation that will be discussed in \ref{sec:relatedWork}.
+If instead the full history is recorded -- a combination of both what the opponent and the strategy itself did-- a sequence of pairs of $\{C,D\}$ or a sequence of results $\{R,T,S,P\}$ would be recorded. \citet{axelrod1987evolution} and \citet{fogel1993evolving} are two examples of work using this `full-memory' representation that will be discussed in \ref{sec:relatedWork}.
 %MARKME
-In addition to the method to map from a History to an Action, a mutation scheme is also needed; to take an existing strategy and create a new one. 
+In addition to the method to map from a History to an Action, a mutation scheme is also needed -- to take an existing strategy and create a new one. 
 This will allow the creation of strategies, without the researcher needing to design or pick any \citep{koza}. 
 
 Previous work has primarily used a Finite State Automata model for strategies. 
@@ -506,9 +506,9 @@ ALLD & Always Defect & 111\\
 \hline
 ALLC & Always Cooperate & 000\\
 \hline
-TFT & Cooperate, then repeat opponents last move & 001\\
+TFT & Cooperate, then repeat opponent's last move & 001\\
 \hline
-STFT & Defect, then repeat opponents last move & 101\\
+STFT & Defect, then repeat opponent's last move & 101\\
 \hline
 \end{tabular}
 \caption{Binary String representation for strategies}
@@ -536,8 +536,8 @@ Each term in the matrix could also have some other justification; it could be ba
 
 \subsection{Finite State Automata}
 \label{sec:fsa}
-Another common representation is Finite State Automata. 
-A Finite State Automaton consists of a set of states, a set of transitions from state to state, and each state can be marked as an accepting state. 
+Another common representation is Finite State Automata (FSA). 
+An FSA consists of a set of states, a set of transitions from state to state, and each state can be marked as an accepting state. 
 Based on the history between two players in the current interaction, the transitions are followed until the complete history has been read. 
 If the state the automaton ends up on is an accepting state, the individual represented by that automaton Cooperates, if not, they Defect. 
 
@@ -549,10 +549,10 @@ More formally, an FSA consists of:\\
 5. The initial state $q_0 \in S$
 
 An example is shown in Figure \ref{fig:fsa.tft.lang2}. 
-In this example, there are 2 states; $S=\{D,C\}$. 
-The set of accepting states contains one state; $F=\{C\}$. 
+In this example, there are 2 states: $S=\{D,C\}$. 
+The set of accepting states contains one state: $F=\{C\}$. 
 The input alphabet is $\Sigma=\{C,D\}$ and $C$ is the initial state. 
-There are four transitions; $C$ to $C$ when C is read, $D$ to $C$ when C is read, $C$ to $D$ when D is read, and $D$ to $D$ when $D$ is read.
+There are four transitions: $C$ to $C$ when C is read, $D$ to $C$ when C is read, $C$ to $D$ when D is read, and $D$ to $D$ when $D$ is read.
 
 \begin{figure}[h]
 \center
@@ -592,9 +592,10 @@ Alternatively, we could set the number of states to a constant or upper limit an
 \caption{String representation for a 4 state FSA}
 \label{table:fsa4state}
 \end{figure}
+
 The FSA given in \ref{table:fsa4state} is the equivalent of TFT, given earlier. 
 Each column gives what to do if you are at a certain state, and read a certain input. 
-So, at state 0 you transfer to state 0 (00) if you read C. 
+At state 0 you transfer to state 0 (00) if you read C. 
 You transfer to state 1 (01) if you read D. 
 So, an FSA can be represented by a string (in this case 0001000110101111) or number. 
 Mutation schemes discussed in Lookup Tables can also be applied to FSA. 
@@ -602,7 +603,7 @@ Mutation schemes discussed in Lookup Tables can also be applied to FSA.
 Variants on these representations are used in the work discussed.
 \section{Related Work}
 \label{sec:relatedWork}
-Related simulation work focuses mostly on direct reciprocity; repeating the game being the basis for cooperation to evolve. 
+Related simulation work focuses mostly on direct reciprocity; where repeating the game is the basis for cooperation to evolve. 
 I will discuss seminal work into strategies for the Prisoner's Dilemma, giving examples of different approaches in the literature. Finally, in Section \ref{sec:pnas} I will discuss the work I have extended.
 \subsection{Axelrod's Tournaments}
 \citet{axelrod:Science:1981} investigated the behaviour of strategies using computer tournaments, with the repeated Prisoner's Dilemma played between strategies submitted by people to the tournaments. 
@@ -613,7 +614,7 @@ Initially it cooperates, then it repeats the other player's last move.
 When playing a strategy that always cooperates (ALLC), it performs identical to ALLC. 
 When playing a strategy that always defects (ALLD), it loses on the first turn, then performs identical to ALLD -- given a long enough number of games played, the strategies have similar payoffs. 
 
-Axelrod and Hamilton identified three criteria to determine if a strategy can be successful. The strategy must be robust- it must perform fairly well against a wide variety of strategies. TFT does so, including against the a population composed of the simple ALLC and ALLD examples, but only if there is a sufficient chance of the game repeating. Secondly, the strategy must be stable- a mutant strategy must not be able to invade in the event the strategy becomes established. For example, ALLC is not stable against ALLD. 
+Axelrod and Hamilton identified three criteria to determine if a strategy can be successful. The strategy must be robust, it must perform fairly well against a wide variety of strategies. TFT does so, including against the a population composed of the simple ALLC and ALLD examples, but only if there is a sufficient chance of the game repeating. Secondly, the strategy must be stable: a mutant strategy must not be able to invade in the event the strategy becomes established. For example, ALLC is not stable against ALLD. 
 A single ALLD in a population of ALLC will gain better payoffs (fitness) and invade. 
 Lastly, the strategy must be initially viable -- it must be able to gain a foothold. 
 
@@ -640,9 +641,9 @@ A total of 70 bits were used by Axelrod's simulation, allowing for moves to be d
 This allows for any of $2^{70}$ different strategies to appear- analysis using a matrix of payoff of every strategy against every other strategy would be a square matrix with $2^{70}$ elements on each side. 
 This is why explicit analysis selects notable examples from the population, and demonstrates why simulation will be useful. 
 
-Strategies are generated in a population, and then they compete with 8 strategies from the original tournaments to determine their fitness. A new population is determined by reproducing from the population, with fitness determining what strategies reproduce. They then compete with the 8 representatives again. 
+Strategies are generated in a population, and then they compete with 8 strategies from the original tournaments to determine their fitness. A new population is determined by reproducing from the population, with fitness determining which strategies reproduce. They then compete with the 8 representatives again. 
 Reproduction involves a small chance of random mutation, and a crossover from each parent. 
-The string representing the strategy is the chromosome, and the new child is produced from parts of each parent's chromosome. A population of 20 strategies competed in games 151 moves long, competing with 8 other members of the population in each round, for 50 generations. 
+The string representing the strategy is the chromosome (sequence of genetic information), and the new child is produced from parts of each parent's chromosome. A population of 20 strategies competed in games 151 moves long, competing with 8 other members of the population in each round, for 50 generations. 
 Technology of the time limited the size of simulations; today we have the luxury of being able to throw far more computing power at the problem, allowing for much longer (and with larger population) simulations. 
 The initial population was random. The strategies that evolved mostly resembled Tit-For-Tat, and Axelrod identified general patterns for strategies. They continued cooperating after mutual cooperation had been established, they responded to opponent defection with defection, they returned to cooperation after it was restored by the opponent following a defection, and when stuck in a pattern of mutual defection they do not attempt to escape and allow themselves to be exploited. 
 
@@ -651,10 +652,10 @@ This only applies to the environment of this simulation.
 In an environment where the competing strategies is not fixed, for example when the competition is picked from the population, those exploited strategies might be expected to die off and remove the advantage the exploiter gains. 
 
 Axelrod also performed simulations in which reproduction only involved the chromosome of one parent; reproduction was asexual, involving no crossover, so new strategies only appeared from random mutations. 
-Again, Tit-For-Tat-like strategies evolved. However, strategies that exploited one of the 8 representatives did not appear as often. Reproduction mechanism affects results of this simulation -- in this case, crossover explored the strategies differently to only mutating. 
+Again, Tit-For-Tat-like strategies evolved. However, strategies that exploited one of the 8 representatives did not appear as often. The reproduction mechanism used affects results of this simulation -- in this case, crossover explored the strategies differently to only mutating. 
 
 If the goal of a study is to explore a strategy space, crossover may add complexity to simulation and analysis where it is not needed. Allowing for full exploration of the strategy space by small mutations should be sufficient -- so long as the entire strategy space can be explored by the mutation scheme chosen. 
-If the goal is different; for example to simulate some behaviour in biology; crossover may be useful.
+If the goal is different; for example to simulate some behaviour in biology, crossover may be useful.
 
 \subsection{Fogel's Automata}
 \citet{fogel1993evolving} studied the evolution of strategies using Finite State Automata (FSA). 
@@ -680,7 +681,7 @@ On the last move, the best payoff is given by defection; there is no incentive t
 \subsection{Miller's Automata}
 \citet{miller1996coevolution} used FSA, of a size of 16 states, to perform Prisoner's Dilemma simulations.  
 Each FSA is represented by a string of bits. 
-To define each state, 9 bits are used. One bit defines what to do if the history input to the machine ends at the state- or, equivalently defines if it is an accept state. Four bits define what state to transition to in response to a cooperation, and the final 4 define what to do in response to a defection (16 states, so 4 bits are required to identify the target state). 
+To define each state, 9 bits are used. One bit defines what to do if the history input to the machine ends at the state, or equivalently defines if it is an accept state. Four bits define what state to transition to in response to a cooperation, and the final 4 define what to do in response to a defection (16 states, so 4 bits are required to identify the target state). 
 Four bits at the start of the string define the initial state, followed by 16 sets of 9 bits, one set for each state. 
 Since this is a total length of 148 bits, $2^{148}$ strategies are possible (ignoring the fact many will be actually equivalent, just different expressions of the same strategy). 
 
@@ -696,10 +697,10 @@ Initial populations were random.
 
 Simulations were run with two levels of noise included.  
 For both noise levels, the number of states reduced from the initial value. 
-Number of states is calculated from the minimal representation of the FSA- not the actual equivalent FSA that is in the simulation. 
+The number of states is calculated from the minimal representation of the FSA -- not the actual equivalent FSA that is in the simulation. 
 More noise resulted in fewer states. 
 One interpretation of this result is that establishing a pattern of behaviour between individuals requires a simple `message' to communicate if the environment is noisy. 
-In the simulation, defection was reciprocated at a high rate, and cooperation was reciprocated at a lower rate- but still reciprocated. 
+In the simulation, defection was reciprocated at a high rate, and cooperation was reciprocated at a lower rate, but still reciprocated. 
 Higher noise also negatively impacted rates of cooperation. 
 
 Miller's work provides a clear technique for defining an FSA, a simple mutation method, and various features of FSA that may be worth studying- like the number of states, and number of terminal states (both transitions at this state are to itself). However, in limiting the number of states, the strategy space is limited. Games are also fixed length; if the number of states were unbounded, this simulation would eventually collapse to a population of full defectors \citep{aumann1995backward}. Probabilistic length games, as I have used, would avoid this issue.
@@ -720,7 +721,7 @@ In this equation, b is the benefit recieved from someone cooperating with you, a
 D(x)=a(x)b-c
 \end{equation}
 They find when the reward for cooperation times the assortivity index is greater than the cost for helping, cooperators will do better than defectors. When it is less than, defectors will do better. 
-This is Hamilton's rule- which indicates whether an individual shares enough genes for helping them to be an increase in fitness for the potential helper- but with an Assortment parameter replacing relatedness. 
+This is Hamilton's rule, which indicates whether an individual shares enough genes for helping them to be an increase in fitness for the potential helper, but with an Assortment parameter replacing relatedness. 
 
 Consider the payoffs in Table~\ref{table:payoffs2}. 
 Take a simple Assortment scenario, with a single-shot game. 
@@ -788,7 +789,7 @@ Defect & b, \bf{-c}  & 0, \bf{0} \\
 \label{table:directReciprocity}
 \end{table}
 
-The analysis focused on identifying behaviour as both continuation probability (so, number of times the game is played) and Assortment are varied. Assortment is the likelihood of meeting an alike player: there is $r$ chance that the other player is the same as the current player, and $1-r$ chance that they other player is selected at random from the population \citep{eshel:PNAS:1982}. Several regions of predictable behaviour exist in a graph of continuation probability vs assortment. This graph is reproduced in Figure~\ref{fig:regions}. The graph is for b/c=2, different ratios will change the curves separating regions- but the results will be qualitatively the same. 
+The analysis focused on identifying behaviour as both continuation probability (so, number of times the game is played) and Assortment are varied. Assortment is the likelihood of meeting an alike player: there is $r$ chance that the other player is the same as the current player, and $1-r$ chance that they other player is selected at random from the population \citep{eshel:PNAS:1982}. Several regions of predictable behaviour exist in a graph of continuation probability vs assortment. This graph is reproduced in Figure~\ref{fig:regions}. The graph is for b/c=2, different ratios will change the curves separating regions, but the results will be qualitatively the same. 
 
 \begin{figure}[h]
 \center
@@ -797,7 +798,7 @@ The analysis focused on identifying behaviour as both continuation probability (
 \label{fig:regions}
 \end{figure}
 
-In Region I, ALLD is an equilibrium- determined by comparing the payoff of ALLD to a mutant that cooperates at least once. It is not the only equilibrium in the region, but equilibria strategies will play Defect against themselves and ALLD. In this region, cooperation is not expected; no cooperating strategy is an equilibrium.
+In Region I, ALLD is an equilibrium, determined by comparing the payoff of ALLD to a mutant that cooperates at least once. It is not the only equilibrium in the region, but equilibria strategies will play Defect against themselves and ALLD. In this region, cooperation is not expected; no cooperating strategy is an equilibrium.
 
 In Region II, a variety of strategies are equilibria; for example, ALLD and TFT. So, both extremes of behaviour may be seen in a population under these circumstances. 
 
@@ -816,7 +817,7 @@ A colourmap indicating the amount of cooperation in the simulation for varied co
 In general, both increased assortment and increased continuation probability increases cooperation (but there are exceptions). 
 
 Indirect invasions are observed in the simulation \citep{garcia:PLoSOne:2012}. 
-Indirect invasions are when a new strategy enters the population not by performing well against the currently dominant strategy, but by `springboarding' off another strategy. 
+Indirect invasions are when a new strategy enters the population, not by performing well against the currently dominant strategy, but by `springboarding' off another strategy. 
 For example, consider that TFT is resistant to ALLD, and will only get exploited on the first move. 
 ALLC is a neutral mutant of TFT (it plays against TFT the same way TFT plays against itself), and in a finite population of mostly TFT, ALLC can become more common by neutral drift. 
 ALLD can exploit ALLC, and so when this neutral drift occurs, ALLD can use it to invade the population. 
