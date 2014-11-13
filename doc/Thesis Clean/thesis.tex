@@ -73,21 +73,19 @@
 \listoffigures					% Generate a list of figures (optional).
 
 \begin{thesisabstract}			% generate the abstract page.
-The Repeated Prisoner's Dilemma and other repeated games have been widely used to investigate the mechanisms behind the emergence of cooperation. 
+The Repeated Prisoner's Dilemma has been widely used to investigate the mechanisms behind the emergence of cooperation. 
+In this thesis, the evolution of strategies and cooperative behaviour is investigated via simulations. 
 Simulating strategies allows for a wider exploration of the possible strategies than a theoretical analysis of known strategies does. 
 
-
-In this thesis, the evolution of strategies and cooperative behaviour is investigated. 
-Two mechanisms for cooperation are used: direct reciprocity and assortment. 
+Two mechanisms for the evolution of cooperation are studied: direct reciprocity and assortment. 
 Strategies are represented by Deterministic Pushdown Automata, which allows for a larger strategy space to be explored than in previous literature that used Finite State Automata. 
 
 Strategies compete in an evolutionary simulation. 
 The cooperation that appears across the parameter space is recorded, along with the strategies that evolve. 
 The level of cooperation across the parameter space is examined and compared to previous results and theory. 
 The results in specified regions of the parameter space meet qualitative predictions in the literature.
-Strategies not representable by past methods using Finite State Automata are found to evolve in the simulations. 
 
-The success of these strategies is investigated. In deterministic games, they are not found to be advantageous. In games with noise, these strategies appear to have an advantage over strategies representable by Finite State Automata. 
+Novel strategies not representable by past methods, using Finite State Automata, are found to evolve in the simulations. The success of these strategies is investigated. In deterministic games, they are not found to be advantageous. In games with noise, these strategies appear to have an advantage over strategies representable by Finite State Automata. 
 
 My results underscore the importance of examining complete strategy spaces in evolutionary game theory.
 \end{thesisabstract}                 
@@ -234,7 +232,7 @@ If the cost of injury is higher than benefit of winning the fight and getting th
 Existing literature on Game Theory allows us to analyse scenarios like these, and find which is the best strategy to play.
 \subsection{Nash Equilibria}
 The Nash Equilibrium for a game are the strategies from which individuals have no incentive to switch. 
-That is, they cannot get a higher payoff by choosing, on its own, to switch to a new strategy.  
+That is, a single player cannot get a higher payoff by choosing, on her own, to switch to a new strategy.  
 
 A strategy $x$ is a Nash Equilibrium if it cannot increase its payoff playing any other strategy ($T$) in the set of possible strategies ($S$) by changing to another strategy ($x^\prime$) \citep[][ch. 1]{robert1992primer}:
 \begin{equation}
@@ -372,7 +370,7 @@ That is, the player can only lessen the payoff by cooperating -- mutual defectio
 The dilemma arises from the fact that mutual cooperation (R) would be a better total payoff for the players than the equilibrium of mutual defection (P). 
 This game captures the essence of the problem of cooperation.
 %TOTO: Rename ?
-\subsection{Repetition: Stuck in the Dilemma}
+\subsection{Repeated Prisoner's Dilemma}
 When the Prisoner's Dilemma is played multiple times, all parties defecting is no longer the only successful strategy. 
 For the repeated Prisoner's Dilemma, the number of games played is not known by players in advance. 
 If both players knew how many rounds were to be played, the best move in the last round is defection. 
@@ -510,7 +508,7 @@ Table \ref{table:binaryStrategy} describes some of the possible strategies, sele
 \captionsetup{justification=centering}
 \begin{tabular}{|l|c|c|}
 \hline
- Strategy & Description & Representation\\
+ \bf{Strategy} & \bf{Description} & \bf{Representation}\\
 \hline
 ALLD & Always Defect & 111\\
 \hline
@@ -900,7 +898,7 @@ A PDA is Non-Deterministic if more than one transition exists for any possible s
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{languages}
-\caption{Hierarchy of Strategy Spaces.}
+\caption{Hierarchy of Formal Languages / Strategy Spaces.}
 \label{fig:languages}
 \end{figure}
 
@@ -1027,25 +1025,25 @@ It defects from then on.
 Simulations were run with parameters as follows:
 \lstinputlisting[frame=single]{Example.json}
 \begin{itemize}
-\item addStatesProbability specifies the probability of adding a state when a mutation occurs. 
-\item removeStatesProbability specifies the probability of removing a state when a mutation occurs.
-\item addTransitionProbability and removeTransitionProbability specify the probabilities of adding or removing a transtion.
-\item changeRead, changePop, changePush and changeDestinationProbability specify the probability of any of these changes to a transition, when a mutation occurs.
-\item flipState specifies the probability of a having its accept/reject marker changed.
-\item populationSize gives the population size.
-\item reward specifies the $R$ parameter in the payoff matrix.
-\item mistakeProbability sets the noise level in the simulation.
-\item mapping specifies the transition from payoff to fitness \citep[see ][]{traulsen2008analytical}, and can be linear or exponential. The mapping is linear in all simulations reported in this thesis.
-\item temptation specifies the $T$ parameter in the payoff matrix.
-\item punishment specifies the $P$ parameter in the payoff matrix.
-\item sucker specifies the $S$ parameter in the payoff matrix.
-\item continuationProbability specifies the likelihood of the game being played again in a round.
-\item intensityOfSelection specifies how strong the selection is \citep{nowak2006evolutionary63}.
-\item r specifies the assortment of the population.
-\item outputFile specifies a file to save the time series (or payoff) data in.
-\item reportEveryTimeSteps specifies how often to record data to the output file.
-\item numberOfTimeSteps specifies how long to run the simulation before halting.
-\item seed seeds the random number generator, so runs can be reproduced
+\item $addStatesProbability$ specifies the probability of adding a state when a mutation occurs. 
+\item $removeStatesProbability$ specifies the probability of removing a state when a mutation occurs.
+\item $addTransitionProbability$ and $removeTransitionProbability$ specify the probabilities of adding or removing a transition.
+\item $changeRead$, $changePop$, $changePush$ and $changeDestinationProbability$ specify the probability of any of these changes to a transition, when a mutation occurs.
+\item $flipState$ specifies the probability of a having its accept/reject marker changed.
+\item $populationSize$ gives the population size.
+\item $reward$ specifies the $R$ parameter in the payoff matrix.
+\item $mistakeProbability$ sets the noise level in the simulation.
+\item $mapping$ specifies the transition from payoff to fitness \citep[see ][]{traulsen2008analytical}, and can be linear or exponential. The mapping is linear in all simulations reported in this thesis.
+\item $temptation$ specifies the $T$ parameter in the payoff matrix.
+\item $punishment$ specifies the $P$ parameter in the payoff matrix.
+\item $sucker$ specifies the $S$ parameter in the payoff matrix.
+\item $continuationProbability$ specifies the likelihood of the game being played again in a round.
+\item $intensityOfSelection$ specifies how strong the selection is \citep[][ch. 7]{nowak2006evolutionary63}.
+\item $r$ specifies the assortment of the population.
+\item $outputFile$ specifies a file to save the time series (or payoff) data in.
+\item $reportEveryTimeSteps$ specifies how often to record data to the output file.
+\item $numberOfTimeSteps$ specifies how long to run the simulation before halting.
+\item $seed$ seeds the random number generator, so runs can be reproduced
 \end{itemize}
 Assortment $r$ and continuity probability $\delta$ are the primary parameters that are varied, to sample a region of the parameter space. 
 
@@ -1519,7 +1517,7 @@ Strategy : S#q0IT#q0-q0vC.l->a&, 740633
 \section{Region II}
 Successful strategies vary across this region. 
 The most common strategies for $\delta=0.7$, $r=0.3$ are listed below. 
-All are either Grim
+All are either Grim or Always Defect.
 \begin{verbatim}
 Strategy : S#q0FIT#q0-q0vC.$->$&, 9162471 -- Grim
 Strategy : S#q0IT#, 6992051	-- Always Defect
