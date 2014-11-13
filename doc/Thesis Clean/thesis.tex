@@ -1476,20 +1476,28 @@ The -j option generates an example json file.
 
 The -f option specifies a json file to use as input. 
 
-\section{DPDA Design}
+\section{Design}
 Figure \ref{fig:dpdaclass} shows the basic design of the Deterministic Pushdown Automata implementation. 
 Each DPDA has a collection of states, and each state has transitions. 
 Each transition connects to a destination state. 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.4\textwidth]{{dpdaclass}.png}
+\includegraphics[width=0.3\textwidth]{{dpdaclass}.png}
 \caption{Simple class diagram of DPDA implementation.}
 \label{fig:dpdaclass}
+\end{figure}
+
+Figure \ref{fig:classes} shows all classes I implemented, any inheritance relation if it exists, and a description of the class. Related classes are both connected and coloured the same.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{{classes}.png}
+\caption{All classes in the simulation.}
+\label{fig:classes}
 \end{figure}
 \section{Source Code}
 \label{app:code}
 I have included all source code in my thesis submission. 
-The Java simulation has been exported to an archive file, and can be imported into eclipse via File-Import-Existing Projects into Workspace.
+The Java simulation has been exported to an archive file, and can be imported into eclipse (4.2) via File-Import-Existing Projects into Workspace.
 
 Files with the extenstion .ipynb are for processing data, and can be opened with IPython notebook. 
 %\section{Design}
