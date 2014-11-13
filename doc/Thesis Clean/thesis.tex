@@ -969,7 +969,7 @@ In my simulation (Appendix \ref{sec:sims}), DPDA strategies compete with other D
 This is a type of evolutionary algorithm \citep{fogel2006evolutionary}. 
 The simulation uses a Wright-Fisher process \citep[][ch. 3.2]{hartl1997principles}. Figure \ref{fig:wright} gives an overview of this process. 
 The population starts with all players using the strategy Always Defect. The always defect representation used is shown in Figure \ref{fig:alld}. In my output files, this would be given by ``S\#q0IT\#q0-q0vC.l-$>$l\&q0-q0vD.l-$>$l\&''. 
-Each state is listed in the first section of this string, along with whether it is an inital $I$ and/or final $F$ state. $\#$ delimits sections. Transitions are given by {$stateFrom$-$stateTo$v$read$.$pop$-$>push$}, and are delimited by \&. 
+Each state is listed in the first section of this string, along with whether it is an inital $I$ and/or final $F$ state. $\#$ delimits sections. Transitions are given by {$stateFrom$ - $stateTo$ v $read$ . $pop$ - $>push$}, and are delimited by \&. 
 
 Figure \ref{fig:wright} is started with a mixed population, to aid indicating how the process works. 
 The population in simulations is of a fixed size $N$, and $N$ is even. 
@@ -1290,7 +1290,7 @@ Counting Grudge only makes up 3\% of the top 10 most frequent strategies at this
 However, it appears in other simulations in Region II and Region III too. 
 It will prove relevant in Section \ref{sec:noise}, where I will discuss when DPDA may be advantageous strategies. 
 Note that this strategy cannot be represented by a Finite State Automaton. 
-The behaviour can be partly replicated using an FSA which moves along a chain of states every time the opponent cooperates, and back whenever the opponent defects. To fully replicate this strategy, an infinite number of states would be needed. FSA cannot represent this strategy fully, and partially representing it (having a limit to the size of the chain) requires many states and transitions, compared to Count Grudge's one state and two transitions. 
+The behaviour can be partly replicated using an FSA which moves along a chain of states every time the opponent cooperates, and back whenever the opponent defects. To fully replicate this strategy, an infinite number of states would be needed. FSA cannot represent this strategy fully, and partially representing it (having a limit to the size of the chain) requires many states and transitions, compared to Counting Grudge's one state and two transitions. 
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.5]{{grudge}.png}
